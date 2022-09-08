@@ -1,0 +1,15 @@
+{
+  "name": "basevite",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "date +%Y%m%d.%H%M>src/version.json;vite build  --emptyOutDir",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^2.7.1"
+  },
+  "dependencies": {
+    "jquery": "^3.6.0"
+  }
+}
