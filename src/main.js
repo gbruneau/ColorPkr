@@ -19,7 +19,7 @@ var changeColor = function () {
   this.parentElement.querySelector("div").innerText = this.value;
   var thisID=parseInt(this.parentElement.id.substring(1));
   lastColor=Math.max(lastColor,thisID);  
-  document.getElementById("btSave").style.display="block";
+  document.getElementById("btSave").style.visibility="visible";
 };
 
 var colors = document.getElementsByClassName("inColor");
@@ -60,7 +60,7 @@ function resetColor(){
     colors[i].parentElement.querySelector("div").innerText = defColor;
     lastColor=0;
   }
-  document.getElementById("btSave").style.display="none";
+  document.getElementById("btSave").style.visibility="hidden";
 }
 
 function flipBG() {
@@ -93,7 +93,7 @@ function randomColor(){
        colors[i].parentElement.querySelector("div").innerText = `#${newCol}`;;
   }
   lastColor=colorArraySize-1;
-  document.getElementById("btSave").style.display="block";  
+  document.getElementById("btSave").style.visibility="visible";  
 }
 
 
