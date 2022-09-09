@@ -5,19 +5,23 @@ var defColor = "#777777";
 var colID = 0;
 var newCol;
 var lastColor=0;
-var colorArraySize=60;
+var colorArraySize=120;
 var isDark=false;
 for (let i = 0; i < colorArraySize; i++) {
   newCol = `<div id="c${colID + i}" class="paletteColor">
-    <input class="inColor" type="color" value="${defColor}" >
-    <div>${defColor}</div>
+      <input class="inColor" type="color" value="${defColor}" >
+      <div class="hexColor">${defColor}</div>
+      <div class="rgbColor">${ hexToRgb(defColor)}</div>
+      <div class="hslColor100">${hexToHSL100(defColor)}</div>
+      <div class="hslColor255">${hexToHSL255(defColor)}</div>
   </div>`;
   document.getElementById("colPalette").innerHTML += newCol;
 }
 
 var changeColor = function () {
-  this.parentElement.querySelector("div").innerText = this.value;
-  var thisID=parseInt(this.parentElement.id.substring(1));
+  var newCol = this.value;
+  var thisID = this.parentElement.id.substring(1);
+  setColor(thisID,newCol);
   lastColor=Math.max(lastColor,thisID);  
   document.getElementById("btSave").style.visibility="visible";
 };
@@ -56,8 +60,7 @@ function setMainBGColor(){
 function resetColor(){
   var colors = document.getElementsByClassName("inColor");
   for (var i = 0; i < colors.length; i++) {
-    colors[i].value=defColor;
-    colors[i].parentElement.querySelector("div").innerText = defColor;
+    setColor(i,defColor);
     lastColor=0;
   }
   document.getElementById("btSave").style.visibility="hidden";
@@ -69,6 +72,81 @@ function flipBG() {
  }
 
 
+ function setColor(colorID,aColorHexCode)
+ {
+  var colID=`c${colorID}`;
+  var aCol = document.getElementById(colID);
+  aCol.querySelector("input").value = aColorHexCode;
+  aCol.querySelector(".hexColor").innerText = aColorHexCode;
+  aCol.querySelector(".rgbColor").innerText = hexToRgb(aColorHexCode);
+  aCol.querySelector(".hslColor100").innerText = hexToHSL100(aColorHexCode);
+  aCol.querySelector(".hslColor255").innerText = hexToHSL255(aColorHexCode);
+ }
+
+ function hexToHSL100(hex) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    var r = parseInt(result[1], 16);
+    var g = parseInt(result[2], 16);
+    var b = parseInt(result[3], 16);
+    r /= 255, g /= 255, b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+    if(max == min){
+      h = s = 0; // achromatic
+    }else{
+      var d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch(max){
+        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+        case g: h = (b - r) / d + 2; break;
+        case b: h = (r - g) / d + 4; break;
+      }
+      h /= 6;
+    }
+  h=parseInt(h*360);
+  s=parseInt(s*100);
+  l=parseInt(l*100);
+  return `hsl(${h},${s}%,${l}%)`;
+}
+
+function hexToHSL255(hex) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    var r = parseInt(result[1], 16);
+    var g = parseInt(result[2], 16);
+    var b = parseInt(result[3], 16);
+    r /= 255, g /= 255, b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+    if(max == min){
+      h = s = 0; // achromatic
+    }else{
+      var d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch(max){
+        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+        case g: h = (b - r) / d + 2; break;
+        case b: h = (r - g) / d + 4; break;
+      }
+      h /= 6;
+    }
+  h=parseInt(h*255);
+  s=parseInt(s*255);
+  l=parseInt(l*255);
+  return `hsl(${h},${s},${l})`;
+}
+
+
+
+ function hexToRgb(hex) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  var r=parseInt(result[1],16);
+  var g=parseInt(result[2],16);
+  var b=parseInt(result[3],16);
+  return `rgb(${r},${g},${b})`;
+}
+
+
+
 function loadColor(){
   var c = getCookie("colors");
   var aCol;
@@ -76,10 +154,7 @@ function loadColor(){
   var colors=c.match(/#[0-9a-f]{6}/gi);
   resetColor();
   for (var i = 0; i < colors.length; i++) {
-    console.log(colors[i]);
-    aCol = document.getElementById(`c${i}`);
-    aCol.querySelector("input").value = colors[i];
-    aCol.querySelector("div").innerText = colors[i];
+    setColor(i,colors[i]);
     lastColor=i;
   }
 }
@@ -89,8 +164,7 @@ function randomColor(){
   var colors = document.getElementsByClassName("inColor");
     for (var i = 0; i < colorArraySize; i++) {
        newCol=Math.floor(Math.random()*16777215).toString(16);
-       colors[i].value= `#${newCol}`;     
-       colors[i].parentElement.querySelector("div").innerText = `#${newCol}`;;
+       setColor(i,newCol);
   }
   lastColor=colorArraySize-1;
   document.getElementById("btSave").style.visibility="visible";  
