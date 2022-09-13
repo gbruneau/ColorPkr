@@ -132,3 +132,27 @@ background: linear-gradient(0deg, rgba(102,102,153,1) 0%, rgba(204,204,255,1) 50
 #colorPanel{
   font-size: 16pt;
 }
+
+
+#colMix1 {
+  display: flex; 
+  flex-flow:  wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  gap: 5px;
+  overflow: auto;
+  background-color: rgb(62, 236, 236);
+}
+
+.MixHSLInput label{
+  width: 60px;
+  display: inline-block;
+  text-align: right;
+}
+
+.MixHSLInput input{
+  width: 50px;
+  padding: 1px;
+  text-align: right;
+}

@@ -1,7 +1,7 @@
 import './style.css'
 import APPbuild from "./version.json";
 
-var defColor = "#777777";
+var defColor = "#808080";
 var colID = 0;
 var newCol;
 var lastColor=0;
@@ -26,7 +26,9 @@ var changeColor = function () {
   document.getElementById("btSave").style.visibility="visible";
 };
 
-var colors = document.getElementsByClassName("inColor");
+
+
+var colors = document.getElementById("colPalette").getElementsByClassName("inColor");
 
 for (var i = 0; i < colors.length; i++) {
   colors[i].addEventListener("change", changeColor);
@@ -39,6 +41,8 @@ document.getElementById("btRandom").addEventListener("click",randomColor);
 document.getElementById("btFlipBG").addEventListener("click",flipBG);
 setMainBGColor();
 loadColor();
+console.log("toto");
+setColor("mhsl",1,"#808080")
 
 
 // ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  === 
@@ -61,7 +65,7 @@ function setMainBGColor(){
 }
 
 function resetColor(){
-  var colors = document.getElementsByClassName("inColor");
+  var colors =  document.getElementById("colPalette").getElementsByClassName("inColor");
   for (var i = 0; i < colors.length; i++) {
     setColor("c",i,defColor);
     lastColor=0;
@@ -79,7 +83,11 @@ function flipBG() {
  {
   var colID=`${colorPrefix}${colorID}`;
   var aCol = document.getElementById(colID);
-   
+  
+  if (colorPrefix!="c") {
+    console.log(aColorHex);
+  }
+
   var aColorHexCode= /[a-f\d]{6}/i.exec(aColorHex)[0];
 
   aCol.querySelector("input").value = "#" + aColorHexCode;
@@ -178,7 +186,7 @@ function randomColor(){
 
 function saveColor(){
   var colArray=[];
-  var colors = document.getElementsByClassName("inColor");
+  var colors =  document.getElementById("colPalette").getElementsByClassName("inColor");
   for (var i = 0; i <= lastColor; i++) {
     colArray.push(colors[i].value);
   }
