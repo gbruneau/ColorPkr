@@ -90,11 +90,11 @@ function flipBG() {
 function setHexColor(colorPrefix, colorID, aColorHex) {
   var colID = `${colorPrefix}${colorID}`;
   var aCol = document.getElementById(colID);
-
+/*
   if (colorPrefix != "c") {
     console.log(aColorHex);
   }
-
+*/
   var aColorHexCode = /[a-f\d]{6}/i.exec(aColorHex)[0];
   aCol.querySelector("input").value = "#" + aColorHexCode;
   aCol.querySelector(".hexColor").innerText = "#" + aColorHexCode;
@@ -172,13 +172,10 @@ function hsl360ToRGB(h, s1, l1) {
     r = c; g = 0; b = x;
   }
 
-
   r = Math.round((r + m) * 255);
   g = Math.round((g + m) * 255);
   b = Math.round((b + m) * 255);
   var rgbHex = `${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
-
-  console.log(h, s, l, rgbHex);
 
   return {
     "r": r,
@@ -293,8 +290,7 @@ function genMixHSL() {
     rgb = hsl360ToRGB(h, s, l);
 
     html = `<div id="mhsl${i + 2}" class="paletteColor">
-    <input class="inColor" type="color" value="${rgb.rgbCol}" disabled
-      style="background-color: ${rgb.rgbCol}; border-color: ${rgb.rgbCol};">
+    <input class="inColor" type="color" value="${rgb.rgbCol}" disabled">
     <div class="hexColor">${rgb.rgbCol}</div>
     <div class="rgbColor">rgb(${rgb.r},${rgb.g},${rgb.b})</div>
     <div class="hslColor100">${rgb.hsl100}</div>
@@ -304,7 +300,7 @@ function genMixHSL() {
     console.log(`i=${i}`);
     hslMixPaletteContainer.innerHTML += html;
 
-    h = Math.max(Math.min(h + deltaH, 360), 0);
+    h = Math.max(Math.min((h + deltaH)<0 ? 360 + (h + deltaH) : (h + deltaH)    , 360), 0);
     s = Math.max(Math.min(s + deltaS, 100), 0);
     l = Math.max(Math.min(l + deltaL, 100), 0);
 

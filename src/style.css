@@ -116,7 +116,6 @@ background: linear-gradient(0deg, rgba(102,102,153,1) 0%, rgba(204,204,255,1) 50
   width:  var(--colSize);
   height:  var(--colSize);
   border: none;
-  background-color: yellow;
 }
 
 .paletteColor div{
@@ -142,7 +141,6 @@ background: linear-gradient(0deg, rgba(102,102,153,1) 0%, rgba(204,204,255,1) 50
   flex-wrap: wrap;
   gap: 5px;
   overflow-y: scroll;
-  background-color: hsl(127, 64%, 89%);
 }
 
 .MixHSLInput label{
@@ -170,4 +168,11 @@ background: linear-gradient(0deg, rgba(102,102,153,1) 0%, rgba(204,204,255,1) 50
 
 #hslMixPaletteContainer .paletteColor {
   gap: 10px;
+  border: none;
+}
+
+input[type=color] {
+  border: none !important;
+  padding: 0px !important;
+  margin: 0px !important;
 }
