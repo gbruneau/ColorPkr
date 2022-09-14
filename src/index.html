@@ -23,8 +23,8 @@
       <!-- HSL Mixer-->
 
       <div id="mhsl1" class="paletteColor">
-        <input class="inColor" type="color" value="#808080"
-          style="background-color: rgb(238, 238, 238); border-color: rgb(238, 238, 238);">
+        <input id="inColorHslMix" class="inColor" type="color" value="#808080"
+          style="background-color: rgb(238, 238, 238); border-color: rgb(200, 76, 76);">
         <div class="hexColor">#c84c4c</div>
         <div class="rgbColor">rgb(200,76,76)</div>
         <div class="hslColor100">hsl(0,52%,54%)</div>
@@ -40,9 +40,11 @@
         <input id="inS"  type="number" min="-100" max="100" step="10" value="0" size="3">%<br>
         <label for="inL" >ΔL</label>
         <input id="inL"  type="number" min="-100" max="100" step="10" value="0" size="3">%
-
       </div>
-      <div>b</div>
+ 
+      <div id="hslMixPaletteContainer">
+
+      </div> 
     </div>
   </div>
   <div id="colPalette"></div>
