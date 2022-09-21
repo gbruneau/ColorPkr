@@ -7,7 +7,6 @@ TODO
 
 * add color mixer to pannel
 * add copy to clipboard on hex, rgb, hsl, hsl 255
-* add favicon
 
 MIXER
 * Add function to generate/calculate
