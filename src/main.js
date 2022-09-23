@@ -8,7 +8,7 @@ var lastColor = 0;
 var colorArraySize = 120;
 var isDark = false;
 
-document.getElementById("toolbar").title=`build ${APPbuild}`;
+document.getElementById("toolbar").title = `build ${APPbuild}`;
 
 for (let i = 0; i < colorArraySize; i++) {
   newCol = `<div id="c${colID + i}" class="paletteColor">
@@ -42,11 +42,21 @@ document.getElementById("btLoad").addEventListener("click", loadColor);
 document.getElementById("btSave").addEventListener("click", saveColor);
 document.getElementById("btRandom").addEventListener("click", randomColor);
 document.getElementById("btFlipBG").addEventListener("click", flipBG);
-document.getElementById("inColorHslMix").addEventListener("change",genMixHSL);
-document.getElementById("inHSLSteps").addEventListener("change",genMixHSL);
-document.getElementById("inH").addEventListener("change",genMixHSL);
-document.getElementById("inS").addEventListener("change",genMixHSL);
-document.getElementById("inL").addEventListener("change",genMixHSL);
+
+document.getElementById("btMix1").addEventListener("click", function () { goTab(0) });
+document.getElementById("btMix2").addEventListener("click", function () { goTab(1) });
+
+document.getElementById("inColorHslMix").addEventListener("change", genMixHSL);
+document.getElementById("inHSLSteps").addEventListener("change", genMixHSL);
+document.getElementById("inH").addEventListener("change", genMixHSL);
+document.getElementById("inS").addEventListener("change", genMixHSL);
+document.getElementById("inL").addEventListener("change", genMixHSL);
+
+document.getElementById("inColorMix1").addEventListener("change", genMix2Color);
+document.getElementById("inColorMix2").addEventListener("change", genMix2Color);
+document.getElementById("inMix2Steps").addEventListener("change", genMix2Color);
+document.getElementById("inMix2Mode").addEventListener("change", genMix2Color);
+
 setMainBGColor();
 loadColor();
 setHexColor("mhsl", 1, "#808080")
@@ -56,19 +66,28 @@ genMixHSL();
 // ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  === 
 
 function setMainBGColor() {
-  var darkColor = getComputedStyle(document.documentElement)
-    .getPropertyValue('--darkColor');
-  var lightColor = getComputedStyle(document.documentElement)
-    .getPropertyValue('--lightColor');
+  var darkColor = getComputedStyle(document.documentElement).getPropertyValue('--darkColor');
+  var lightColor = getComputedStyle(document.documentElement).getPropertyValue('--lightColor');
+  var darkPannel = getComputedStyle(document.documentElement).getPropertyValue('--darkPannel');
+  var lightPannel = getComputedStyle(document.documentElement).getPropertyValue('--lightPannel');
+
 
   document.body.style.backgroundColor = isDark ? darkColor : lightColor;
   document.body.style.color = isDark ? lightColor : darkColor;
 
-  var cols = document.querySelectorAll(".paletteColor input");
+  var cols = document.querySelectorAll("#colPalette .paletteColor input");
   for (i = 0; i < cols.length; i++) {
     cols[i].style.backgroundColor = isDark ? darkColor : lightColor;
     cols[i].style.borderColor = isDark ? darkColor : lightColor;
   }
+  cols = document.querySelectorAll("#colorPanel .paletteColor input");
+  for (i = 0; i < cols.length; i++) {
+    cols[i].style.backgroundColor = isDark ? darkPannel : lightPannel;
+    cols[i].style.borderColor = isDark ? darkPannel : lightPannel;
+  }
+
+
+  document.getElementById("colorPanel").style.backgroundColor = isDark ? darkPannel : lightPannel;
 
 }
 
@@ -90,11 +109,11 @@ function flipBG() {
 function setHexColor(colorPrefix, colorID, aColorHex) {
   var colID = `${colorPrefix}${colorID}`;
   var aCol = document.getElementById(colID);
-/*
-  if (colorPrefix != "c") {
-    console.log(aColorHex);
-  }
-*/
+  /*
+    if (colorPrefix != "c") {
+      console.log(aColorHex);
+    }
+  */
   var aColorHexCode = /[a-f\d]{6}/i.exec(aColorHex)[0];
   aCol.querySelector("input").value = "#" + aColorHexCode;
   aCol.querySelector(".hexColor").innerText = "#" + aColorHexCode;
@@ -130,7 +149,7 @@ function hexToHSL(hex) {
   var l100 = parseInt(l * 1000) / 10;
 
   var h255 = parseInt(h * 255);
-  var s255 = parseInt(s * 255);
+  var s255 = parseInt(s100 / 100 * 255);
   var l255 = parseInt(l * 255);
 
   return {
@@ -183,11 +202,22 @@ function hsl360ToRGB(h, s1, l1) {
     "b": b,
     "rgbHex": rgbHex,
     "rgbCol": `#${rgbHex}`,
-    "hsl100": `hsl(${ Math.round( h * 10)/10  },${  Math.round( s1 * 10)/10   }%,${Math.round( l1 * 10)/10 }%)`,
-    "hsl255": `hsl(${Math.round(h / 360 * 255)},${Math.round(s / 100 * 255)},${Math.round(l / 100 * 255)})`,
+    "hsl100": `hsl(${Math.round(h * 10) / 10},${Math.round(s1 * 10) / 10}%,${Math.round(l1 * 10) / 10}%)`,
+    "hsl255": `hsl(${Math.round(h / 360 * 255)},${Math.round(s * 255)},${Math.round(l1 / 100 * 255)})`,
   }
 }
 
+function goTab(aTabIndex) {
+  const allTabs = document.querySelectorAll('.aTab');
+  var i = 0;
+  allTabs.forEach(aTab => {
+    if (i == aTabIndex)
+      aTab.style.display = 'flex';
+    else
+      aTab.style.display = 'none';
+    i++;
+  });
+}
 
 
 function hexToRgb(hex) {
@@ -264,12 +294,117 @@ function getCookie(cname) {
   return "";
 }
 
+function rgbToHex(r, g, b) {
+  return `${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
+}
+
+
+function genMix2Color() {
+  // Mix 2 input colors acording to mode
+  var inMix2Steps = parseInt(document.getElementById("inMix2Steps").value);
+  var inMix2Mode = parseInt(document.getElementById("inMix2Mode").value);
+  var inColorMix1 = document.getElementById("inColorMix1").value;
+  var inColorMix2 = document.getElementById("inColorMix2").value;
+  var mix2PaletteContainer = document.getElementById("Mix2PaletteContainer");
+  // Clear old palette
+  const mix2Palette = mix2PaletteContainer.querySelectorAll('.paletteColor');
+  mix2Palette.forEach(aColor => {
+    aColor.remove();
+  });
+
+  // get starting and ending points  
+  var c1RGB = hexToRgb(inColorMix1);
+  var c2RGB = hexToRgb(inColorMix2);
+  var r1 = c1RGB.r;
+  var g1 = c1RGB.g;
+  var b1 = c1RGB.b;
+  var r2 = c2RGB.r;
+  var g2 = c2RGB.g;
+  var b2 = c2RGB.b;
+
+  var c1HSL = hexToHSL(inColorMix1);
+  var c2HSL = hexToHSL(inColorMix2);
+  var h1 = c1HSL.h360;
+  var s1 = c1HSL.s100;
+  var l1 = c1HSL.l100;
+  var h2 = c2HSL.h360;
+  var s2 = c2HSL.s100;
+  var l2 = c2HSL.l100;
+  // get delta value
+  var dR = (r2 - r1) / inMix2Steps;
+  var dG = (g2 - g1) / inMix2Steps;
+  var dB = (b2 - b1) / inMix2Steps;
+
+  var dH = (h2 - h1) / inMix2Steps;
+  var dS = (s2 - s1) / inMix2Steps;
+  var dL = (l2 - l1) / inMix2Steps;
+
+  var rgbcol, r, g, b, h, s, l,nr,ng,nb,rgb,hsl100,hsl255,html;
+
+  for (let i = 0; i < inMix2Steps; i++) {
+    if (i == 0) { // First step
+      r = r1;
+      g = g1;
+      b = b1;
+      h = h1;
+      s = s1;
+      l = l1;
+    } else if (i == (inMix2Steps - 1)) { // Last step
+      r = r2;
+      g = g2;
+      b = b2;
+      h = h2;
+      s = s2;
+      l= l2;
+    } else { // mid steps
+      r = r1 + (dR * i);
+      g = g1 + (dG * i);
+      b = b1 + (dB * i);
+      h = h1 + (dH * i);
+      s = s1 + (dS * i);
+      l = l1 + (dL * i);
+    }
+
+    if (inMix2Mode == "RGB") {  // RGB delta base
+      rgbcol=`#${rgbToHex(r,g,b)}`;
+      nr=r;
+      ng=g;
+      nb=b;
+      hsl100=hexToHSL(rgbcol).hsl100;
+      hsl255=hexToHSL(rgbcol).hsl255;
+    }
+    else { // HSL delat base
+      rgb=hsl360ToRGB(h,s,l);
+      rgbcol=rgb.rgbCol;
+      nr=rgb.r;
+      ng=rgb.g;
+      nb=rgb.b;
+      hsl100=rgb.hsl100;
+      hsl255=rgb.hsl255;
+    }
+
+    html = `<div id="mixTwo${i + 2}" class="paletteColor">
+    <input class="inColor" type="color" value="${rgbcol}" disabled">
+    <div class="hexColor">${rgbcol}</div>
+    <div class="rgbColor">rgb(${nr},${ng},${nb})</div>
+    <div class="hslColor100">${hsl100}</div>
+    <div class="hslColor255">${hsl255}</div>
+  </div>`;
+
+  Mix2PaletteContainer.innerHTML += html;
+
+  }
+
+}
+
+
+
 function genMixHSL() {
   var baseColor = document.querySelector("#mhsl1 input").value;
   var steps = parseInt(document.getElementById("inHSLSteps").value);
-  var deltaH = parseInt(document.getElementById("inH").value) ;
-  var deltaS = parseInt(document.getElementById("inS").value) ;
-  var deltaL = parseInt(document.getElementById("inL").value) ;
+  var deltaH = parseInt(document.getElementById("inH").value);
+  var deltaS = parseInt(document.getElementById("inS").value);
+  var deltaL = parseInt(document.getElementById("inL").value);
 
   var hsl = hexToHSL(baseColor);
   var h = hsl.h360;
@@ -297,10 +432,9 @@ function genMixHSL() {
     <div class="hslColor255">${rgb.hsl255}</div>
   </div>`;
 
-    console.log(`i=${i}`);
     hslMixPaletteContainer.innerHTML += html;
 
-    h = Math.max(Math.min((h + deltaH)<0 ? 360 + (h + deltaH) : (h + deltaH)    , 360), 0);
+    h = Math.max(Math.min((h + deltaH) < 0 ? 360 + (h + deltaH) : (h + deltaH), 360), 0);
     s = Math.max(Math.min(s + deltaS, 100), 0);
     l = Math.max(Math.min(l + deltaL, 100), 0);
 
