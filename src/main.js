@@ -59,9 +59,9 @@ document.getElementById("inMix2Mode").addEventListener("change", genMix2Color);
 
 setMainBGColor();
 loadColor();
-setHexColor("mhsl", 1, "#808080")
+//setHexColor("mhsl", 1, "#808080")
 genMixHSL();
-
+genMix2Color();
 
 // ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  === 
 
@@ -331,15 +331,18 @@ function genMix2Color() {
   var s2 = c2HSL.s100;
   var l2 = c2HSL.l100;
   // get delta value
-  var dR = (r2 - r1) / inMix2Steps;
-  var dG = (g2 - g1) / inMix2Steps;
-  var dB = (b2 - b1) / inMix2Steps;
+  var dR = (r2 - r1) / (inMix2Steps -1);
+  var dG = (g2 - g1) / (inMix2Steps -1);
+  var dB = (b2 - b1) / (inMix2Steps - 1);
 
-  var dH = (h2 - h1) / inMix2Steps;
-  var dS = (s2 - s1) / inMix2Steps;
-  var dL = (l2 - l1) / inMix2Steps;
+  var dH = (h2 - h1) / (inMix2Steps -1);
+  var dS = (s2 - s1) / (inMix2Steps -1);
+  var dL = (l2 - l1) / (inMix2Steps -1);
 
   var rgbcol, r, g, b, h, s, l,nr,ng,nb,rgb,hsl100,hsl255,html;
+
+  setColorLabel("mixC1",inColorMix1);
+  setColorLabel("mixC2",inColorMix2);
 
   for (let i = 0; i < inMix2Steps; i++) {
     if (i == 0) { // First step
@@ -397,6 +400,15 @@ function genMix2Color() {
 
 }
 
+function setColorLabel(nodeID,hexColor){
+   document.querySelector(`#${nodeID} .hexColor`).innerText = `${hexColor}`;
+   var rgb=hexToRgb(hexColor);
+   document.querySelector(`#${nodeID} .rgbColor`).innerText = `${rgb.rgb}`;
+   var hsl=hexToHSL(hexColor);
+   document.querySelector(`#${nodeID} .hslColor100`).innerText = `${hsl.hsl100}`;
+   document.querySelector(`#${nodeID} .hslColor255`).innerText = `${hsl.hsl255}`;
+}
+
 
 
 function genMixHSL() {
@@ -420,6 +432,8 @@ function genMixHSL() {
   hslMixPalette.forEach(aColor => {
     aColor.remove();
   });
+   
+  setColorLabel("mhsl1",baseColor);
 
   for (let i = 0; i < steps; i++) {
     rgb = hsl360ToRGB(h, s, l);
