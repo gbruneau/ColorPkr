@@ -2,12 +2,13 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css");
 
 :root{
-  --colSize: 150px;
   --darkColor: #000;
   --darkPannel: #333;
   --lightColor: #fff;
   --lightPannel: #ccc;
-}
+ }
+
+
 
 html,body{
   height: 100%;
@@ -68,6 +69,7 @@ body {
 
 
 
+
 #toolbar{
 background: rgb(51,51,51);
 }
@@ -93,7 +95,9 @@ background: rgb(51,51,51);
 background: rgb(102,102,153);
 }
 
-
+.btTabOn{
+  color: #0ff!important; 
+}
 
 #colPalette {
   display: flex; 
@@ -111,10 +115,22 @@ background: rgb(102,102,153);
 }
 
 .paletteColor input{
-  width:  var(--colSize);
-  height:  var(--colSize);
+  width:  150px;
+  height:  150px;
   border: none;
 }
+@media only screen and (max-width: 768px) {
+  .paletteColor input{
+    width:  50px;
+    height:  50px;
+  }
+  .hexColor,.rgbColor,.hslColor100,.hslColor255{
+    display: none;
+  }
+}
+
+
+
 
 .paletteColor div{
   text-align: center;

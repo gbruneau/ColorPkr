@@ -87,7 +87,7 @@ function setMainBGColor() {
   }
 
   document.querySelector("#btFlipBG span").title = isDark ? "Light Mode" : "Dark Mode";
-   
+
   document.getElementById("colorPanel").style.backgroundColor = isDark ? darkPannel : lightPannel;
 
 }
@@ -218,8 +218,16 @@ function goTab(aTabIndex) {
       aTab.style.display = 'none';
     i++;
   });
+  const allTabsBt = document.querySelectorAll('.btTab');
+  i=0;
+  allTabsBt.forEach(aTabBt => {
+    if (i == aTabIndex)
+      aTabBt.classList.add("btTabOn");
+    else
+      aTabBt.classList.remove("btTabOn");
+    i++;
+  });
 }
-
 
 function hexToRgb(hex) {
   var result = /#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})/i.exec(hex);
@@ -234,17 +242,17 @@ function hexToRgb(hex) {
   };
 }
 
-
-
 function loadColor() {
   var c = getCookie("colors");
   var aCol;
   if (c === "") c = "[]";
-  var colors = c.match(/#[0-9a-f]{6}/gi);
+  var colors = c.match(/#?[0-9a-f]{6}/gi);
   resetColor();
-  for (var i = 0; i < colors.length; i++) {
-    setHexColor("c", i, colors[i]);
-    lastColor = i;
+  if (colors != null) {
+    for (var i = 0; i < colors.length; i++) {
+      setHexColor("c", i, colors[i]);
+      lastColor = i;
+    }
   }
 }
 
@@ -332,18 +340,18 @@ function genMix2Color() {
   var s2 = c2HSL.s100;
   var l2 = c2HSL.l100;
   // get delta value
-  var dR = (r2 - r1) / (inMix2Steps -1);
-  var dG = (g2 - g1) / (inMix2Steps -1);
+  var dR = (r2 - r1) / (inMix2Steps - 1);
+  var dG = (g2 - g1) / (inMix2Steps - 1);
   var dB = (b2 - b1) / (inMix2Steps - 1);
 
-  var dH = (h2 - h1) / (inMix2Steps -1);
-  var dS = (s2 - s1) / (inMix2Steps -1);
-  var dL = (l2 - l1) / (inMix2Steps -1);
+  var dH = (h2 - h1) / (inMix2Steps - 1);
+  var dS = (s2 - s1) / (inMix2Steps - 1);
+  var dL = (l2 - l1) / (inMix2Steps - 1);
 
-  var rgbcol, r, g, b, h, s, l,nr,ng,nb,rgb,hsl100,hsl255,html;
+  var rgbcol, r, g, b, h, s, l, nr, ng, nb, rgb, hsl100, hsl255, html;
 
-  setColorLabel("mixC1",inColorMix1);
-  setColorLabel("mixC2",inColorMix2);
+  setColorLabel("mixC1", inColorMix1);
+  setColorLabel("mixC2", inColorMix2);
 
   for (let i = 0; i < inMix2Steps; i++) {
     if (i == 0) { // First step
@@ -359,7 +367,7 @@ function genMix2Color() {
       b = b2;
       h = h2;
       s = s2;
-      l= l2;
+      l = l2;
     } else { // mid steps
       r = r1 + (dR * i);
       g = g1 + (dG * i);
@@ -370,21 +378,21 @@ function genMix2Color() {
     }
 
     if (inMix2Mode == "RGB") {  // RGB delta base
-      rgbcol=`#${rgbToHex(r,g,b)}`;
-      nr=r;
-      ng=g;
-      nb=b;
-      hsl100=hexToHSL(rgbcol).hsl100;
-      hsl255=hexToHSL(rgbcol).hsl255;
+      rgbcol = `#${rgbToHex(r, g, b)}`;
+      nr = r;
+      ng = g;
+      nb = b;
+      hsl100 = hexToHSL(rgbcol).hsl100;
+      hsl255 = hexToHSL(rgbcol).hsl255;
     }
     else { // HSL delat base
-      rgb=hsl360ToRGB(h,s,l);
-      rgbcol=rgb.rgbCol;
-      nr=rgb.r;
-      ng=rgb.g;
-      nb=rgb.b;
-      hsl100=rgb.hsl100;
-      hsl255=rgb.hsl255;
+      rgb = hsl360ToRGB(h, s, l);
+      rgbcol = rgb.rgbCol;
+      nr = rgb.r;
+      ng = rgb.g;
+      nb = rgb.b;
+      hsl100 = rgb.hsl100;
+      hsl255 = rgb.hsl255;
     }
 
     html = `<div id="mixTwo${i + 2}" class="paletteColor">
@@ -395,19 +403,19 @@ function genMix2Color() {
     <div class="hslColor255">${hsl255}</div>
   </div>`;
 
-  Mix2PaletteContainer.innerHTML += html;
+    Mix2PaletteContainer.innerHTML += html;
 
   }
 
 }
 
-function setColorLabel(nodeID,hexColor){
-   document.querySelector(`#${nodeID} .hexColor`).innerText = `${hexColor}`;
-   var rgb=hexToRgb(hexColor);
-   document.querySelector(`#${nodeID} .rgbColor`).innerText = `${rgb.rgb}`;
-   var hsl=hexToHSL(hexColor);
-   document.querySelector(`#${nodeID} .hslColor100`).innerText = `${hsl.hsl100}`;
-   document.querySelector(`#${nodeID} .hslColor255`).innerText = `${hsl.hsl255}`;
+function setColorLabel(nodeID, hexColor) {
+  document.querySelector(`#${nodeID} .hexColor`).innerText = `${hexColor}`;
+  var rgb = hexToRgb(hexColor);
+  document.querySelector(`#${nodeID} .rgbColor`).innerText = `${rgb.rgb}`;
+  var hsl = hexToHSL(hexColor);
+  document.querySelector(`#${nodeID} .hslColor100`).innerText = `${hsl.hsl100}`;
+  document.querySelector(`#${nodeID} .hslColor255`).innerText = `${hsl.hsl255}`;
 }
 
 
@@ -433,8 +441,8 @@ function genMixHSL() {
   hslMixPalette.forEach(aColor => {
     aColor.remove();
   });
-   
-  setColorLabel("mhsl1",baseColor);
+
+  setColorLabel("mhsl1", baseColor);
 
   for (let i = 0; i < steps; i++) {
     rgb = hsl360ToRGB(h, s, l);
