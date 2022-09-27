@@ -52,7 +52,7 @@ body {
     flex-direction: row;
     align-content: center;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     height: 60px;
     width: 100%;
     gap: 10px;
@@ -69,15 +69,12 @@ body {
 
 
 #toolbar{
-background: rgb(102,102,102);
-background: linear-gradient(0deg, rgba(102,102,102,1) 0%, rgba(0,0,0,1) 50%, rgba(102,102,102,1) 100%);
+background: rgb(51,51,51);
 }
 
 
 #toolbar div{
-background: rgb(153,153,153);
-background: linear-gradient(0deg, rgba(153,153,153,1) 0%, rgba(51,51,51,1) 50%, rgba(153,153,153,1) 100%);
-  color: #fff;
+  color: #bbb;
   font-size: 17pt;
   border-radius: 5px;
   margin: 0px;
@@ -87,14 +84,13 @@ background: linear-gradient(0deg, rgba(153,153,153,1) 0%, rgba(51,51,51,1) 50%, 
   text-align: center;
 }
 
+
 #toolbar div:hover{
-background: rgb(102,102,102);
-background: linear-gradient(0deg, rgba(102,102,102,1) 0%, rgba(204,204,204,1) 50%, rgba(102,102,102,1) 100%);
+  color: #fff; 
 }
 
 #toolbar div:active{
 background: rgb(102,102,153);
-background: linear-gradient(0deg, rgba(102,102,153,1) 0%, rgba(204,204,255,1) 50%, rgba(102,102,153,1) 100%);
 }
 
 

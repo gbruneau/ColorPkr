@@ -8,7 +8,7 @@ var lastColor = 0;
 var colorArraySize = 120;
 var isDark = false;
 
-document.getElementById("toolbar").title = `build ${APPbuild}`;
+document.getElementById("colPalette").title = `build ${APPbuild}`;
 
 for (let i = 0; i < colorArraySize; i++) {
   newCol = `<div id="c${colID + i}" class="paletteColor">
@@ -86,7 +86,8 @@ function setMainBGColor() {
     cols[i].style.borderColor = isDark ? darkPannel : lightPannel;
   }
 
-
+  document.querySelector("#btFlipBG span").title = isDark ? "Light Mode" : "Dark Mode";
+   
   document.getElementById("colorPanel").style.backgroundColor = isDark ? darkPannel : lightPannel;
 
 }
