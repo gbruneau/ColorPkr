@@ -2,29 +2,38 @@ import './style.css'
 import APPbuild from "./version.json";
 
 var defColor = "#808080";
-var colID = 0;
+var colID = 1;
 var newCol;
 var lastColor = 0;
-var colorArraySize = 120;
+var colorPaletteSize = 120;
 var isDark = false;
+var elm;
+
+
 
 document.getElementById("colPalette").title = `build ${APPbuild}`;
 
-for (let i = 0; i < colorArraySize; i++) {
-  newCol = `<div id="c${colID + i}" class="paletteColor">
-      <input class="inColor" type="color" value="${defColor}" >
-      <div class="hexColor">${defColor}</div>
-      <div class="rgbColor">${hexToRgb(defColor).rgb}</div>
-      <div class="hslColor100">${hexToHSL(defColor).hsl100}</div>
-      <div class="hslColor255">${hexToHSL(defColor).hsl255}</div>
-  </div>`;
+for (let i = 0; i < colorPaletteSize; i++) {
+  newCol = colHexCodeToHTML(`c${colID + i}`, defColor, defColor.slice(1), true)
   document.getElementById("colPalette").innerHTML += newCol;
+};
+
+for (let i = 0; i < colorPaletteSize; i++) {
+  elm = document.querySelector(`#c${colID + i} .colTitle`)
+  elm.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
+    document.getElementById("btSave").style.visibility = "visible";
+  });
 }
 
-var changeColor = function () {
+
+
+var changePaletteColor = function () {
   var newCol = this.value;
   var thisID = this.parentElement.id.substring(1);
-  setHexColor("c", thisID, newCol);
+  setHexColor("c", thisID, newCol, newCol.slice(1));
   lastColor = Math.max(lastColor, thisID);
   document.getElementById("btSave").style.visibility = "visible";
 };
@@ -34,7 +43,7 @@ var changeColor = function () {
 var colors = document.getElementById("colPalette").getElementsByClassName("inColor");
 
 for (var i = 0; i < colors.length; i++) {
-  colors[i].addEventListener("change", changeColor);
+  colors[i].addEventListener("change", changePaletteColor);
 }
 
 document.getElementById("btReset").addEventListener("click", resetColor);
@@ -55,47 +64,94 @@ document.getElementById("inL").addEventListener("change", genMixHSL);
 document.getElementById("inColorMix1").addEventListener("change", genMix2Color);
 document.getElementById("inColorMix2").addEventListener("change", genMix2Color);
 document.getElementById("inMix2Steps").addEventListener("change", genMix2Color);
-document.getElementById("inMix2Mode").addEventListener("change", genMix2Color);
+
+let db;
+const dbName = "ColorPkr";
+const dbConnection = indexedDB.open(dbName, 1);
+
+// If db exist
+dbConnection.onsuccess = (event) => {
+  db = event.target.result;
+  // addColorToDB("ffff00", "yellow");
+  // updateColorToDB(8,"#FFFFFF","White")
+  loadColor();
+};
+
+// if db does not exist create collections
+dbConnection.onupgradeneeded = (event) => {
+  db = event.target.result;
+  const objectStore = db.createObjectStore("colors", {
+    keyPath: "id",
+    autoIncrement: true
+  });
+};
+
 
 setMainBGColor();
-loadColor();
-//setHexColor("mhsl", 1, "#808080")
 genMixHSL();
 genMix2Color();
 
 // ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  === 
 
+
+function colHexCodeToHTML(aDomID, aColHex, aColTitle, hasTitle) {
+  var html = `<div id="${aDomID}" class="paletteColor">
+  <input class="inColor" type="color" value="${aColHex}" >
+  ${hasTitle ? '<div class="colTitle"   contenteditable="true">' + aColTitle + '</div>' : ""} 
+  <div class="hexColor">${aColHex}</div>
+  <div class="rgbColor">${hexToRgb(aColHex).rgb}</div>
+  <div class="hslColor100">${hexToHSL(aColHex).hsl100}</div>
+  <div class="hslColor255">${hexToHSL(aColHex).hsl255}</div>
+</div>`;
+  return html
+}
+
+
+
 function setMainBGColor() {
+
+  var darkBG = getComputedStyle(document.documentElement).getPropertyValue('--darkBG');
   var darkColor = getComputedStyle(document.documentElement).getPropertyValue('--darkColor');
-  var lightColor = getComputedStyle(document.documentElement).getPropertyValue('--lightColor');
   var darkPannel = getComputedStyle(document.documentElement).getPropertyValue('--darkPannel');
+  var darkTitle = getComputedStyle(document.documentElement).getPropertyValue('--darkTitle');
+
+  var lightBG = getComputedStyle(document.documentElement).getPropertyValue('--lightBG');
+  var lightColor = getComputedStyle(document.documentElement).getPropertyValue('--lightColor');
   var lightPannel = getComputedStyle(document.documentElement).getPropertyValue('--lightPannel');
+  var lightTitle = getComputedStyle(document.documentElement).getPropertyValue('--lightTitle');
 
+  document.body.style.backgroundColor = isDark ? darkBG : lightBG;
+  document.body.style.color = isDark ? darkColor : lightColor;
 
-  document.body.style.backgroundColor = isDark ? darkColor : lightColor;
-  document.body.style.color = isDark ? lightColor : darkColor;
-
-  var cols = document.querySelectorAll("#colPalette .paletteColor input");
-  for (i = 0; i < cols.length; i++) {
-    cols[i].style.backgroundColor = isDark ? darkColor : lightColor;
-    cols[i].style.borderColor = isDark ? darkColor : lightColor;
-  }
-  cols = document.querySelectorAll("#colorPanel .paletteColor input");
-  for (i = 0; i < cols.length; i++) {
-    cols[i].style.backgroundColor = isDark ? darkPannel : lightPannel;
-    cols[i].style.borderColor = isDark ? darkPannel : lightPannel;
-  }
-
-  document.querySelector("#btFlipBG span").title = isDark ? "Light Mode" : "Dark Mode";
-
+  // Color pannel
   document.getElementById("colorPanel").style.backgroundColor = isDark ? darkPannel : lightPannel;
+  // Color pannel input
+  cols = document.querySelectorAll("#colorPanel .paletteColor input")
+  cols.forEach(aColor => {
+    aColor.style.backgroundColor = isDark ? darkPannel : lightPannel;
+    aColor.style.borderColor = isDark ? darkPannel : lightPannel;
+  })
 
+  // color palette input
+  var cols = document.querySelectorAll("#colPalette .paletteColor input")
+  cols.forEach(aColor => {
+    aColor.style.backgroundColor = isDark ? darkBG : lightBG;
+    aColor.style.borderColor = isDark ? darkBG : lightBG;
+  })
+  // color palette input title
+  var cols = document.querySelectorAll("#colPalette .paletteColor .colTitle")
+  cols.forEach(aColor => {
+    aColor.style.color = isDark ? darkTitle : lightTitle;
+  })
+
+  // Dark/Light mode Button
+  document.querySelector("#btFlipBG span").title = isDark ? "Light Mode" : "Dark Mode";
 }
 
 function resetColor() {
   var colors = document.getElementById("colPalette").getElementsByClassName("inColor");
   for (var i = 0; i < colors.length; i++) {
-    setHexColor("c", i, defColor);
+    setHexColor("c", i + 1, defColor, defColor.slice(1));
     lastColor = 0;
   }
   document.getElementById("btSave").style.visibility = "hidden";
@@ -107,17 +163,17 @@ function flipBG() {
 }
 
 
-function setHexColor(colorPrefix, colorID, aColorHex) {
+function setHexColor(colorPrefix, colorID, aColorHex, aTitle) {
   var colID = `${colorPrefix}${colorID}`;
   var aCol = document.getElementById(colID);
-  /*
-    if (colorPrefix != "c") {
-      console.log(aColorHex);
-    }
-  */
   var aColorHexCode = /[a-f\d]{6}/i.exec(aColorHex)[0];
+  var titleElem
   aCol.querySelector("input").value = "#" + aColorHexCode;
   aCol.querySelector(".hexColor").innerText = "#" + aColorHexCode;
+
+  titleElem = aCol.querySelector(".colTitle")
+  if (titleElem) titleElem.innerText = aTitle;
+
   aCol.querySelector(".rgbColor").innerText = hexToRgb(aColorHexCode).rgb;
   aCol.querySelector(".hslColor100").innerText = hexToHSL(aColorHexCode).hsl100;
   aCol.querySelector(".hslColor255").innerText = hexToHSL(aColorHexCode).hsl255;
@@ -219,7 +275,7 @@ function goTab(aTabIndex) {
     i++;
   });
   const allTabsBt = document.querySelectorAll('.btTab');
-  i=0;
+  i = 0;
   allTabsBt.forEach(aTabBt => {
     if (i == aTabIndex)
       aTabBt.classList.add("btTabOn");
@@ -243,38 +299,44 @@ function hexToRgb(hex) {
 }
 
 function loadColor() {
-  var c = getCookie("colors");
-  var aCol;
-  if (c === "") c = "[]";
-  var colors = c.match(/#?[0-9a-f]{6}/gi);
   resetColor();
-  if (colors != null) {
-    for (var i = 0; i < colors.length; i++) {
-      setHexColor("c", i, colors[i]);
-      lastColor = i;
+  var transaction = db.transaction("colors", "readonly");
+  var objectStore = transaction.objectStore("colors");
+  var request = objectStore.openCursor();
+  request.onsuccess = function (event) {
+    var cursor = event.target.result;
+    if (cursor) {
+      setHexColor("c", cursor.value.id, cursor.value.hexColor, cursor.value.title);
+      cursor.continue();
     }
   }
-}
+};
+
+
+
 
 function randomColor() {
   var newCol;
-  for (var i = 0; i < colorArraySize; i++) {
+  for (var i = 0; i < colorPaletteSize; i++) {
     newCol = Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0");
     setHexColor("c", i, newCol);
   }
-  lastColor = colorArraySize - 1;
+  lastColor = colorPaletteSize - 1;
   document.getElementById("btSave").style.visibility = "visible";
 }
 
 
 function saveColor() {
-  var colArray = [];
-  var colors = document.getElementById("colPalette").getElementsByClassName("inColor");
-  for (var i = 0; i <= lastColor; i++) {
-    colArray.push(colors[i].value);
+  var colHex, colTitle, colID
+  var colors = document.getElementById("colPalette").getElementsByClassName("paletteColor");
+  for (var aCol of colors) {
+    colTitle = aCol.querySelector(".colTitle").innerText
+    colID = aCol.id.slice(1);
+    colHex = aCol.querySelector(".inColor").value
+    //console.log(`id: ${colID} hexColor: ${colHex} title:${colTitle}`  )
+    updateColorToDB(colID, colHex, colTitle)
   }
-  var c = JSON.stringify(colArray);
-  setCookie("colors", c, 100);
+  document.getElementById("btSave").style.visibility = "hidden";
 }
 
 
@@ -309,9 +371,7 @@ function rgbToHex(r, g, b) {
 
 
 function genMix2Color() {
-  // Mix 2 input colors acording to mode
   var inMix2Steps = parseInt(document.getElementById("inMix2Steps").value);
-  var inMix2Mode = parseInt(document.getElementById("inMix2Mode").value);
   var inColorMix1 = document.getElementById("inColorMix1").value;
   var inColorMix2 = document.getElementById("inColorMix2").value;
   var mix2PaletteContainer = document.getElementById("Mix2PaletteContainer");
@@ -331,24 +391,14 @@ function genMix2Color() {
   var g2 = c2RGB.g;
   var b2 = c2RGB.b;
 
-  var c1HSL = hexToHSL(inColorMix1);
-  var c2HSL = hexToHSL(inColorMix2);
-  var h1 = c1HSL.h360;
-  var s1 = c1HSL.s100;
-  var l1 = c1HSL.l100;
-  var h2 = c2HSL.h360;
-  var s2 = c2HSL.s100;
-  var l2 = c2HSL.l100;
   // get delta value
   var dR = (r2 - r1) / (inMix2Steps - 1);
   var dG = (g2 - g1) / (inMix2Steps - 1);
   var dB = (b2 - b1) / (inMix2Steps - 1);
 
-  var dH = (h2 - h1) / (inMix2Steps - 1);
-  var dS = (s2 - s1) / (inMix2Steps - 1);
-  var dL = (l2 - l1) / (inMix2Steps - 1);
 
-  var rgbcol, r, g, b, h, s, l, nr, ng, nb, rgb, hsl100, hsl255, html;
+
+  var rgbcol, r, g, b, html;
 
   setColorLabel("mixC1", inColorMix1);
   setColorLabel("mixC2", inColorMix2);
@@ -358,51 +408,22 @@ function genMix2Color() {
       r = r1;
       g = g1;
       b = b1;
-      h = h1;
-      s = s1;
-      l = l1;
     } else if (i == (inMix2Steps - 1)) { // Last step
       r = r2;
       g = g2;
       b = b2;
-      h = h2;
-      s = s2;
-      l = l2;
     } else { // mid steps
       r = r1 + (dR * i);
       g = g1 + (dG * i);
       b = b1 + (dB * i);
-      h = h1 + (dH * i);
-      s = s1 + (dS * i);
-      l = l1 + (dL * i);
     }
 
-    if (inMix2Mode == "RGB") {  // RGB delta base
-      rgbcol = `#${rgbToHex(r, g, b)}`;
-      nr = r;
-      ng = g;
-      nb = b;
-      hsl100 = hexToHSL(rgbcol).hsl100;
-      hsl255 = hexToHSL(rgbcol).hsl255;
-    }
-    else { // HSL delat base
-      rgb = hsl360ToRGB(h, s, l);
-      rgbcol = rgb.rgbCol;
-      nr = rgb.r;
-      ng = rgb.g;
-      nb = rgb.b;
-      hsl100 = rgb.hsl100;
-      hsl255 = rgb.hsl255;
-    }
+    r = Math.round(r)
+    g = Math.round(g)
+    b = Math.round(b)
 
-    html = `<div id="mixTwo${i + 2}" class="paletteColor">
-    <input class="inColor" type="color" value="${rgbcol}" disabled">
-    <div class="hexColor">${rgbcol}</div>
-    <div class="rgbColor">rgb(${nr},${ng},${nb})</div>
-    <div class="hslColor100">${hsl100}</div>
-    <div class="hslColor255">${hsl255}</div>
-  </div>`;
-
+    rgbcol = `#${rgbToHex(r, g, b)}`;
+    html = colHexCodeToHTML(`mixTwo${i + 2}`, rgbcol, null, false)
     Mix2PaletteContainer.innerHTML += html;
 
   }
@@ -418,11 +439,9 @@ function setColorLabel(nodeID, hexColor) {
   document.querySelector(`#${nodeID} .hslColor255`).innerText = `${hsl.hsl255}`;
 }
 
-
-
 function genMixHSL() {
   var baseColor = document.querySelector("#mhsl1 input").value;
-  var steps = parseInt(document.getElementById("inHSLSteps").value);
+  var steps = Math.max(parseInt(document.getElementById("inHSLSteps").value), 2);
   var deltaH = parseInt(document.getElementById("inH").value);
   var deltaS = parseInt(document.getElementById("inS").value);
   var deltaL = parseInt(document.getElementById("inL").value);
@@ -446,20 +465,62 @@ function genMixHSL() {
 
   for (let i = 0; i < steps; i++) {
     rgb = hsl360ToRGB(h, s, l);
-
-    html = `<div id="mhsl${i + 2}" class="paletteColor">
-    <input class="inColor" type="color" value="${rgb.rgbCol}" disabled">
-    <div class="hexColor">${rgb.rgbCol}</div>
-    <div class="rgbColor">rgb(${rgb.r},${rgb.g},${rgb.b})</div>
-    <div class="hslColor100">${rgb.hsl100}</div>
-    <div class="hslColor255">${rgb.hsl255}</div>
-  </div>`;
-
+    html = colHexCodeToHTML(`mhsl${i + 2}`, rgb.rgbCol, null, false)
     hslMixPaletteContainer.innerHTML += html;
-
     h = Math.max(Math.min((h + deltaH) < 0 ? 360 + (h + deltaH) : (h + deltaH), 360), 0);
     s = Math.max(Math.min(s + deltaS, 100), 0);
     l = Math.max(Math.min(l + deltaL, 100), 0);
-
   }
+}
+
+// === Database Functions ===
+
+
+function updateColorToDB(anID, anHexcode, aTitle = "") {
+  const colorTable = db
+    .transaction("colors", "readwrite")
+    .objectStore("colors");
+  const r = colorTable.put({
+    hexColor: anHexcode,
+    title: aTitle.trim() == "" ? anHexcode : aTitle,
+    id: anID
+  });
+  r.onsuccess = function (e) {
+    return r.result;
+  };
+  r.onerror = function (e) {
+    return null;
+  };
+}
+
+
+function addColorToDB(anHexcode, aTitle = "") {
+  const colorTable = db
+    .transaction("colors", "readwrite")
+    .objectStore("colors");
+  const r = colorTable.add({
+    hexColor: anHexcode,
+    title: aTitle.trim() == "" ? anHexcode : aTitle
+  });
+  r.onsuccess = function (e) {
+    return r.result;
+  };
+  r.onerror = function (e) {
+    return null;
+  };
+}
+
+function getColorFromDB(id) {
+  const colorTable = db.transaction("colors", "readonly").objectStore("colors");
+  const request = colorTable.get(id);
+  request.onsuccess = function () {
+    console.log(request.result);
+  };
+}
+
+function deleteColorFromDB(id) {
+  const colorTable = db
+    .transaction("colors", "readwrite")
+    .objectStore("colors");
+  colorTable.delete(id);
 }
