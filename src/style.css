@@ -205,7 +205,11 @@ input[type=color] {
 
 /* Drag and drop target indicator */
 .dragOver {
-  border: 3px dotted #666;
+  border: 3px dotted #666 !important;
 }
 
-
+/* Debuging
+#Mix2PaletteContainer input[type=color]{
+  border: 5px solid red!important;
+}
+*/

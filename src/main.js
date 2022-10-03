@@ -72,8 +72,6 @@ const dbConnection = indexedDB.open(dbName, 1);
 // If db exist
 dbConnection.onsuccess = (event) => {
   db = event.target.result;
-  // addColorToDB("ffff00", "yellow");
-  // updateColorToDB(8,"#FFFFFF","White")
   loadColor();
 };
 
@@ -86,25 +84,112 @@ dbConnection.onupgradeneeded = (event) => {
   });
 };
 
-// Drag and drop handling
-
-var dragSources=[];
-var dragTargets=[];
-
-dragSources=document.querySelectorAll("input[type=color]");
-dragSources.forEach(function(src){
-
-});
-var dragTargets=[];  /* All target for drag and drop. 3 inputs in panel plus the palette
-
-
-
-
 setMainBGColor();
 genMixHSL();
 genMix2Color();
 
+
+// Drag and drop handling
+
+
+
+var dragTargets;
+window.dragSrcEl=null;
+addDragSource("input[type=color]");
+
+dragTargets=document.querySelectorAll("#colPalette input,#inColorHslMix,#inColorMix1,#inColorMix2");
+dragTargets.forEach(function(target){
+  target.addEventListener("dragover", handleDragOver);
+  target.addEventListener("dragenter", handleDragEnter);
+  target.addEventListener("dragleave", handleDragLeave);
+  target.addEventListener("drop", handleDrop);
+});
+
+
+
 // ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  === 
+
+
+function addDragSource(aSelector){
+  var dragSources = document.querySelectorAll(aSelector);
+  dragSources.forEach(function (src) {
+    src.addEventListener("dragstart", handleDragStart);
+    src.addEventListener("dragend", handleDragEnd);
+  });
+  }
+
+function handleDrop(e) {
+  e.stopPropagation(); // stops the browser from redirecting.
+  if (dragSrcEl !== this) {
+    var srcIsPalette = (dragSrcEl.parentElement.id.charAt(0)) == "c";
+    var trgIsPalette = (this.parentElement.id.charAt(0)) == "c";
+    console.log(`srcIsPalette:${srcIsPalette} trgIsPalette:${trgIsPalette}`)
+    if (srcIsPalette && trgIsPalette) {
+      var srcCol = dragSrcEl.value;
+      var srcTitle = dragSrcEl.parentElement.querySelector(".colTitle").innerText;
+      var trgCol = this.value;
+      var trgTitle = this.parentElement.querySelector(".colTitle").innerText;
+      dragSrcEl.value = trgCol;
+      this.value = srcCol;
+      const eventChange = new Event("change");
+      this.dispatchEvent(eventChange);
+      dragSrcEl.dispatchEvent(eventChange);
+      this.parentElement.querySelector(".colTitle").innerText = srcTitle;
+      dragSrcEl.parentElement.querySelector(".colTitle").innerText = trgTitle;
+    }
+    else if (trgIsPalette) {
+      var srcCol = dragSrcEl.value;
+      this.value = srcCol;
+      const eventChange = new Event("change");
+      this.dispatchEvent(eventChange);
+    } 
+    else if (srcIsPalette) {
+      var srcCol = dragSrcEl.value;
+      this.value = srcCol;
+      const eventChange = new Event("change");
+      this.dispatchEvent(eventChange);
+    } 
+    else {
+      var srcCol = dragSrcEl.value;
+      this.value = srcCol;
+      const eventChange = new Event("change");
+      this.dispatchEvent(eventChange);
+    }
+  }
+  return false;
+}
+
+
+function handleDragStart(e) {
+  this.style.opacity = "0.2";
+  dragSrcEl = this;
+  console.log(`dragSrcEl.value: ${dragSrcEl.value}`)
+  e.dataTransfer.effectAllowed = "move";
+  e.dataTransfer.setData("text/html", this.innerHTML);
+}
+
+function handleDragEnd(e) {
+  this.style.opacity = "1";
+  var dragTargets = document.querySelectorAll("#colPalette input,#inColorHslMix,#inColorMix1,#inColorMix2");
+  dragTargets.forEach(function (item) {
+    item.classList.remove("dragOver");
+  });
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  return false;
+}
+
+function handleDragEnter(e) {
+  this.classList.add("dragOver");
+}
+
+function handleDragLeave(e) {
+  this.classList.remove("dragOver");
+}
+
+
 
 
 function colHexCodeToHTML(aDomID, aColHex, aColTitle, hasTitle) {
@@ -332,7 +417,7 @@ function randomColor() {
   var newCol;
   for (var i = 0; i < colorPaletteSize; i++) {
     newCol = Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0");
-    setHexColor("c", i, newCol);
+    setHexColor("c", i+1, newCol);
   }
   lastColor = colorPaletteSize - 1;
   document.getElementById("btSave").style.visibility = "visible";
@@ -440,7 +525,7 @@ function genMix2Color() {
     Mix2PaletteContainer.innerHTML += html;
 
   }
-
+  addDragSource("#Mix2PaletteContainer input[type=color]");
 }
 
 function setColorLabel(nodeID, hexColor) {
@@ -484,6 +569,7 @@ function genMixHSL() {
     s = Math.max(Math.min(s + deltaS, 100), 0);
     l = Math.max(Math.min(l + deltaL, 100), 0);
   }
+  addDragSource("#hslMixPaletteContainer input[type=color]");
 }
 
 // === Database Functions ===
