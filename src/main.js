@@ -86,6 +86,19 @@ dbConnection.onupgradeneeded = (event) => {
   });
 };
 
+// Drag and drop handling
+
+var dragSources=[];
+var dragTargets=[];
+
+dragSources=document.querySelectorAll("input[type=color]");
+dragSources.forEach(function(src){
+
+});
+var dragTargets=[];  /* All target for drag and drop. 3 inputs in panel plus the palette
+
+
+
 
 setMainBGColor();
 genMixHSL();
@@ -96,8 +109,8 @@ genMix2Color();
 
 function colHexCodeToHTML(aDomID, aColHex, aColTitle, hasTitle) {
   var html = `<div id="${aDomID}" class="paletteColor">
-  <input class="inColor" type="color" value="${aColHex}" >
-  ${hasTitle ? '<div class="colTitle"   contenteditable="true">' + aColTitle + '</div>' : ""} 
+  <input class="inColor" type="color" value="${aColHex}" draggable="true">
+  ${hasTitle ? '<div class="colTitle"   contenteditable="true"   >' + aColTitle + '</div>' : ""} 
   <div class="hexColor">${aColHex}</div>
   <div class="rgbColor">${hexToRgb(aColHex).rgb}</div>
   <div class="hslColor100">${hexToHSL(aColHex).hsl100}</div>

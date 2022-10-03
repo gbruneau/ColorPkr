@@ -202,3 +202,10 @@ input[type=color] {
   white-space: nowrap;
   color: var(--lightTitle);
 }
+
+/* Drag and drop target indicator */
+.dragOver {
+  border: 3px dotted #666;
+}
+
+
