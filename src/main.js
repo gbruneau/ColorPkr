@@ -8,13 +8,13 @@ var lastColor = 0;
 var colorPaletteSize = 120;
 var isDark = false;
 var elm;
-
+var hasAboutBox=false;
 
 
 document.getElementById("colPalette").title = `build ${APPbuild}`;
 
 for (let i = 0; i < colorPaletteSize; i++) {
-  newCol = colHexCodeToHTML(`c${colID + i}`, defColor, defColor.slice(1), true)
+  newCol = colHexCodeToHTML(`c${colID + i}`, defColor, defColor.slice(1), true,false)
   document.getElementById("colPalette").innerHTML += newCol;
 };
 
@@ -51,15 +51,21 @@ document.getElementById("btLoad").addEventListener("click", loadColor);
 document.getElementById("btSave").addEventListener("click", saveColor);
 document.getElementById("btRandom").addEventListener("click", randomColor);
 document.getElementById("btFlipBG").addEventListener("click", flipBG);
+document.getElementById("btAbout").addEventListener("click", toggleAboutBox);
+document.getElementById("aboutBox").addEventListener("click", toggleAboutBox);
+
 
 document.getElementById("btMix1").addEventListener("click", function () { goTab(0) });
 document.getElementById("btMix2").addEventListener("click", function () { goTab(1) });
+
+
 
 document.getElementById("inColorHslMix").addEventListener("change", genMixHSL);
 document.getElementById("inHSLSteps").addEventListener("change", genMixHSL);
 document.getElementById("inH").addEventListener("change", genMixHSL);
 document.getElementById("inS").addEventListener("change", genMixHSL);
 document.getElementById("inL").addEventListener("change", genMixHSL);
+
 
 document.getElementById("inColorMix1").addEventListener("change", genMix2Color);
 document.getElementById("inColorMix2").addEventListener("change", genMix2Color);
@@ -108,6 +114,22 @@ dragTargets.forEach(function(target){
 
 
 // ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  === 
+
+function loadAboutBox(){
+   
+
+
+}
+
+
+function toggleAboutBox(){
+  if(hasAboutBox)
+     document.getElementById("aboutBox").style.display="none";
+  else
+     document.getElementById("aboutBox").style.display="block";
+  hasAboutBox=!hasAboutBox   
+}
+
 
 
 function addDragSource(aSelector){
@@ -161,7 +183,7 @@ function handleDrop(e) {
 
 
 function handleDragStart(e) {
-  this.style.opacity = "0.2";
+  this.classList.add("selectedDragSource") ;
   dragSrcEl = this;
   console.log(`dragSrcEl.value: ${dragSrcEl.value}`)
   e.dataTransfer.effectAllowed = "move";
@@ -169,7 +191,7 @@ function handleDragStart(e) {
 }
 
 function handleDragEnd(e) {
-  this.style.opacity = "1";
+  this.classList.remove("selectedDragSource");
   var dragTargets = document.querySelectorAll("#colPalette input,#inColorHslMix,#inColorMix1,#inColorMix2");
   dragTargets.forEach(function (item) {
     item.classList.remove("dragOver");
@@ -192,9 +214,9 @@ function handleDragLeave(e) {
 
 
 
-function colHexCodeToHTML(aDomID, aColHex, aColTitle, hasTitle) {
+function colHexCodeToHTML(aDomID, aColHex, aColTitle, hasTitle,isReadOnly) {
   var html = `<div id="${aDomID}" class="paletteColor">
-  <input class="inColor" type="color" value="${aColHex}" draggable="true">
+  <input class="inColor" type="color" value="${aColHex}" draggable="true" ${isReadOnly?"disabled='true'":""}">
   ${hasTitle ? '<div class="colTitle"   contenteditable="true"   >' + aColTitle + '</div>' : ""} 
   <div class="hexColor">${aColHex}</div>
   <div class="rgbColor">${hexToRgb(aColHex).rgb}</div>
@@ -521,7 +543,7 @@ function genMix2Color() {
     b = Math.round(b)
 
     rgbcol = `#${rgbToHex(r, g, b)}`;
-    html = colHexCodeToHTML(`mixTwo${i + 2}`, rgbcol, null, false)
+    html = colHexCodeToHTML(`mixTwo${i + 2}`, rgbcol, null, false,true)
     Mix2PaletteContainer.innerHTML += html;
 
   }
@@ -563,7 +585,7 @@ function genMixHSL() {
 
   for (let i = 0; i < steps; i++) {
     rgb = hsl360ToRGB(h, s, l);
-    html = colHexCodeToHTML(`mhsl${i + 2}`, rgb.rgbCol, null, false)
+    html = colHexCodeToHTML(`mhsl${i + 2}`, rgb.rgbCol, null, false,true)
     hslMixPaletteContainer.innerHTML += html;
     h = Math.max(Math.min((h + deltaH) < 0 ? 360 + (h + deltaH) : (h + deltaH), 360), 0);
     s = Math.max(Math.min(s + deltaS, 100), 0);

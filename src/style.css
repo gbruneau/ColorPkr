@@ -127,7 +127,7 @@ background: rgb(102,102,153);
     width:  50px;
     height:  50px;
   }
-  .hexColor,.rgbColor,.hslColor100,.hslColor255{
+  .hexColor,.rgbColor,.hslColor100,.hslColor255,.colTitle{
     display: none;
   }
 }
@@ -192,7 +192,7 @@ background: rgb(102,102,153);
 }
 
 input[type=color] {
-  border: none !important;
+  border: none;
   padding: 0px !important;
   margin: 0px !important;
 }
@@ -205,11 +205,21 @@ input[type=color] {
 
 /* Drag and drop target indicator */
 .dragOver {
-  border: 3px dotted #666 !important;
+  border: 2px dashed #666!important;
 }
 
-/* Debuging
-#Mix2PaletteContainer input[type=color]{
-  border: 5px solid red!important;
+.selectedDragSource{
+  opacity: 75%;
 }
-*/
+
+#aboutBox {
+  display: none;
+  position: fixed;
+  top: 25%;
+  right: 25%;
+  width: 50%;
+  height: 50%;
+  background-color: #ddd;
+  border: 3px solid #666; 
+}
+
