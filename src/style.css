@@ -205,11 +205,12 @@ input[type=color] {
 
 /* Drag and drop target indicator */
 .dragOver {
-  border: 2px dashed #666!important;
+  box-shadow: 10px 10px 5px 7px  #777;
 }
 
 .selectedDragSource{
-  opacity: 75%;
+  opacity: 50%!important;
+  box-shadow: 10px 10px 12px #777!important;
 }
 
 #aboutBox {
@@ -223,7 +224,7 @@ input[type=color] {
   background-color: #ddd;
   border: 3px solid #666; 
   border-radius: 25px;
-  box-shadow: 10px 10px 5px #666;
+  box-shadow: 10px 10px 5px  #777;
 }
 #aboutHeader{
   text-align: center;

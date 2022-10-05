@@ -94,8 +94,6 @@ genMix2Color();
 
 // Drag and drop handling
 
-
-
 var dragTargets;
 window.dragSrcEl=null;
 addDragSource("input[type=color]");
@@ -119,8 +117,6 @@ function toggleAboutBox(){
      document.getElementById("aboutBox").style.display="block";
   hasAboutBox=!hasAboutBox   
 }
-
-
 
 function addDragSource(aSelector){
   var dragSources = document.querySelectorAll(aSelector);
@@ -170,11 +166,10 @@ function handleDrop(e) {
   return false;
 }
 
-
 function handleDragStart(e) {
   this.classList.add("selectedDragSource") ;
   dragSrcEl = this;
-  e.dataTransfer.effectAllowed = "move";
+  e.dataTransfer.effectAllowed = "copy";
   e.dataTransfer.setData("text/html", this.innerHTML);
 }
 
@@ -199,9 +194,6 @@ function handleDragLeave(e) {
   this.classList.remove("dragOver");
 }
 
-
-
-
 function colHexCodeToHTML(aDomID, aColHex, aColTitle, hasTitle,isReadOnly) {
   var html = `<div id="${aDomID}" class="paletteColor">
   <input class="inColor" type="color" value="${aColHex}" draggable="true" ${isReadOnly?"disabled='true'":""}">
@@ -213,8 +205,6 @@ function colHexCodeToHTML(aDomID, aColHex, aColTitle, hasTitle,isReadOnly) {
 </div>`;
   return html
 }
-
-
 
 function setMainBGColor() {
 
@@ -269,7 +259,6 @@ function flipBG() {
   isDark = !isDark;
   setMainBGColor();
 }
-
 
 function setHexColor(colorPrefix, colorID, aColorHex, aTitle) {
   var colID = `${colorPrefix}${colorID}`;
@@ -326,11 +315,6 @@ function hexToHSL(hex) {
   }
 
 }
-
-
-
-
-
 function hsl360ToRGB(h, s1, l1) {
   // h = 0..360 s1 = 0..100 l1 = 0..100
   // Must be fractions of 1
@@ -420,9 +404,6 @@ function loadColor() {
   }
 };
 
-
-
-
 function randomColor() {
   var newCol;
   for (var i = 0; i < colorPaletteSize; i++) {
@@ -432,7 +413,6 @@ function randomColor() {
   lastColor = colorPaletteSize - 1;
   document.getElementById("btSave").style.visibility = "visible";
 }
-
 
 function saveColor() {
   var colHex, colTitle, colID
