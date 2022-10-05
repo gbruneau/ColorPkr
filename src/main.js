@@ -1,7 +1,5 @@
 import './style.css'
 import APPbuild from "./version.json";
-import About from "./about.json";
-
 
 var defColor = "#808080";
 var colID = 1;
@@ -88,7 +86,7 @@ dbConnection.onupgradeneeded = (event) => {
     autoIncrement: true
   });
 };
-loadAboutBox();
+document.getElementById("aboutBoxBuild").innerText = APPbuild
 setMainBGColor();
 genMixHSL();
 genMix2Color();
@@ -114,19 +112,6 @@ dragTargets.forEach(function(target){
 
 // ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  === 
 
-function loadAboutBox(){
-
-   var html=`<h1>${About.appName}</h1>
-   <p id="aboutTitle">${About.title}</p>
-   <p><strong>Build</strong>: ${APPbuild}</p>
-   <p><strong>Author</strong>: <a href="mailto:${About.email}?subject=About%20ColorPkr">${About.author}</a></p>
-   <p><strong>Git Page</strong>: <a href="${About.gitURL}">${About.gitURL}</a></p>
-   `
-   document.getElementById("aboutBox").innerHTML=html
-
-}
-
-
 function toggleAboutBox(){
   if(hasAboutBox)
      document.getElementById("aboutBox").style.display="none";
@@ -150,7 +135,6 @@ function handleDrop(e) {
   if (dragSrcEl !== this) {
     var srcIsPalette = (dragSrcEl.parentElement.id.charAt(0)) == "c";
     var trgIsPalette = (this.parentElement.id.charAt(0)) == "c";
-    console.log(`srcIsPalette:${srcIsPalette} trgIsPalette:${trgIsPalette}`)
     if (srcIsPalette && trgIsPalette) {
       var srcCol = dragSrcEl.value;
       var srcTitle = dragSrcEl.parentElement.querySelector(".colTitle").innerText;
@@ -190,7 +174,6 @@ function handleDrop(e) {
 function handleDragStart(e) {
   this.classList.add("selectedDragSource") ;
   dragSrcEl = this;
-  console.log(`dragSrcEl.value: ${dragSrcEl.value}`)
   e.dataTransfer.effectAllowed = "move";
   e.dataTransfer.setData("text/html", this.innerHTML);
 }
@@ -458,7 +441,6 @@ function saveColor() {
     colTitle = aCol.querySelector(".colTitle").innerText
     colID = aCol.id.slice(1);
     colHex = aCol.querySelector(".inColor").value
-    //console.log(`id: ${colID} hexColor: ${colHex} title:${colTitle}`  )
     updateColorToDB(colID, colHex, colTitle)
   }
   document.getElementById("btSave").style.visibility = "hidden";
