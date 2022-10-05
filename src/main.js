@@ -1,17 +1,16 @@
 import './style.css'
 import APPbuild from "./version.json";
+import About from "./about.json";
+
 
 var defColor = "#808080";
 var colID = 1;
 var newCol;
 var lastColor = 0;
-var colorPaletteSize = 120;
+var colorPaletteSize = 250;
 var isDark = false;
 var elm;
 var hasAboutBox=false;
-
-
-document.getElementById("colPalette").title = `build ${APPbuild}`;
 
 for (let i = 0; i < colorPaletteSize; i++) {
   newCol = colHexCodeToHTML(`c${colID + i}`, defColor, defColor.slice(1), true,false)
@@ -89,7 +88,7 @@ dbConnection.onupgradeneeded = (event) => {
     autoIncrement: true
   });
 };
-
+loadAboutBox();
 setMainBGColor();
 genMixHSL();
 genMix2Color();
@@ -116,8 +115,14 @@ dragTargets.forEach(function(target){
 // ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  === 
 
 function loadAboutBox(){
-   
 
+   var html=`<h1>${About.appName}</h1>
+   <p id="aboutTitle">${About.title}</p>
+   <p><strong>Build</strong>: ${APPbuild}</p>
+   <p><strong>Author</strong>: <a href="mailto:${About.email}?subject=About%20ColorPkr">${About.author}</a></p>
+   <p><strong>Git Page</strong>: <a href="${About.gitURL}">${About.gitURL}</a></p>
+   `
+   document.getElementById("aboutBox").innerHTML=html
 
 }
 
