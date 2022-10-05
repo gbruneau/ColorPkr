@@ -1,20 +1,19 @@
 import './style.css'
 import APPbuild from "./version.json";
+import About from "./about.json";
+
 
 var defColor = "#808080";
 var colID = 1;
 var newCol;
 var lastColor = 0;
-var colorPaletteSize = 120;
+var colorPaletteSize = 250;
 var isDark = false;
 var elm;
-
-
-
-document.getElementById("colPalette").title = `build ${APPbuild}`;
+var hasAboutBox=false;
 
 for (let i = 0; i < colorPaletteSize; i++) {
-  newCol = colHexCodeToHTML(`c${colID + i}`, defColor, defColor.slice(1), true)
+  newCol = colHexCodeToHTML(`c${colID + i}`, defColor, defColor.slice(1), true,false)
   document.getElementById("colPalette").innerHTML += newCol;
 };
 
@@ -51,15 +50,21 @@ document.getElementById("btLoad").addEventListener("click", loadColor);
 document.getElementById("btSave").addEventListener("click", saveColor);
 document.getElementById("btRandom").addEventListener("click", randomColor);
 document.getElementById("btFlipBG").addEventListener("click", flipBG);
+document.getElementById("btAbout").addEventListener("click", toggleAboutBox);
+document.getElementById("aboutBox").addEventListener("click", toggleAboutBox);
+
 
 document.getElementById("btMix1").addEventListener("click", function () { goTab(0) });
 document.getElementById("btMix2").addEventListener("click", function () { goTab(1) });
+
+
 
 document.getElementById("inColorHslMix").addEventListener("change", genMixHSL);
 document.getElementById("inHSLSteps").addEventListener("change", genMixHSL);
 document.getElementById("inH").addEventListener("change", genMixHSL);
 document.getElementById("inS").addEventListener("change", genMixHSL);
 document.getElementById("inL").addEventListener("change", genMixHSL);
+
 
 document.getElementById("inColorMix1").addEventListener("change", genMix2Color);
 document.getElementById("inColorMix2").addEventListener("change", genMix2Color);
@@ -72,8 +77,6 @@ const dbConnection = indexedDB.open(dbName, 1);
 // If db exist
 dbConnection.onsuccess = (event) => {
   db = event.target.result;
-  // addColorToDB("ffff00", "yellow");
-  // updateColorToDB(8,"#FFFFFF","White")
   loadColor();
 };
 
@@ -85,19 +88,141 @@ dbConnection.onupgradeneeded = (event) => {
     autoIncrement: true
   });
 };
-
-
+loadAboutBox();
 setMainBGColor();
 genMixHSL();
 genMix2Color();
 
+
+// Drag and drop handling
+
+
+
+var dragTargets;
+window.dragSrcEl=null;
+addDragSource("input[type=color]");
+
+dragTargets=document.querySelectorAll("#colPalette input,#inColorHslMix,#inColorMix1,#inColorMix2");
+dragTargets.forEach(function(target){
+  target.addEventListener("dragover", handleDragOver);
+  target.addEventListener("dragenter", handleDragEnter);
+  target.addEventListener("dragleave", handleDragLeave);
+  target.addEventListener("drop", handleDrop);
+});
+
+
+
 // ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  === 
 
+function loadAboutBox(){
 
-function colHexCodeToHTML(aDomID, aColHex, aColTitle, hasTitle) {
+   var html=`<h1>${About.appName}</h1>
+   <p id="aboutTitle">${About.title}</p>
+   <p><strong>Build</strong>: ${APPbuild}</p>
+   <p><strong>Author</strong>: <a href="mailto:${About.email}?subject=About%20ColorPkr">${About.author}</a></p>
+   <p><strong>Git Page</strong>: <a href="${About.gitURL}">${About.gitURL}</a></p>
+   `
+   document.getElementById("aboutBox").innerHTML=html
+
+}
+
+
+function toggleAboutBox(){
+  if(hasAboutBox)
+     document.getElementById("aboutBox").style.display="none";
+  else
+     document.getElementById("aboutBox").style.display="block";
+  hasAboutBox=!hasAboutBox   
+}
+
+
+
+function addDragSource(aSelector){
+  var dragSources = document.querySelectorAll(aSelector);
+  dragSources.forEach(function (src) {
+    src.addEventListener("dragstart", handleDragStart);
+    src.addEventListener("dragend", handleDragEnd);
+  });
+  }
+
+function handleDrop(e) {
+  e.stopPropagation(); // stops the browser from redirecting.
+  if (dragSrcEl !== this) {
+    var srcIsPalette = (dragSrcEl.parentElement.id.charAt(0)) == "c";
+    var trgIsPalette = (this.parentElement.id.charAt(0)) == "c";
+    console.log(`srcIsPalette:${srcIsPalette} trgIsPalette:${trgIsPalette}`)
+    if (srcIsPalette && trgIsPalette) {
+      var srcCol = dragSrcEl.value;
+      var srcTitle = dragSrcEl.parentElement.querySelector(".colTitle").innerText;
+      var trgCol = this.value;
+      var trgTitle = this.parentElement.querySelector(".colTitle").innerText;
+      dragSrcEl.value = trgCol;
+      this.value = srcCol;
+      const eventChange = new Event("change");
+      this.dispatchEvent(eventChange);
+      dragSrcEl.dispatchEvent(eventChange);
+      this.parentElement.querySelector(".colTitle").innerText = srcTitle;
+      dragSrcEl.parentElement.querySelector(".colTitle").innerText = trgTitle;
+    }
+    else if (trgIsPalette) {
+      var srcCol = dragSrcEl.value;
+      this.value = srcCol;
+      const eventChange = new Event("change");
+      this.dispatchEvent(eventChange);
+    } 
+    else if (srcIsPalette) {
+      var srcCol = dragSrcEl.value;
+      this.value = srcCol;
+      const eventChange = new Event("change");
+      this.dispatchEvent(eventChange);
+    } 
+    else {
+      var srcCol = dragSrcEl.value;
+      this.value = srcCol;
+      const eventChange = new Event("change");
+      this.dispatchEvent(eventChange);
+    }
+  }
+  return false;
+}
+
+
+function handleDragStart(e) {
+  this.classList.add("selectedDragSource") ;
+  dragSrcEl = this;
+  console.log(`dragSrcEl.value: ${dragSrcEl.value}`)
+  e.dataTransfer.effectAllowed = "move";
+  e.dataTransfer.setData("text/html", this.innerHTML);
+}
+
+function handleDragEnd(e) {
+  this.classList.remove("selectedDragSource");
+  var dragTargets = document.querySelectorAll("#colPalette input,#inColorHslMix,#inColorMix1,#inColorMix2");
+  dragTargets.forEach(function (item) {
+    item.classList.remove("dragOver");
+  });
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  return false;
+}
+
+function handleDragEnter(e) {
+  this.classList.add("dragOver");
+}
+
+function handleDragLeave(e) {
+  this.classList.remove("dragOver");
+}
+
+
+
+
+function colHexCodeToHTML(aDomID, aColHex, aColTitle, hasTitle,isReadOnly) {
   var html = `<div id="${aDomID}" class="paletteColor">
-  <input class="inColor" type="color" value="${aColHex}" >
-  ${hasTitle ? '<div class="colTitle"   contenteditable="true">' + aColTitle + '</div>' : ""} 
+  <input class="inColor" type="color" value="${aColHex}" draggable="true" ${isReadOnly?"disabled='true'":""}">
+  ${hasTitle ? '<div class="colTitle"   contenteditable="true"   >' + aColTitle + '</div>' : ""} 
   <div class="hexColor">${aColHex}</div>
   <div class="rgbColor">${hexToRgb(aColHex).rgb}</div>
   <div class="hslColor100">${hexToHSL(aColHex).hsl100}</div>
@@ -319,7 +444,7 @@ function randomColor() {
   var newCol;
   for (var i = 0; i < colorPaletteSize; i++) {
     newCol = Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0");
-    setHexColor("c", i, newCol);
+    setHexColor("c", i+1, newCol);
   }
   lastColor = colorPaletteSize - 1;
   document.getElementById("btSave").style.visibility = "visible";
@@ -423,11 +548,11 @@ function genMix2Color() {
     b = Math.round(b)
 
     rgbcol = `#${rgbToHex(r, g, b)}`;
-    html = colHexCodeToHTML(`mixTwo${i + 2}`, rgbcol, null, false)
+    html = colHexCodeToHTML(`mixTwo${i + 2}`, rgbcol, null, false,true)
     Mix2PaletteContainer.innerHTML += html;
 
   }
-
+  addDragSource("#Mix2PaletteContainer input[type=color]");
 }
 
 function setColorLabel(nodeID, hexColor) {
@@ -465,12 +590,13 @@ function genMixHSL() {
 
   for (let i = 0; i < steps; i++) {
     rgb = hsl360ToRGB(h, s, l);
-    html = colHexCodeToHTML(`mhsl${i + 2}`, rgb.rgbCol, null, false)
+    html = colHexCodeToHTML(`mhsl${i + 2}`, rgb.rgbCol, null, false,true)
     hslMixPaletteContainer.innerHTML += html;
     h = Math.max(Math.min((h + deltaH) < 0 ? 360 + (h + deltaH) : (h + deltaH), 360), 0);
     s = Math.max(Math.min(s + deltaS, 100), 0);
     l = Math.max(Math.min(l + deltaL, 100), 0);
   }
+  addDragSource("#hslMixPaletteContainer input[type=color]");
 }
 
 // === Database Functions ===

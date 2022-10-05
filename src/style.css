@@ -127,7 +127,7 @@ background: rgb(102,102,153);
     width:  50px;
     height:  50px;
   }
-  .hexColor,.rgbColor,.hslColor100,.hslColor255{
+  .hexColor,.rgbColor,.hslColor100,.hslColor255,.colTitle{
     display: none;
   }
 }
@@ -192,7 +192,7 @@ background: rgb(102,102,153);
 }
 
 input[type=color] {
-  border: none !important;
+  border: none;
   padding: 0px !important;
   margin: 0px !important;
 }
@@ -201,4 +201,33 @@ input[type=color] {
   font-weight: bold;
   white-space: nowrap;
   color: var(--lightTitle);
+}
+
+/* Drag and drop target indicator */
+.dragOver {
+  border: 2px dashed #666!important;
+}
+
+.selectedDragSource{
+  opacity: 75%;
+}
+
+#aboutBox {
+  display: none;
+  position: fixed;
+  top: 100px;
+  padding: 5px;
+  right: calc(50% - 175px);
+  width: 350px;
+  height: 250px;
+  background-color: #ddd;
+  border: 3px solid #666; 
+  border-radius: 25px;
+  box-shadow: 10px 10px 5px #666;
+}
+#aboutBox h1,#aboutTitle{
+  text-align: center;
+}
+#aboutTitle{
+  font-style: italic;
 }
