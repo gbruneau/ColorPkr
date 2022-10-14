@@ -1,6 +1,6 @@
 {
-  "name": "basevite",
-  "version": "0.0.0",
+  "name": "colorpkr",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite --host",
     "build": "date +%Y%m%d.%H%M>src/version.json;vite build  --emptyOutDir",
