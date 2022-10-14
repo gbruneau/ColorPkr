@@ -4,6 +4,8 @@
 A handy color picker
 Can pick colors outside of browser if chrome or edge
 
+Base vaersion in plain JS
+
 TODO
 * Use this library
   https://colorjs.io/docs/the-color-object
