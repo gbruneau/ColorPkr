@@ -5,6 +5,7 @@ A handy color picker
 Can pick colors outside of browser if chrome or edge
 
 TODO
+* Major Refactor: Port to Vue Framework
 * Use this library
   https://colorjs.io/docs/the-color-object
   And mix color using LAB color space instead of RGB
