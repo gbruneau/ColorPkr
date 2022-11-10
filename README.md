@@ -16,16 +16,10 @@ TODO
 * quick fix: delta par defaut de 5% au lieu de 10% dans les tools
 
 ## add tool: Text against backgroud
-  * color on black
-  * color on white
-  * white on color
-  * black on color
-  * color on color2
-  * color2 on color
-  * using drop target
 
-| color1 (input) | color2 (Input) |
-|----------------|----------------|
-| color1/black   | color2/black   |
-| color1/white   | color2/white   |
-| color1/color2  | color2/color1  |
+| black        | color1 (input) | color2 (Input) | white        |
+|--------------|----------------|----------------|--------------|
+| black        | black/color1   | black/color2   | black/white  |
+| color1/black | color1         | color1/color2  | color1/white |
+| color2/black | color2/color1  | color2         | color2/white |
+| white/black  | black/color1   | black/color1   | white        |
