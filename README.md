@@ -13,3 +13,9 @@ TODO
   
 * add file upload/download including using drag and drop
 * add copy to clipboard on hex, rgb, hsl, hsl 255
+* test text against bacgroud color
+  color on black
+  color on white
+  white on color
+  black on color
+  using drop target
