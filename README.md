@@ -13,10 +13,19 @@ TODO
   
 * add file upload/download including using drag and drop
 * add copy to clipboard on hex, rgb, hsl, hsl 255
-* add tool: Text against backgroud
+* quick fix: delta par defaut de 5% au lieu de 10% dans les tools
+
+## add tool: Text against backgroud
   * color on black
   * color on white
   * white on color
   * black on color
+  * color on color2
+  * color2 on color
   * using drop target
-* quick fix: delta par defaut de 5% au lieu de 10% dans les tools
+
+| color1 (input) | color2 (Input) |
+|----------------|----------------|
+| color1/black   | color2/black   |
+| color1/white   | color2/white   |
+| color1/color2  | color2/color1  |
