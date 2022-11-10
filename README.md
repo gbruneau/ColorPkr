@@ -19,3 +19,4 @@ TODO
   * white on color
   * black on color
   * using drop target
+* quick fix: delta par defaut de 5% au lieu de 10% dans les tools
