@@ -122,6 +122,15 @@ background: rgb(102,102,153);
   height:  150px;
   border: none;
 }
+.textColorBox{
+  width:  150px;
+  height:  150px;
+  background-color: #777;
+  text-align: center;
+  top: 50%;
+  position:inherit;
+}
+
 @media only screen and (max-width: 768px) {
   .paletteColor input{
     width:  50px;
@@ -175,7 +184,7 @@ background: rgb(102,102,153);
 }
 
 
-#hslMixPaletteContainer,#Mix2PaletteContainer{
+#hslMixPaletteContainer,#Mix2PaletteContainer,#textPaletteContainer{
   display:flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -186,7 +195,8 @@ background: rgb(102,102,153);
 
 
 #hslMixPaletteContainer .paletteColor ,
-#Mix2PaletteContainer .paletteColor {
+#Mix2PaletteContainer .paletteColor ,
+#textPaletteContainer {
   gap: 10px;
   border: none;
 }

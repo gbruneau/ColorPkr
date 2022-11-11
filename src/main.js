@@ -54,7 +54,7 @@ document.getElementById("aboutBox").addEventListener("click", toggleAboutBox);
 
 document.getElementById("btMix1").addEventListener("click", function () { goTab(0) });
 document.getElementById("btMix2").addEventListener("click", function () { goTab(1) });
-
+document.getElementById("btTextTry").addEventListener("click", function () { goTab(2) });
 
 
 document.getElementById("inColorHslMix").addEventListener("change", genMixHSL);
@@ -67,6 +67,9 @@ document.getElementById("inL").addEventListener("change", genMixHSL);
 document.getElementById("inColorMix1").addEventListener("change", genMix2Color);
 document.getElementById("inColorMix2").addEventListener("change", genMix2Color);
 document.getElementById("inMix2Steps").addEventListener("change", genMix2Color);
+
+document.getElementById("inColorText1").addEventListener("change", setTextColor);
+document.getElementById("inColorText2").addEventListener("change", setTextColor);
 
 let db;
 const dbName = "ColorPkr";
@@ -90,7 +93,8 @@ document.getElementById("aboutBoxBuild").innerText = APPbuild
 setMainBGColor();
 genMixHSL();
 genMix2Color();
-
+setTextColor()
+setTextContent()
 
 // Drag and drop handling
 
@@ -98,7 +102,7 @@ var dragTargets;
 window.dragSrcEl=null;
 addDragSource("input[type=color]");
 
-dragTargets=document.querySelectorAll("#colPalette input,#inColorHslMix,#inColorMix1,#inColorMix2");
+dragTargets=document.querySelectorAll("#colPalette input,#inColorHslMix,#inColorMix1,#inColorMix2,#inColorText1,#inColorText2");
 dragTargets.forEach(function(target){
   target.addEventListener("dragover", handleDragOver);
   target.addEventListener("dragenter", handleDragEnter);
@@ -175,7 +179,7 @@ function handleDragStart(e) {
 
 function handleDragEnd(e) {
   this.classList.remove("selectedDragSource");
-  var dragTargets = document.querySelectorAll("#colPalette input,#inColorHslMix,#inColorMix1,#inColorMix2");
+  var dragTargets = document.querySelectorAll("#colPalette input,#inColorHslMix,#inColorMix1,#inColorMix2,#inColorText1,#inColorText2");
   dragTargets.forEach(function (item) {
     item.classList.remove("dragOver");
   });
@@ -205,6 +209,39 @@ function colHexCodeToHTML(aDomID, aColHex, aColTitle, hasTitle,isReadOnly) {
 </div>`;
   return html
 }
+
+function setTextBoxColor(id,fg,bg){
+  var e=document.getElementById(id)
+  e.style.backgroundColor = bg
+  e.style.color = fg
+}
+
+function setTextContent(){
+  var allText=document.querySelectorAll(".textColorBox")
+  for (const aText of allText){
+    aText.innerText="Lorem ipsum dolor sit amet, consectetur adipiscing elit. 🭁🭌"
+  }
+}
+
+
+function setTextColor(){
+  var c1=document.getElementById("inColorText1").value
+  var c2=document.getElementById("inColorText2").value
+  setTextBoxColor("tb01",c1,"black") 
+  setTextBoxColor("tb02",c2,"black") 
+  setTextBoxColor("tb03",c1,"white") 
+  setTextBoxColor("tb04",c2,"white") 
+
+  setTextBoxColor("tb05","black",c1) 
+  setTextBoxColor("tb06","white",c1) 
+  setTextBoxColor("tb07",c2,c1) 
+
+  setTextBoxColor("tb08","black",c2) 
+  setTextBoxColor("tb09","white",c2) 
+  setTextBoxColor("tb10",c1,c2) 
+
+}
+
 
 function setMainBGColor() {
 
@@ -424,32 +461,6 @@ function saveColor() {
     updateColorToDB(colID, colHex, colTitle)
   }
   document.getElementById("btSave").style.visibility = "hidden";
-}
-
-
-
-/* cookies functions */
-
-function setCookie(cname, cvalue, exdays) {
-  const d = new Date();
-  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-  let expires = "expires=" + d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires;
-}
-
-function getCookie(cname) {
-  let name = cname + "=";
-  let ca = document.cookie.split(';');
-  for (let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
 }
 
 function rgbToHex(r, g, b) {
