@@ -129,7 +129,12 @@ background: rgb(102,102,153);
   text-align: center;
   top: 50%;
   position:inherit;
+  font-size: 12pt;
 }
+.textColorBox span{
+  font-size: 64pt;
+}
+
 
 @media only screen and (max-width: 768px) {
   .paletteColor input{

@@ -219,7 +219,7 @@ function setTextBoxColor(id,fg,bg){
 function setTextContent(){
   var allText=document.querySelectorAll(".textColorBox")
   for (const aText of allText){
-    aText.innerText="Lorem ipsum dolor sit amet, consectetur adipiscing elit. ■■"
+    aText.innerHTML ="Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br><span>■</span>"
   }
 }
 
