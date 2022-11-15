@@ -228,7 +228,7 @@ input[type=color] {
   box-shadow: 10px 10px 12px #777!important;
 }
 
-#aboutBox {
+.dlgBox {
   display: none;
   position: fixed;
   top: 100px;
@@ -241,6 +241,7 @@ input[type=color] {
   border-radius: 25px;
   box-shadow: 10px 10px 5px  #777;
 }
+
 #aboutHeader{
   text-align: center;
 }

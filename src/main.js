@@ -454,11 +454,12 @@ function randomColor() {
 }
 
 function downloadColor() {
-   console.log("Download")
+   document.getElementById("dlgDownload").style.display = "block";
+   // Ask to exclude a colore, default to #808080
 }
 
 function uploadColor() {
-  console.log("upload")
+  document.getElementById("dlgUpload").style.display = "block";
 }
 
 
