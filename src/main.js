@@ -8,10 +8,10 @@ var lastColor = 0;
 var colorPaletteSize = 250;
 var isDark = false;
 var elm;
-var hasAboutBox=false;
+var hasAboutBox = false;
 
 for (let i = 0; i < colorPaletteSize; i++) {
-  newCol = colHexCodeToHTML(`c${colID + i}`, defColor, defColor.slice(1), true,false)
+  newCol = colHexCodeToHTML(`c${colID + i}`, defColor, defColor.slice(1), true, false)
   document.getElementById("colPalette").innerHTML += newCol;
 };
 
@@ -51,6 +51,8 @@ document.getElementById("btFlipBG").addEventListener("click", flipBG);
 document.getElementById("btAbout").addEventListener("click", toggleAboutBox);
 document.getElementById("aboutBox").addEventListener("click", toggleAboutBox);
 
+document.getElementById("btDownload").addEventListener("click", downloadColor);
+document.getElementById("btUpload").addEventListener("click", uploadColor);
 
 document.getElementById("btMix1").addEventListener("click", function () { goTab(0) });
 document.getElementById("btMix2").addEventListener("click", function () { goTab(1) });
@@ -99,11 +101,11 @@ setTextContent()
 // Drag and drop handling
 
 var dragTargets;
-window.dragSrcEl=null;
+window.dragSrcEl = null;
 addDragSource("input[type=color]");
 
-dragTargets=document.querySelectorAll("#colPalette input,#inColorHslMix,#inColorMix1,#inColorMix2,#inColorText1,#inColorText2");
-dragTargets.forEach(function(target){
+dragTargets = document.querySelectorAll("#colPalette input,#inColorHslMix,#inColorMix1,#inColorMix2,#inColorText1,#inColorText2");
+dragTargets.forEach(function (target) {
   target.addEventListener("dragover", handleDragOver);
   target.addEventListener("dragenter", handleDragEnter);
   target.addEventListener("dragleave", handleDragLeave);
@@ -114,21 +116,21 @@ dragTargets.forEach(function(target){
 
 // ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  === 
 
-function toggleAboutBox(){
-  if(hasAboutBox)
-     document.getElementById("aboutBox").style.display="none";
+function toggleAboutBox() {
+  if (hasAboutBox)
+    document.getElementById("aboutBox").style.display = "none";
   else
-     document.getElementById("aboutBox").style.display="block";
-  hasAboutBox=!hasAboutBox   
+    document.getElementById("aboutBox").style.display = "block";
+  hasAboutBox = !hasAboutBox
 }
 
-function addDragSource(aSelector){
+function addDragSource(aSelector) {
   var dragSources = document.querySelectorAll(aSelector);
   dragSources.forEach(function (src) {
     src.addEventListener("dragstart", handleDragStart);
     src.addEventListener("dragend", handleDragEnd);
   });
-  }
+}
 
 function handleDrop(e) {
   e.stopPropagation(); // stops the browser from redirecting.
@@ -153,13 +155,13 @@ function handleDrop(e) {
       this.value = srcCol;
       const eventChange = new Event("change");
       this.dispatchEvent(eventChange);
-    } 
+    }
     else if (srcIsPalette) {
       var srcCol = dragSrcEl.value;
       this.value = srcCol;
       const eventChange = new Event("change");
       this.dispatchEvent(eventChange);
-    } 
+    }
     else {
       var srcCol = dragSrcEl.value;
       this.value = srcCol;
@@ -171,7 +173,7 @@ function handleDrop(e) {
 }
 
 function handleDragStart(e) {
-  this.classList.add("selectedDragSource") ;
+  this.classList.add("selectedDragSource");
   dragSrcEl = this;
   e.dataTransfer.effectAllowed = "copy";
   e.dataTransfer.setData("text/html", this.innerHTML);
@@ -198,9 +200,9 @@ function handleDragLeave(e) {
   this.classList.remove("dragOver");
 }
 
-function colHexCodeToHTML(aDomID, aColHex, aColTitle, hasTitle,isReadOnly) {
+function colHexCodeToHTML(aDomID, aColHex, aColTitle, hasTitle, isReadOnly) {
   var html = `<div id="${aDomID}" class="paletteColor">
-  <input class="inColor" type="color" value="${aColHex}" draggable="true" ${isReadOnly?"disabled='true'":""}">
+  <input class="inColor" type="color" value="${aColHex}" draggable="true" ${isReadOnly ? "disabled='true'" : ""}">
   ${hasTitle ? '<div class="colTitle"   contenteditable="true"   >' + aColTitle + '</div>' : ""} 
   <div class="hexColor">${aColHex}</div>
   <div class="rgbColor">${hexToRgb(aColHex).rgb}</div>
@@ -210,35 +212,35 @@ function colHexCodeToHTML(aDomID, aColHex, aColTitle, hasTitle,isReadOnly) {
   return html
 }
 
-function setTextBoxColor(id,fg,bg){
-  var e=document.getElementById(id)
+function setTextBoxColor(id, fg, bg) {
+  var e = document.getElementById(id)
   e.style.backgroundColor = bg
   e.style.color = fg
 }
 
-function setTextContent(){
-  var allText=document.querySelectorAll(".textColorBox")
-  for (const aText of allText){
-    aText.innerHTML ="Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br><span>■</span>"
+function setTextContent() {
+  var allText = document.querySelectorAll(".textColorBox")
+  for (const aText of allText) {
+    aText.innerHTML = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br><span>■</span>"
   }
 }
 
 
-function setTextColor(){
-  var c1=document.getElementById("inColorText1").value
-  var c2=document.getElementById("inColorText2").value
-  setTextBoxColor("tb01",c1,"black") 
-  setTextBoxColor("tb02",c2,"black") 
-  setTextBoxColor("tb03",c1,"white") 
-  setTextBoxColor("tb04",c2,"white") 
+function setTextColor() {
+  var c1 = document.getElementById("inColorText1").value
+  var c2 = document.getElementById("inColorText2").value
+  setTextBoxColor("tb01", c1, "black")
+  setTextBoxColor("tb02", c2, "black")
+  setTextBoxColor("tb03", c1, "white")
+  setTextBoxColor("tb04", c2, "white")
 
-  setTextBoxColor("tb05","black",c1) 
-  setTextBoxColor("tb06","white",c1) 
-  setTextBoxColor("tb07",c2,c1) 
+  setTextBoxColor("tb05", "black", c1)
+  setTextBoxColor("tb06", "white", c1)
+  setTextBoxColor("tb07", c2, c1)
 
-  setTextBoxColor("tb08","black",c2) 
-  setTextBoxColor("tb09","white",c2) 
-  setTextBoxColor("tb10",c1,c2) 
+  setTextBoxColor("tb08", "black", c2)
+  setTextBoxColor("tb09", "white", c2)
+  setTextBoxColor("tb10", c1, c2)
 
 }
 
@@ -445,11 +447,21 @@ function randomColor() {
   var newCol;
   for (var i = 0; i < colorPaletteSize; i++) {
     newCol = Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0");
-    setHexColor("c", i+1, newCol);
+    setHexColor("c", i + 1, newCol);
   }
   lastColor = colorPaletteSize - 1;
   document.getElementById("btSave").style.visibility = "visible";
 }
+
+function downloadColor() {
+   console.log("Download")
+}
+
+function uploadColor() {
+  console.log("upload")
+}
+
+
 
 function saveColor() {
   var colHex, colTitle, colID
@@ -521,7 +533,7 @@ function genMix2Color() {
     b = Math.round(b)
 
     rgbcol = `#${rgbToHex(r, g, b)}`;
-    html = colHexCodeToHTML(`mixTwo${i + 2}`, rgbcol, null, false,true)
+    html = colHexCodeToHTML(`mixTwo${i + 2}`, rgbcol, null, false, true)
     Mix2PaletteContainer.innerHTML += html;
 
   }
@@ -563,7 +575,7 @@ function genMixHSL() {
 
   for (let i = 0; i < steps; i++) {
     rgb = hsl360ToRGB(h, s, l);
-    html = colHexCodeToHTML(`mhsl${i + 2}`, rgb.rgbCol, null, false,true)
+    html = colHexCodeToHTML(`mhsl${i + 2}`, rgb.rgbCol, null, false, true)
     hslMixPaletteContainer.innerHTML += html;
     h = Math.max(Math.min((h + deltaH) < 0 ? 360 + (h + deltaH) : (h + deltaH), 360), 0);
     s = Math.max(Math.min(s + deltaS, 100), 0);
