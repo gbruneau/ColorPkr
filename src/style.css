@@ -228,22 +228,49 @@ input[type=color] {
   box-shadow: 10px 10px 12px #777!important;
 }
 
-#aboutBox {
+.dlgBox {
   display: none;
   position: fixed;
   top: 100px;
   padding: 5px;
   right: calc(50% - 175px);
-  width: 350px;
+  width: 400px;
   height: 400px;
   background-color: #ddd;
   border: 3px solid #666; 
   border-radius: 25px;
   box-shadow: 10px 10px 5px  #777;
 }
-#aboutHeader{
+
+.dlgHeader {
   text-align: center;
 }
-#aboutTitle{
+.dlgTitle {
   font-style: italic;
+}
+
+.dlgBox label {
+  width: 50%;
+  display: inline-block;
+  text-align: right;
+  height: 50px;
+  vertical-align: top;
+}
+.dlgBox input[type="checkbox"] {
+  display: inline-block; 
+} 
+
+
+.dlgButtons{
+  margin: auto;
+  width: 50%;
+}
+
+.dlgButtons button{
+  width: 49%;
+}
+
+#colExclude {
+  width: 50px;
+  height: 50px;
 }
