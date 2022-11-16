@@ -52,6 +52,10 @@ document.getElementById("btAbout").addEventListener("click", toggleAboutBox);
 document.getElementById("aboutBox").addEventListener("click", toggleAboutBox);
 
 document.getElementById("btDownload").addEventListener("click", downloadColor);
+document.getElementById("btDoDownload").addEventListener("click", doDownload);
+document.getElementById("btCancelDownload").addEventListener("click", cancelDownload);
+document.getElementById("chkExclude").addEventListener("change", toggleDownloadExclude);
+
 document.getElementById("btUpload").addEventListener("click", uploadColor);
 
 document.getElementById("btMix1").addEventListener("click", function () { goTab(0) });
@@ -453,9 +457,47 @@ function randomColor() {
   document.getElementById("btSave").style.visibility = "visible";
 }
 
+
+function download(content, fileName, contentType) {
+  const a = document.createElement("a");
+  const file = new Blob([content], { type: contentType });
+  a.href = URL.createObjectURL(file);
+  a.download = fileName;
+  a.click();
+}
+
+
+function doDownload(){
+  var jsonData=[]
+  var colHex, colTitle, col
+  var doExclude=document.getElementById("chkExclude").checked
+  var excludedColor=document.getElementById("colExclude").value
+  var colors = document.getElementById("colPalette").getElementsByClassName("paletteColor");
+  for (var aCol of colors) {
+    colTitle = aCol.querySelector(".colTitle").innerText
+    colHex = aCol.querySelector(".inColor").value
+    col = {
+      Title : colTitle,
+      Hexcolor: colHex
+    }
+    if ((!doExclude)  ||  (excludedColor != colHex)) jsonData.push(col)
+  }
+  download(JSON.stringify(jsonData), "ColorPalette.ColorPkr", "text/plain");
+  document.getElementById("dlgDownload").style.display = "none";
+}
+
+function toggleDownloadExclude(){
+  var excl=document.getElementById("chkExclude").checked
+  document.getElementById("colExclude").disabled = !excl
+}
+
+
+function cancelDownload(){
+  document.getElementById("dlgDownload").style.display = "none";
+}
+
 function downloadColor() {
    document.getElementById("dlgDownload").style.display = "block";
-   // Ask to exclude a colore, default to #808080
 }
 
 function uploadColor() {

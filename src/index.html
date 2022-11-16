@@ -32,10 +32,10 @@
   </div>
   <!-- About Box-->
   <div id="aboutBox" class="dlgBox">
-    <div id="aboutHeader">
+    <div class="dlgHeader">
       <h1>ColrPkr</h1>
       <img src="./public/ColorPkrIcon.svg" width="128px" height="128px">
-      <p id="aboutTitle">A handy color picker and color palette manager</p>
+      <p class="dlgTitle">A handy color picker and color palette manager</p>
     </div>
     <p><strong>Build</strong>: <span id="aboutBoxBuild"></span></p>
     <p><strong>Author</strong>: <a href="mailto:guy.bruneau@gmail?subject=About%20ColorPkr">Guy Bruneau</a></p>
@@ -110,17 +110,17 @@
         -->
       </div>
       <div id="textPaletteContainer">
-           <div id="tb01" class="textColorBox"></div>
-           <div id="tb02" class="textColorBox"></div>
-           <div id="tb03" class="textColorBox"></div>
-           <div id="tb04" class="textColorBox"> </div>
-           <div id="tb05" class="textColorBox"></div>
-           <div id="tb06" class="textColorBox"></div>
-           <div id="tb07" class="textColorBox"></div>
-           <div id="tb08" class="textColorBox"></div>
-           <div id="tb09" class="textColorBox"></div>
-           <div id="tb10" class="textColorBox"></div>
-           
+        <div id="tb01" class="textColorBox"></div>
+        <div id="tb02" class="textColorBox"></div>
+        <div id="tb03" class="textColorBox"></div>
+        <div id="tb04" class="textColorBox"> </div>
+        <div id="tb05" class="textColorBox"></div>
+        <div id="tb06" class="textColorBox"></div>
+        <div id="tb07" class="textColorBox"></div>
+        <div id="tb08" class="textColorBox"></div>
+        <div id="tb09" class="textColorBox"></div>
+        <div id="tb10" class="textColorBox"></div>
+
       </div>
     </div>
   </div>
@@ -129,7 +129,19 @@
     upload
   </div>
   <div id="dlgDownload" class="dlgBox" style="display:none ;">
-    download
+    <div class="dlgHeader">
+      <h3>Download Palette</h3>
+    </div>
+
+      <label for="chkExclud">Exclude Color</label>
+      <input id="chkExclude" type="checkbox" />
+    
+    <label for="colExclude">Color</label>
+    <input id="colExclude" value="#808080" disabled type="color" />
+    <div class="dlgButtons">
+      <button id="btCancelDownload">Cancel</button>
+      <button id="btDoDownload">Download</button>
+    </div>
   </div>
   <script type="module" src="./main.js"></script>
 </body>
