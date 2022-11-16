@@ -125,17 +125,25 @@
     </div>
   </div>
   <div id="colPalette"></div>
+  <!-- UPLOAD DIALOG -->
   <div id="dlgUpload" class="dlgBox" style="display:none ;">
-    upload
+    <div class="dlgHeader">
+      <h3>Load Palette File</h3>
+    </div>
+    <label for="colorFile">File</label>
+    <input id="colorFile" type="file" accept=".json"/>
+    <div class="dlgButtons">
+      <button id="btCancelUpload">Cancel</button>
+      <button id="btDoUpload">Upload</button>
+    </div>
   </div>
+  <!-- DOWNLOAD DIALOG -->
   <div id="dlgDownload" class="dlgBox" style="display:none ;">
     <div class="dlgHeader">
       <h3>Download Palette</h3>
     </div>
-
       <label for="chkExclud">Exclude Color</label>
       <input id="chkExclude" type="checkbox" />
-    
     <label for="colExclude">Color</label>
     <input id="colExclude" value="#808080" disabled type="color" />
     <div class="dlgButtons">

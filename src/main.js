@@ -51,12 +51,14 @@ document.getElementById("btFlipBG").addEventListener("click", flipBG);
 document.getElementById("btAbout").addEventListener("click", toggleAboutBox);
 document.getElementById("aboutBox").addEventListener("click", toggleAboutBox);
 
-document.getElementById("btDownload").addEventListener("click", downloadColor);
+document.getElementById("btDownload").addEventListener("click", showDownloadDlg);
 document.getElementById("btDoDownload").addEventListener("click", doDownload);
 document.getElementById("btCancelDownload").addEventListener("click", cancelDownload);
 document.getElementById("chkExclude").addEventListener("change", toggleDownloadExclude);
 
-document.getElementById("btUpload").addEventListener("click", uploadColor);
+document.getElementById("btUpload").addEventListener("click", showUploadDlg);
+document.getElementById("btCancelUpload").addEventListener("click", cancelUpload);
+document.getElementById("btDoUpload").addEventListener("click", doUploadColor);
 
 document.getElementById("btMix1").addEventListener("click", function () { goTab(0) });
 document.getElementById("btMix2").addEventListener("click", function () { goTab(1) });
@@ -396,7 +398,7 @@ function hsl360ToRGB(h, s1, l1) {
     "rgbCol": `#${rgbHex}`,
     "hsl100": `hsl(${Math.round(h * 10) / 10},${Math.round(s1 * 10) / 10}%,${Math.round(l1 * 10) / 10}%)`,
     "hsl255": `hsl(${Math.round(h / 360 * 255)},${Math.round(s * 255)},${Math.round(l1 / 100 * 255)})`,
-  }
+  }   
 }
 
 function goTab(aTabIndex) {
@@ -482,7 +484,7 @@ function doDownload(){
     }
     if ((!doExclude)  ||  (excludedColor != colHex)) jsonData.push(col)
   }
-  download(JSON.stringify(jsonData), "ColorPalette.ColorPkr", "text/plain");
+  download(JSON.stringify(jsonData), "ColorPalette.json", "text/plain");
   document.getElementById("dlgDownload").style.display = "none";
 }
 
@@ -496,15 +498,40 @@ function cancelDownload(){
   document.getElementById("dlgDownload").style.display = "none";
 }
 
-function downloadColor() {
+function showDownloadDlg() {
    document.getElementById("dlgDownload").style.display = "block";
 }
 
-function uploadColor() {
+function showUploadDlg() {
   document.getElementById("dlgUpload").style.display = "block";
+}
+function cancelUpload(){
+  document.getElementById("dlgUpload").style.display = "none";
+}
+
+function processUpload(event){
+  let str = event.target.result;
+	let json = JSON.parse(str);
+  console.log(json)
+  resetColor()
+  for (let i = 0; i < json.length; i++) {
+       let title=json[i].Title
+       let hexcol=json[i].Hexcolor
+       setHexColor("c", i+1,hexcol,title);
+  }
+  document.getElementById("btSave").style.visibility = "visible";
 }
 
 
+function doUploadColor(){
+  let file = document.querySelector('#colorFile');
+  if (!file.value.length) return;
+  let reader = new FileReader();
+	reader.onload = processUpload;
+	reader.readAsText(file.files[0]);
+  document.getElementById("dlgUpload").style.display = "none";
+ 
+}
 
 function saveColor() {
   var colHex, colTitle, colID
