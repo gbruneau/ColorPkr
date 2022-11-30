@@ -65,7 +65,7 @@ body {
     gap: 10px;
   }
   #colorPanel {
-    height: 30%; /* GB: TEMP */
+    height: 35%; /* GB: TEMP */
   }
   #colPalette{
     height:  calc(70% - 60px);
@@ -173,7 +173,7 @@ background: rgb(102,102,153);
   align-content: flex-start;
   flex-wrap: wrap;
   gap: 5px;
-  overflow-y: scroll;
+  overflow-y: unset;
 }
 
 .MixHSLInput label{
