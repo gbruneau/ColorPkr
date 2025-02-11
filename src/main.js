@@ -647,7 +647,8 @@ function genMixHSL() {
     rgb = hsl360ToRGB(h, s, l);
     html = colHexCodeToHTML(`mhsl${i + 2}`, rgb.rgbCol, null, false, true)
     hslMixPaletteContainer.innerHTML += html;
-    h = Math.max(Math.min((h + deltaH) < 0 ? 360 + (h + deltaH) : (h + deltaH), 360), 0);
+//    h = Math.max(Math.min((h + deltaH) < 0 ? 360 + (h + deltaH) : (h + deltaH), 360), 0);
+    h = (h + deltaH + 360) % 360;
     s = Math.max(Math.min(s + deltaS, 100), 0);
     l = Math.max(Math.min(l + deltaL, 100), 0);
   }
