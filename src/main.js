@@ -62,7 +62,8 @@ document.getElementById("btDoUpload").addEventListener("click", doUploadColor);
 
 document.getElementById("btMix1").addEventListener("click", function () { goTab(0) });
 document.getElementById("btMix2").addEventListener("click", function () { goTab(1) });
-document.getElementById("btTextTry").addEventListener("click", function () { goTab(2) });
+document.getElementById("btMix3").addEventListener("click", function () { goTab(2) });
+document.getElementById("btTextTry").addEventListener("click", function () { goTab(3) });
 
 
 document.getElementById("inColorHslMix").addEventListener("change", genMixHSL);
@@ -75,6 +76,15 @@ document.getElementById("inL").addEventListener("change", genMixHSL);
 document.getElementById("inColorMix1").addEventListener("change", genMix2Color);
 document.getElementById("inColorMix2").addEventListener("change", genMix2Color);
 document.getElementById("inMix2Steps").addEventListener("change", genMix2Color);
+
+
+document.getElementById("inBlnColors").addEventListener("change", genBlender);
+document.getElementById("inBlnHFix").addEventListener("change", genBlender);
+document.getElementById("inBlnSFix").addEventListener("change", genBlender);
+document.getElementById("inBlnLFix").addEventListener("change", genBlender);
+
+
+
 
 document.getElementById("inColorText1").addEventListener("change", setTextColor);
 document.getElementById("inColorText2").addEventListener("change", setTextColor);
@@ -101,6 +111,7 @@ document.getElementById("aboutBoxBuild").innerText = APPbuild
 setMainBGColor();
 genMixHSL();
 genMix2Color();
+genBlender();
 setTextColor()
 setTextContent()
 
@@ -548,6 +559,51 @@ function saveColor() {
 function rgbToHex(r, g, b) {
   return `${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
 }
+
+function blender(aColorNode,refColorHex,useRefH,useRefS,useRefL){
+  // TODO: Change the color using ref color and HSL control
+}
+
+
+function genBlender(){
+  /* React to blender control */
+  /* Get control state */
+  var inBlnColors =  parseInt(document.getElementById("inBlnColors").value);
+  var inBlnHFix =  document.getElementById("inBlnHFix").checked;
+  var inBlnSFix =  document.getElementById("inBlnSFix").checked;
+  var inBlnLFix =  document.getElementById("inBlnLFix").checked;
+  var inColorBln = document.getElementById("inColorBln").value;
+  var blnPaletteContainer = document.getElementById("BlnPaletteContainer");
+  var blnPalette = blnPaletteContainer.querySelectorAll('.paletteColor');
+  
+  if  (blnPalette.length > inBlnColors ) {
+    // Remove extra colours 
+    var n=0;
+    blnPalette.forEach(aColor => {
+      n++
+      if (n>inBlnColors ) aColor.remove();
+    });
+
+  } else if  (blnPalette.length < inBlnColors ) {   
+    // add missing colors 
+    for (let i = blnPalette.length ; i < inBlnColors; i++) {
+      var randomHexColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+      var html = colHexCodeToHTML(`blnCol${i+1}`, randomHexColor, null, false, false)
+      blnPaletteContainer.innerHTML += html;
+      /* TODO:  add behaviour
+              1: react to drag
+              2: run blender on chnage
+      */
+    }
+  }
+  // Process all colors 
+  blnPalette = blnPaletteContainer.querySelectorAll('.paletteColor');
+  blnPalette.forEach(aColor => {
+    blender(aColorNode,inColorBln,inBlnHFix.inBlnHSix,inBlnLFix)
+  });
+
+}
+
 
 
 function genMix2Color() {
