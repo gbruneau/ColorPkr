@@ -603,7 +603,8 @@ function genBlender(){
       blnPaletteContainer.innerHTML += html;
       /* TODO:  add behaviour
               1: react to drag
-              2: run blender on chnage
+                 BUG: Color container NOT updated on drop
+              2: run blender on change
       */
     }
   }
