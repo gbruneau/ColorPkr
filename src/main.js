@@ -45,8 +45,8 @@ for (var i = 0; i < colors.length; i++) {
 
 document.getElementById("btReset").addEventListener("click", resetColor);
 document.getElementById("btLoad").addEventListener("click", loadColor);
-document.getElementById("btSave").addEventListener("click", saveColor);
-document.getElementById("btRandom").addEventListener("click", randomColor);
+document.getElementById("btSave").addEventListener("click", saveColorPalette);
+document.getElementById("btRandom").addEventListener("click", genRandomColorPalette);
 document.getElementById("btFlipBG").addEventListener("click", flipBG);
 document.getElementById("btAbout").addEventListener("click", toggleAboutBox);
 document.getElementById("aboutBox").addEventListener("click", toggleAboutBox);
@@ -121,7 +121,7 @@ var dragTargets;
 window.dragSrcEl = null;
 addDragSource("input[type=color]");
 
-dragTargets = document.querySelectorAll("#colPalette input,#inColorHslMix,#inColorMix1,#inColorMix2,#inColorText1,#inColorText2");
+dragTargets = document.querySelectorAll("#colPalette input,#inColorHslMix,#inColorMix1,#inColorMix2,#inColorText1,#inColorText2,#BlnPaletteContainer input,#inColorBln");
 dragTargets.forEach(function (target) {
   target.addEventListener("dragover", handleDragOver);
   target.addEventListener("dragenter", handleDragEnter);
@@ -460,7 +460,7 @@ function loadColor() {
   }
 };
 
-function randomColor() {
+function genRandomColorPalette() {
   var newCol;
   for (var i = 0; i < colorPaletteSize; i++) {
     newCol = Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0");
@@ -544,7 +544,7 @@ function doUploadColor(){
  
 }
 
-function saveColor() {
+function saveColorPalette() {
   var colHex, colTitle, colID
   var colors = document.getElementById("colPalette").getElementsByClassName("paletteColor");
   for (var aCol of colors) {
@@ -560,8 +560,19 @@ function rgbToHex(r, g, b) {
   return `${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
 }
 
-function blender(aColorNode,refColorHex,useRefH,useRefS,useRefL){
+function blender(aColorContainerNode,refColorHex,useRefH,useRefS,useRefL){
   // TODO: Change the color using ref color and HSL control
+
+var aColorNode = aColorContainerNode.querySelector('input[type="color"]')  
+var newColHsl=hexToHSL(aColorNode.value)
+var refColHsl=hexToHSL(refColorHex)
+newColHsl.h360 = useRefH ? refColHsl.h360 : newColHsl.h360
+newColHsl.s100 = useRefS ? refColHsl.s100 : newColHsl.s100
+newColHsl.l100 = useRefL ? refColHsl.l100 : newColHsl.l100
+
+// GB: Icitte
+// TODO : Return new color to coolor node and refresh color node container
+
 }
 
 
@@ -596,11 +607,17 @@ function genBlender(){
       */
     }
   }
+
   // Process all colors 
+
+  blnPaletteContainer = document.getElementById("BlnPaletteContainer");
   blnPalette = blnPaletteContainer.querySelectorAll('.paletteColor');
-  blnPalette.forEach(aColor => {
-    blender(aColorNode,inColorBln,inBlnHFix.inBlnHSix,inBlnLFix)
+  blnPalette.forEach(aColorNode => {
+    blender(aColorNode,inColorBln,inBlnHFix,inBlnSFix,inBlnLFix)
   });
+
+  addDragSource("#BlnPaletteContainer input[type=color]");
+  
 
 }
 
