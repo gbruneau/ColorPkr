@@ -78,7 +78,7 @@ document.getElementById("inColorMix2").addEventListener("change", genMix2Color);
 document.getElementById("inMix2Steps").addEventListener("change", genMix2Color);
 
 
-document.getElementById("inBlnColors").addEventListener("change", genBlender);
+document.getElementById("inColorBln").addEventListener("change", genBlender);
 document.getElementById("inBlnHFix").addEventListener("change", genBlender);
 document.getElementById("inBlnSFix").addEventListener("change", genBlender);
 document.getElementById("inBlnLFix").addEventListener("change", genBlender);
@@ -570,9 +570,17 @@ newColHsl.h360 = useRefH ? refColHsl.h360 : newColHsl.h360
 newColHsl.s100 = useRefS ? refColHsl.s100 : newColHsl.s100
 newColHsl.l100 = useRefL ? refColHsl.l100 : newColHsl.l100
 
-// GB: Icitte
-// TODO : Return new color to coolor node and refresh color node container
+var newCol = hsl360ToRGB(newColHsl.h360,newColHsl.s100,newColHsl.l100)
+var newColHex= newCol.rgbCol;
+aColorNode.value = newColHex;
+setColorLabel(aColorContainerNode.id,newColHex)
 
+
+}
+
+function genRandomHexColor()
+{
+  return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
 }
 
 
@@ -598,9 +606,11 @@ function genBlender(){
   } else if  (blnPalette.length < inBlnColors ) {   
     // add missing colors 
     for (let i = blnPalette.length ; i < inBlnColors; i++) {
-      var randomHexColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
-      var html = colHexCodeToHTML(`blnCol${i+1}`, randomHexColor, null, false, false)
+      var randomHexColor = genRandomHexColor();
+      var html = colHexCodeToHTML(`b${i+1}`, randomHexColor, null, false, false)
       blnPaletteContainer.innerHTML += html;
+      setHexColor("b",i+1,randomHexColor,randomHexColor)     
+      addDragSource(`b${i+1}`)
       /* TODO:  add behaviour
               1: react to drag
                  BUG: Color container NOT updated on drop
@@ -616,10 +626,7 @@ function genBlender(){
   blnPalette.forEach(aColorNode => {
     blender(aColorNode,inColorBln,inBlnHFix,inBlnSFix,inBlnLFix)
   });
-
   addDragSource("#BlnPaletteContainer input[type=color]");
-  
-
 }
 
 
