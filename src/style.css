@@ -189,7 +189,7 @@ background: rgb(102,102,153);
 }
 
 
-#hslMixPaletteContainer,#Mix2PaletteContainer,#textPaletteContainer{
+#hslMixPaletteContainer,#Mix2PaletteContainer,#textPaletteContainer, #BlnPaletteContainer {
   display:flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -220,7 +220,8 @@ input[type=color] {
 
 /* Drag and drop target indicator */
 .dragOver {
-  box-shadow: 10px 10px 5px 7px  #777;
+/*  box-shadow: 10px 10px 5px 7px  #777; */
+opacity: 100;
 }
 
 .selectedDragSource{
