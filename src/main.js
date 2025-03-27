@@ -15,7 +15,7 @@ var hasAboutBox = false;
 var pkrState = {
   "slider": {
     "color": "#00ff00",
-    "steps": 5,
+    "steps": 6,
     "deltaH": 15,
     "deltaS": -10,
     "deltaL": 10
@@ -23,11 +23,11 @@ var pkrState = {
   "mixer": {
     "color1": "#F0ff00",
     "color2": "#FF00bf",
-    "steps": 5
+    "steps": 6
   },
   "blender": {
     "color": "#F0bf95",
-    "colors": 5,
+    "colors": 6,
     "fixH": false,
     "fixS": false,
     "fixL": false
