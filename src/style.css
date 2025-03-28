@@ -237,10 +237,12 @@ opacity: 100;
   right: calc(50% - 175px);
   width: 400px;
   height: 400px;
-  background-color: #ddd;
   border: 3px solid #666; 
   border-radius: 25px;
   box-shadow: 10px 10px 5px  #777;
+  background: rgb(255,179,179);
+  background: linear-gradient(120deg, rgba(255,179,179,1) 0%, rgba(255,255,179,1) 20%, rgba(179,255,179,1) 40%, rgba(179,255,255,1) 60%, rgba(179,179,255,1) 80%, rgba(255,179,255,1) 100%);
+
 }
 
 .dlgHeader {
