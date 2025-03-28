@@ -6,13 +6,15 @@ var colID = 1;
 var newCol;
 var lastColor = 0;
 var colorPaletteSize = 250;
-var isDark = false;
 var elm;
 var hasAboutBox = false;
 
 //* Default State
 
 var pkrState = {
+  "setting": {
+    "isDark": false
+  },
   "slider": {
     "color": "#00ff00",
     "steps": 6,
@@ -172,7 +174,7 @@ dragTargets.forEach(function (target) {
 
 // ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  === 
 
-function addDropTarget(aTargetNode){
+function addDropTarget(aTargetNode) {
   aTargetNode.addEventListener("dragover", handleDragOver);
   aTargetNode.addEventListener("dragenter", handleDragEnter);
   aTargetNode.addEventListener("dragleave", handleDragLeave);
@@ -320,18 +322,24 @@ function genLoremBox() {
   var c2 = document.getElementById("inColorText2").value
   pkrState.lorem.color1 = c1
   pkrState.lorem.color2 = c2
-  setLoremBoxColor("tb01", c1, "black")
-  setLoremBoxColor("tb02", c2, "black")
-  setLoremBoxColor("tb03", c1, "white")
-  setLoremBoxColor("tb04", c2, "white")
+  const cb = "black"
+  const cw = "white"
 
-  setLoremBoxColor("tb05", "black", c1)
-  setLoremBoxColor("tb06", "white", c1)
-  setLoremBoxColor("tb07", c2, c1)
+  setLoremBoxColor("tb01", c2, c1)
+  setLoremBoxColor("tb02", cb, c1)
+  setLoremBoxColor("tb03", cw, c1)
 
-  setLoremBoxColor("tb08", "black", c2)
-  setLoremBoxColor("tb09", "white", c2)
-  setLoremBoxColor("tb10", c1, c2)
+  setLoremBoxColor("tb04", c1, c2)
+  setLoremBoxColor("tb05", cb, c2)
+  setLoremBoxColor("tb06", cw, c2)
+
+  setLoremBoxColor("tb07", c1, cw)
+  setLoremBoxColor("tb08", c2, cw)
+  setLoremBoxColor("tb09", cb, cw)
+
+  setLoremBoxColor("tb10", c1, cb)
+  setLoremBoxColor("tb11", c2, cb)
+  setLoremBoxColor("tb12", cw, cb)
 
 }
 
@@ -348,50 +356,50 @@ function setMainBGColor() {
   var lightPannel = getComputedStyle(document.documentElement).getPropertyValue('--lightPannel');
   var lightTitle = getComputedStyle(document.documentElement).getPropertyValue('--lightTitle');
 
-  document.body.style.backgroundColor = isDark ? darkBG : lightBG;
-  document.body.style.color = isDark ? darkColor : lightColor;
+  document.body.style.backgroundColor = pkrState.setting.isDark ? darkBG : lightBG;
+  document.body.style.color = pkrState.setting.isDark  ? darkColor : lightColor;
 
   // Color pannel
-  document.getElementById("colorPanel").style.backgroundColor = isDark ? darkPannel : lightPannel;
+  document.getElementById("colorPanel").style.backgroundColor = pkrState.setting.isDark  ? darkPannel : lightPannel;
   // Color pannel input
   cols = document.querySelectorAll("#colorPanel .paletteColor input")
   cols.forEach(aColor => {
-    aColor.style.backgroundColor = isDark ? darkPannel : lightPannel;
-    aColor.style.borderColor = isDark ? darkPannel : lightPannel;
+    aColor.style.backgroundColor = pkrState.setting.isDark  ? darkPannel : lightPannel;
+    aColor.style.borderColor = pkrState.setting.isDark  ? darkPannel : lightPannel;
   })
 
   // color palette input
   var cols = document.querySelectorAll("#colPalette .paletteColor input")
   cols.forEach(aColor => {
-    aColor.style.backgroundColor = isDark ? darkBG : lightBG;
-    aColor.style.borderColor = isDark ? darkBG : lightBG;
+    aColor.style.backgroundColor = pkrState.setting.isDark  ? darkBG : lightBG;
+    aColor.style.borderColor = pkrState.setting.isDark  ? darkBG : lightBG;
   })
   // color palette input title
   var cols = document.querySelectorAll("#colPalette .paletteColor .colTitle")
   cols.forEach(aColor => {
-    aColor.style.color = isDark ? darkTitle : lightTitle;
+    aColor.style.color = pkrState.setting.isDark  ? darkTitle : lightTitle;
   })
 
   // Dark/Light mode Button
-  document.querySelector("#btFlipBG span").title = isDark ? "Light Mode" : "Dark Mode";
+  document.querySelector("#btFlipBG span").title = pkrState.setting.isDark  ? "Light Mode" : "Dark Mode";
 }
 
 function resetColor() {
   var colors = document.getElementById("colPalette").getElementsByClassName("inColor");
   for (var i = 0; i < colors.length; i++) {
-    setColorContainer(`c${i + 1}` , defColor, defColor.slice(1));
+    setColorContainer(`c${i + 1}`, defColor, defColor.slice(1));
     lastColor = 0;
   }
   document.getElementById("btSave").style.visibility = "hidden";
 }
 
 function flipBG() {
-  isDark = !isDark;
+  pkrState.setting.isDark  = !pkrState.setting.isDark ;
   setMainBGColor();
 }
 
 function setColorContainer(colorContainerID, aColorHex, aTitle) {
-   var aCol = document.getElementById(colorContainerID);
+  var aCol = document.getElementById(colorContainerID);
   var aColorHexCode = /[a-f\d]{6}/i.exec(aColorHex)[0];
   var titleElem
   aCol.querySelector("input").value = "#" + aColorHexCode;
@@ -527,7 +535,7 @@ function loadColor() {
   request.onsuccess = function (event) {
     var cursor = event.target.result;
     if (cursor) {
-      setColorContainer(`c${cursor.value.id}`,  cursor.value.hexColor, cursor.value.title);
+      setColorContainer(`c${cursor.value.id}`, cursor.value.hexColor, cursor.value.title);
       cursor.continue();
     }
   }
@@ -601,7 +609,7 @@ function processUpload(event) {
   for (let i = 0; i < json.length; i++) {
     let title = json[i].Title
     let hexcol = json[i].Hexcolor
-    setColorContainer(`c${i+1}`, hexcol, title);
+    setColorContainer(`c${i + 1}`, hexcol, title);
   }
   document.getElementById("btSave").style.visibility = "visible";
 }
@@ -659,11 +667,11 @@ function genRandomHexColor() {
 function genBlender() {
   /* React to blender control */
   /* Get control state */
-  pkrState.blender.colors  = parseInt(document.getElementById("inBlnColors").value);
+  pkrState.blender.colors = parseInt(document.getElementById("inBlnColors").value);
   pkrState.blender.fixH = document.getElementById("inBlnHFix").checked;
-  pkrState.blender.fixS =  document.getElementById("inBlnSFix").checked;
+  pkrState.blender.fixS = document.getElementById("inBlnSFix").checked;
   pkrState.blender.fixL = document.getElementById("inBlnLFix").checked;
-  pkrState.blender.color  = document.getElementById("inColorBln").value;
+  pkrState.blender.color = document.getElementById("inColorBln").value;
 
   var blnPaletteContainer = document.getElementById("BlnPaletteContainer");
   var blnPalette = blnPaletteContainer.querySelectorAll('.paletteColor');
@@ -687,24 +695,24 @@ function genBlender() {
     }
   }
   // Process all colors 
-  setColorContainer("blnC1",pkrState.blender.color)
+  setColorContainer("blnC1", pkrState.blender.color)
   blnPaletteContainer = document.getElementById("BlnPaletteContainer");
   blnPalette = blnPaletteContainer.querySelectorAll('.paletteColor');
   blnPalette.forEach(aColorNode => {
-    var aColorInputNode=aColorNode.querySelector("input[type=color]")
+    var aColorInputNode = aColorNode.querySelector("input[type=color]")
     addDropTarget(aColorInputNode);
-    blendColorContainer(aColorNode, pkrState.blender.color , pkrState.blender.fixH, pkrState.blender.fixS, pkrState.blender.fixL)
+    blendColorContainer(aColorNode, pkrState.blender.color, pkrState.blender.fixH, pkrState.blender.fixS, pkrState.blender.fixL)
     aColorInputNode.addEventListener("change", genBlender);
   });
   addDragSource("#BlnPaletteContainer input[type=color]");
 }
 
-  // React to mixer 
+// React to mixer 
 function genMix2Color() {
   // Get mixer state  
   pkrState.mixer.steps = parseInt(document.getElementById("inMix2Steps").value);
-  pkrState.mixer.color1  = document.getElementById("inColorMix1").value;
-  pkrState.mixer.color2  = document.getElementById("inColorMix2").value;
+  pkrState.mixer.color1 = document.getElementById("inColorMix1").value;
+  pkrState.mixer.color2 = document.getElementById("inColorMix2").value;
 
   var mix2PaletteContainer = document.getElementById("Mix2PaletteContainer");
   // Clear old palette
@@ -714,7 +722,7 @@ function genMix2Color() {
   });
 
   // get starting and ending points  
-  var c1RGB = hexToRgb(pkrState.mixer.color1 );
+  var c1RGB = hexToRgb(pkrState.mixer.color1);
   var c2RGB = hexToRgb(pkrState.mixer.color2);
   var r1 = c1RGB.r;
   var g1 = c1RGB.g;
@@ -730,7 +738,7 @@ function genMix2Color() {
 
   var rgbcol, r, g, b, html;
 
-  setColorLabel("mixC1", pkrState.mixer.color1 );
+  setColorLabel("mixC1", pkrState.mixer.color1);
   setColorLabel("mixC2", pkrState.mixer.color2);
 
   for (let i = 0; i < pkrState.mixer.steps; i++) {
@@ -799,7 +807,7 @@ function genSlider() {
     html = colHexCodeToHTML(`mhsl${i + 2}`, rgb.rgbCol, null, false, true)
     hslMixPaletteContainer.innerHTML += html;
     //    h = Math.max(Math.min((h + deltaH) < 0 ? 360 + (h + deltaH) : (h + deltaH), 360), 0);
-    h = (h + pkrState.slider.deltaH   + 360) % 360;
+    h = (h + pkrState.slider.deltaH + 360) % 360;
     s = Math.max(Math.min(s + pkrState.slider.deltaS, 100), 0);
     l = Math.max(Math.min(l + pkrState.slider.deltaL, 100), 0);
   }
