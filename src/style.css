@@ -189,7 +189,7 @@ background: rgb(102,102,153);
 }
 
 
-#hslMixPaletteContainer,#Mix2PaletteContainer,#textPaletteContainer, #BlnPaletteContainer {
+#hslMixPaletteContainer,#Mix2PaletteContainer,#textPaletteContainer, #BlnPaletteContainer, #BoilerPaletteContainer {
   display:flex;
   flex-direction: row;
   flex-wrap: wrap;
