@@ -174,7 +174,7 @@ var dragTargets;
 window.dragSrcEl = null;
 addDragSource("input[type=color]");
 
-dragTargets = document.querySelectorAll("#colPalette input,#inColorHslMix,#inColorMix1,#inColorMix2,#inColorText1,#inColorText2,#BlnPaletteContainer input,#inColorBln");
+dragTargets = document.querySelectorAll("#colPalette input,#inColorHslMix,#inColorMix1,#inColorMix2,#inColorText1,#inColorText2,#BlnPaletteContainer input,#inColorBln,#inColorBoi1,#inColorBoi2");
 dragTargets.forEach(function (target) {
   addDropTarget(target)
 });
@@ -243,6 +243,12 @@ function handleDrop(e) {
     var srcIsPalette = (dragSrcEl.parentElement.id.charAt(0)) == "c";
     var trgIsPalette = (this.parentElement.id.charAt(0)) == "c";
     var trgIsBlender = (this.parentElement.id.charAt(0)) == "b";
+
+    // display to console srcIsPalette and trgIsPalette
+    console.log("srcIsPalette: " + srcIsPalette);
+    console.log("trgIsPalette: " + trgIsPalette);
+    console.log("trgIsBlender: " + trgIsBlender);
+
     if (srcIsPalette && trgIsPalette) {
       var srcCol = dragSrcEl.value;
       var srcTitle = dragSrcEl.parentElement.querySelector(".colTitle").innerText;
@@ -748,8 +754,8 @@ function genBoiler(){
   c1 = hsl360ToRGB(h1, s2, l1).rgbHex
   c2 = hsl360ToRGB(h1, s1, l2).rgbHex
   c3 = hsl360ToRGB(h1, s2, l2).rgbHex
-  c4 = hsl360ToRGB(h2, s2, l1).rgbHex
-  c5 = hsl360ToRGB(h2, s1, l2).rgbHex
+  c4 = hsl360ToRGB(h2, s1, l2).rgbHex
+  c5 = hsl360ToRGB(h2, s2, l1).rgbHex
   c6 = hsl360ToRGB(h2, s1, l1).rgbHex
 
   // Add colors to palette
@@ -758,8 +764,7 @@ function genBoiler(){
     const html = colHexCodeToHTML(`boiler${index + 1}`, `#${color}`, null, false, true);
     boilerPaletteContainer.innerHTML += html;
   });
-
-
+  addDragSource("#BoilerPaletteContainer input[type=color]");
 }
 
 
