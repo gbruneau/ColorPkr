@@ -1,5 +1,5 @@
 
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css");
 
 :root{
   /* Dark theme */
@@ -189,7 +189,7 @@ background: rgb(102,102,153);
 }
 
 
-#hslMixPaletteContainer,#Mix2PaletteContainer,#textPaletteContainer, #BlnPaletteContainer {
+#hslMixPaletteContainer,#Mix2PaletteContainer,#textPaletteContainer, #BlnPaletteContainer, #BoilerPaletteContainer {
   display:flex;
   flex-direction: row;
   flex-wrap: wrap;

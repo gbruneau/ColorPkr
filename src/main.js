@@ -5,7 +5,6 @@ var defColor = "#808080";
 var colID = 1;
 var newCol;
 var lastColor = 0;
-var colorPaletteSize = 250;
 var elm;
 var hasAboutBox = false;
 
@@ -13,7 +12,8 @@ var hasAboutBox = false;
 
 var pkrState = {
   "setting": {
-    "isDark": false
+    "isDark": false,
+    "colorPaletteSize" : 250
   },
   "slider": {
     "color": "#00ff00",
@@ -34,6 +34,10 @@ var pkrState = {
     "fixS": false,
     "fixL": false
   },
+  "boiler": {
+    "color1": "#F0ff00",
+    "color2": "#FF00bf"
+  },
   "lorem": {
     "color1": "#BBFF00",
     "color2": "#FF0000"
@@ -47,14 +51,17 @@ pkrState.mixer.color2 = genRandomHexColor();
 pkrState.blender.color = genRandomHexColor();
 pkrState.lorem.color1 = genRandomHexColor();
 pkrState.lorem.color2 = genRandomHexColor();
+pkrState.boiler.color1 = genRandomHexColor();
+pkrState.boiler.color2 = genRandomHexColor(); 
 
-
-for (let i = 0; i < colorPaletteSize; i++) {
+// Generate color palette with default color
+for (let i = 0; i < pkrState.setting.colorPaletteSize; i++) {
   newCol = colHexCodeToHTML(`c${colID + i}`, defColor, defColor.slice(1), true, false)
   document.getElementById("colPalette").innerHTML += newCol;
 };
 
-for (let i = 0; i < colorPaletteSize; i++) {
+// Set color palette
+for (let i = 0; i < pkrState.setting.colorPaletteSize; i++) {
   elm = document.querySelector(`#c${colID + i} .colTitle`)
   elm.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
@@ -63,8 +70,6 @@ for (let i = 0; i < colorPaletteSize; i++) {
     document.getElementById("btSave").style.visibility = "visible";
   });
 }
-
-
 
 var changePaletteColor = function () {
   var newCol = this.value;
@@ -81,7 +86,7 @@ var colors = document.getElementById("colPalette").getElementsByClassName("inCol
 for (var i = 0; i < colors.length; i++) {
   colors[i].addEventListener("change", changePaletteColor);
 }
-
+// add event listener to all color input
 document.getElementById("btReset").addEventListener("click", resetColor);
 document.getElementById("btLoad").addEventListener("click", loadColor);
 document.getElementById("btSave").addEventListener("click", saveColorPalette);
@@ -102,29 +107,34 @@ document.getElementById("btDoUpload").addEventListener("click", doUploadColor);
 document.getElementById("btMix1").addEventListener("click", function () { goTab(0) });
 document.getElementById("btMix2").addEventListener("click", function () { goTab(1) });
 document.getElementById("btMix3").addEventListener("click", function () { goTab(2) });
-document.getElementById("btTextTry").addEventListener("click", function () { goTab(3) });
+document.getElementById("btMix4").addEventListener("click", function () { goTab(3) });
+document.getElementById("btTextTry").addEventListener("click", function () { goTab(4) });
 
-// Slider
+// Slider event
 document.getElementById("inColorHslMix").addEventListener("change", genSlider);
 document.getElementById("inHSLSteps").addEventListener("change", genSlider);
 document.getElementById("inH").addEventListener("change", genSlider);
 document.getElementById("inS").addEventListener("change", genSlider);
 document.getElementById("inL").addEventListener("change", genSlider);
 
-// Mixer
+// Mixer event
 document.getElementById("inColorMix1").addEventListener("change", genMix2Color);
 document.getElementById("inColorMix2").addEventListener("change", genMix2Color);
 document.getElementById("inMix2Steps").addEventListener("change", genMix2Color);
 
-// Blender
+// Blender event   
 document.getElementById("inColorBln").addEventListener("change", genBlender);
 document.getElementById("inBlnHFix").addEventListener("change", genBlender);
 document.getElementById("inBlnSFix").addEventListener("change", genBlender);
 document.getElementById("inBlnLFix").addEventListener("change", genBlender);
 document.getElementById("inBlnColors").addEventListener("change", genBlender);
 
+//Boiler event
+document.getElementById("inColorBoi1").addEventListener("change", genBoiler);
+document.getElementById("inColorBoi2").addEventListener("change", genBoiler);
 
-// Lorem
+
+// Lorem event
 document.getElementById("inColorText1").addEventListener("change", genLoremBox);
 document.getElementById("inColorText2").addEventListener("change", genLoremBox);
 
@@ -154,6 +164,7 @@ setMainBGColor();
 genSlider();
 genMix2Color();
 genBlender();
+genBoiler();
 genLoremBox()
 setLoremContent()
 
@@ -163,7 +174,7 @@ var dragTargets;
 window.dragSrcEl = null;
 addDragSource("input[type=color]");
 
-dragTargets = document.querySelectorAll("#colPalette input,#inColorHslMix,#inColorMix1,#inColorMix2,#inColorText1,#inColorText2,#BlnPaletteContainer input,#inColorBln");
+dragTargets = document.querySelectorAll("#colPalette input,#inColorHslMix,#inColorMix1,#inColorMix2,#inColorText1,#inColorText2,#BlnPaletteContainer input,#inColorBln,#inColorBoi1,#inColorBoi2");
 dragTargets.forEach(function (target) {
   addDropTarget(target)
 });
@@ -200,6 +211,10 @@ function setPkrState() {
   document.getElementById("inBlnHFix").value = pkrState.blender.fixH
   document.getElementById("inBlnSFix").value = pkrState.blender.fixS
   document.getElementById("inBlnLFix").value = pkrState.blender.fixL
+  // Boiler
+  document.getElementById("inColorBoi1").value = pkrState.boiler.color1
+  document.getElementById("inColorBoi2").value = pkrState.boiler.color2
+  
   // Lorem
   document.getElementById("inColorText1").value = pkrState.lorem.color1
   document.getElementById("inColorText2").value = pkrState.lorem.color2
@@ -228,6 +243,12 @@ function handleDrop(e) {
     var srcIsPalette = (dragSrcEl.parentElement.id.charAt(0)) == "c";
     var trgIsPalette = (this.parentElement.id.charAt(0)) == "c";
     var trgIsBlender = (this.parentElement.id.charAt(0)) == "b";
+
+    // display to console srcIsPalette and trgIsPalette
+    console.log("srcIsPalette: " + srcIsPalette);
+    console.log("trgIsPalette: " + trgIsPalette);
+    console.log("trgIsBlender: " + trgIsBlender);
+
     if (srcIsPalette && trgIsPalette) {
       var srcCol = dragSrcEl.value;
       var srcTitle = dragSrcEl.parentElement.querySelector(".colTitle").innerText;
@@ -402,6 +423,9 @@ function setColorContainer(colorContainerID, aColorHex, aTitle) {
   var aCol = document.getElementById(colorContainerID);
   var aColorHexCode = /[a-f\d]{6}/i.exec(aColorHex)[0];
   var titleElem
+
+  console.log("setColorContainer", colorContainerID, aColorHex, aTitle) 
+
   aCol.querySelector("input").value = "#" + aColorHexCode;
   aCol.querySelector(".hexColor").innerText = "#" + aColorHexCode;
 
@@ -543,11 +567,11 @@ function loadColor() {
 
 function genRandomColorPalette() {
   var newCol;
-  for (var i = 0; i < colorPaletteSize; i++) {
+  for (var i = 0; i < pkrState.setting.colorPaletteSize; i++) {
     newCol = Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0");
     setColorContainer(`c${i + 1}`, newCol);
   }
-  lastColor = colorPaletteSize - 1;
+  lastColor = pkrState.setting.colorPaletteSize - 1;
   document.getElementById("btSave").style.visibility = "visible";
 }
 
@@ -706,6 +730,48 @@ function genBlender() {
   });
   addDragSource("#BlnPaletteContainer input[type=color]");
 }
+
+function genBoiler(){
+  // React to boiler control and save state
+  pkrState.boiler.color1 = document.getElementById("inColorBoi1").value;
+  pkrState.boiler.color2 = document.getElementById("inColorBoi2").value;
+  var boilerPaletteContainer = document.getElementById("BoilerPaletteContainer");
+  // Clear old palette
+  const boilerPalette = boilerPaletteContainer.querySelectorAll('.paletteColor');
+  boilerPalette.forEach(aColor => {
+    aColor.remove();
+  }); 
+  // Convert boiler color to HSL
+  var hsl1 = hexToHSL(pkrState.boiler.color1);
+  var hsl2 = hexToHSL(pkrState.boiler.color2);
+  var h1 = hsl1.h360;
+  var s1 = hsl1.s100;
+  var l1 = hsl1.l100;
+  var h2 = hsl2.h360;
+  var s2 = hsl2.s100;
+  var l2 = hsl2.l100;
+  // create hex code from h,s l
+
+  var c1, c2, c3, c4, c5, c6;
+  // Create 6 colors boiled palette
+  c1 = hsl360ToRGB(h1, s2, l2).rgbHex
+  c2 = hsl360ToRGB(h1, s1, l2).rgbHex
+  c3 = hsl360ToRGB(h1, s2, l1).rgbHex
+  c4 = hsl360ToRGB(h2, s1, l1).rgbHex
+  c5 = hsl360ToRGB(h2, s1, l2).rgbHex
+  c6 = hsl360ToRGB(h2, s2, l1).rgbHex
+
+  const colorNames = ["𝘏1𝗦𝟮𝗟𝟮", "𝐻1𝗦𝟭𝗟𝟮", "𝐻1𝗦𝟮𝗟𝟭", "𝐻2𝗦𝟭𝗟𝟭", "𝐻2𝗦𝟭𝗟𝟮", "𝐻2𝗦𝟮𝗟𝟭"];
+
+  // Add colors to palette
+  const colors = [c1, c2, c3, c4, c5, c6];
+  colors.forEach((color, index) => {
+    const html = colHexCodeToHTML(`boiler${index + 1}`, `#${color}`, colorNames[index], true, true);
+    boilerPaletteContainer.innerHTML += html;
+  });
+  addDragSource("#BoilerPaletteContainer input[type=color]");
+}
+
 
 // React to mixer 
 function genMix2Color() {
