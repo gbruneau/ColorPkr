@@ -5,7 +5,6 @@ var defColor = "#808080";
 var colID = 1;
 var newCol;
 var lastColor = 0;
-var colorPaletteSize = 250;
 var elm;
 var hasAboutBox = false;
 
@@ -13,7 +12,8 @@ var hasAboutBox = false;
 
 var pkrState = {
   "setting": {
-    "isDark": false
+    "isDark": false,
+    "colorPaletteSize" : 250
   },
   "slider": {
     "color": "#00ff00",
@@ -55,13 +55,13 @@ pkrState.boiler.color1 = genRandomHexColor();
 pkrState.boiler.color2 = genRandomHexColor(); 
 
 // Generate color palette with default color
-for (let i = 0; i < colorPaletteSize; i++) {
+for (let i = 0; i < pkrState.setting.colorPaletteSize; i++) {
   newCol = colHexCodeToHTML(`c${colID + i}`, defColor, defColor.slice(1), true, false)
   document.getElementById("colPalette").innerHTML += newCol;
 };
 
 // Set color palette
-for (let i = 0; i < colorPaletteSize; i++) {
+for (let i = 0; i < pkrState.setting.colorPaletteSize; i++) {
   elm = document.querySelector(`#c${colID + i} .colTitle`)
   elm.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
@@ -423,6 +423,9 @@ function setColorContainer(colorContainerID, aColorHex, aTitle) {
   var aCol = document.getElementById(colorContainerID);
   var aColorHexCode = /[a-f\d]{6}/i.exec(aColorHex)[0];
   var titleElem
+
+  console.log("setColorContainer", colorContainerID, aColorHex, aTitle) 
+
   aCol.querySelector("input").value = "#" + aColorHexCode;
   aCol.querySelector(".hexColor").innerText = "#" + aColorHexCode;
 
@@ -564,11 +567,11 @@ function loadColor() {
 
 function genRandomColorPalette() {
   var newCol;
-  for (var i = 0; i < colorPaletteSize; i++) {
+  for (var i = 0; i < pkrState.setting.colorPaletteSize; i++) {
     newCol = Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0");
     setColorContainer(`c${i + 1}`, newCol);
   }
-  lastColor = colorPaletteSize - 1;
+  lastColor = pkrState.setting.colorPaletteSize - 1;
   document.getElementById("btSave").style.visibility = "visible";
 }
 
@@ -758,10 +761,12 @@ function genBoiler(){
   c5 = hsl360ToRGB(h2, s2, l1).rgbHex
   c6 = hsl360ToRGB(h2, s1, l1).rgbHex
 
+  const colorNames = ["H₁S₂L₁", "H₁S₁L₂", "H₁S₂L₂", "H₂S₁L₂", "H₂S₂L₁", "H₂S₁L₁"];
+
   // Add colors to palette
   const colors = [c1, c2, c3, c4, c5, c6];
   colors.forEach((color, index) => {
-    const html = colHexCodeToHTML(`boiler${index + 1}`, `#${color}`, null, false, true);
+    const html = colHexCodeToHTML(`boiler${index + 1}`, `#${color}`, colorNames[index], true, true);
     boilerPaletteContainer.innerHTML += html;
   });
   addDragSource("#BoilerPaletteContainer input[type=color]");
