@@ -754,14 +754,14 @@ function genBoiler(){
 
   var c1, c2, c3, c4, c5, c6;
   // Create 6 colors boiled palette
-  c1 = hsl360ToRGB(h1, s2, l1).rgbHex
+  c1 = hsl360ToRGB(h1, s2, l2).rgbHex
   c2 = hsl360ToRGB(h1, s1, l2).rgbHex
-  c3 = hsl360ToRGB(h1, s2, l2).rgbHex
-  c4 = hsl360ToRGB(h2, s1, l2).rgbHex
-  c5 = hsl360ToRGB(h2, s2, l1).rgbHex
-  c6 = hsl360ToRGB(h2, s1, l1).rgbHex
+  c3 = hsl360ToRGB(h1, s2, l1).rgbHex
+  c4 = hsl360ToRGB(h2, s1, l1).rgbHex
+  c5 = hsl360ToRGB(h2, s1, l2).rgbHex
+  c6 = hsl360ToRGB(h2, s2, l1).rgbHex
 
-  const colorNames = ["H₁S₂L₁", "H₁S₁L₂", "H₁S₂L₂", "H₂S₁L₂", "H₂S₂L₁", "H₂S₁L₁"];
+  const colorNames = ["𝘏1𝗦𝟮𝗟𝟮", "𝐻1𝗦𝟭𝗟𝟮", "𝐻1𝗦𝟮𝗟𝟭", "𝐻2𝗦𝟭𝗟𝟭", "𝐻2𝗦𝟭𝗟𝟮", "𝐻2𝗦𝟮𝗟𝟭"];
 
   // Add colors to palette
   const colors = [c1, c2, c3, c4, c5, c6];
