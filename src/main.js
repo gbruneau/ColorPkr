@@ -13,14 +13,14 @@ var hasAboutBox = false;
 var pkrState = {
   "setting": {
     "isDark": false,
-    "colorPaletteSize" : 250
+    "colorPaletteSize" : 500
   },
   "slider": {
     "color": "#00ff00",
     "steps": 6,
     "deltaH": 15,
-    "deltaS": -10,
-    "deltaL": 10
+    "deltaS": 0,
+    "deltaL": 0
   },
   "mixer": {
     "color1": "#F0ff00",
@@ -215,6 +215,7 @@ function setPkrState() {
   document.getElementById("inColorBoi1").value = pkrState.boiler.color1
   document.getElementById("inColorBoi2").value = pkrState.boiler.color2
   
+
   // Lorem
   document.getElementById("inColorText1").value = pkrState.lorem.color1
   document.getElementById("inColorText2").value = pkrState.lorem.color2
