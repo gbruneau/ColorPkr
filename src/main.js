@@ -167,6 +167,7 @@ genBlender();
 genBoiler();
 genLoremBox()
 setLoremContent()
+goTab(1);
 
 // Drag and drop handling
 
