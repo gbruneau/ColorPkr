@@ -91,7 +91,7 @@ document.getElementById("btReset").addEventListener("click", resetColor);
 document.getElementById("btLoad").addEventListener("click", loadColor);
 document.getElementById("btSave").addEventListener("click", saveColorPalette);
 document.getElementById("btRandom").addEventListener("click", genRandomColorPalette);
-document.getElementById("btFlipBG").addEventListener("click", flipBG);
+document.getElementById("btFlipBG").addEventListener("click", flipDarkMode);
 document.getElementById("btAbout").addEventListener("click", toggleAboutBox);
 document.getElementById("aboutBox").addEventListener("click", toggleAboutBox);
 
@@ -415,7 +415,7 @@ function resetColor() {
   document.getElementById("btSave").style.visibility = "hidden";
 }
 
-function flipBG() {
+function flipDarkMode() {
   pkrState.setting.isDark  = !pkrState.setting.isDark ;
   setMainBGColor();
 }
@@ -425,7 +425,6 @@ function setColorContainer(colorContainerID, aColorHex, aTitle) {
   var aColorHexCode = /[a-f\d]{6}/i.exec(aColorHex)[0];
   var titleElem
 
-  console.log("setColorContainer", colorContainerID, aColorHex, aTitle) 
 
   aCol.querySelector("input").value = "#" + aColorHexCode;
   aCol.querySelector(".hexColor").innerText = "#" + aColorHexCode;
