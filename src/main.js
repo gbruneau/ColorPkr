@@ -87,6 +87,33 @@ var colors = document.getElementById("colPalette").getElementsByClassName("inCol
 for (var i = 0; i < colors.length; i++) {
   colors[i].addEventListener("change", changePaletteColor);
 }
+
+
+
+
+
+// add event listener to all color title to call function titleFieldChange
+var colorTitle = document.getElementById("colPalette").getElementsByClassName("colTitle");
+for (var i = 0; i < colorTitle.length; i++) {
+  colorTitle[i].addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      this.blur(); // Trigger blur event when Enter is pressed
+    }
+  });
+
+  colorTitle[i].addEventListener("blur", function () {
+    document.getElementById("btSave").style.visibility = "visible";
+    // change title of the corresponding input color
+    const inputElement = this.parentElement?.querySelector("input");
+    if (inputElement && this.innerText) {
+      inputElement.title = this.innerText;
+    }
+  });
+}
+
+
+
 // add event listener to all color input
 document.getElementById("btReset").addEventListener("click", resetColor);
 document.getElementById("btLoad").addEventListener("click", loadColor);
@@ -321,7 +348,7 @@ function handleDragLeave(e) {
 
 function colHexCodeToHTML(aDomID, aColHex, aColTitle, hasTitle, isReadOnly) {
   var html = `<div id="${aDomID}" class="paletteColor">
-  <input class="inColor" type="color" value="${aColHex}" draggable="true" ${isReadOnly ? "disabled='true'" : ""}">
+  <input class="inColor" type="color" value="${aColHex}"  title="${hasTitle  ? aColTitle : aColHex}"  draggable="true" ${isReadOnly ? "disabled='true'" : "" } >
   ${hasTitle ? '<div class="colTitle"   contenteditable="true"   >' + aColTitle + '</div>' : ""} 
   <div class="hexColor">${aColHex}</div>
   <div class="rgbColor">${hexToRgb(aColHex).rgb}</div>
@@ -457,8 +484,11 @@ function setColorContainer(colorContainerID, aColorHex, aTitle) {
   var aColorHexCode = /[a-f\d]{6}/i.exec(aColorHex)[0];
   var titleElem
 
-
   aCol.querySelector("input").value = "#" + aColorHexCode;
+  aCol.querySelector("input").title = aTitle ? aTitle : "#" + aColorHexCode;
+
+
+
   aCol.querySelector(".hexColor").innerText = "#" + aColorHexCode;
 
   titleElem = aCol.querySelector(".colTitle")
