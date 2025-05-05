@@ -4,13 +4,13 @@
 :root{
   /* Dark theme */
   --darkBG: #000;
-  --darkPannel: #222;
+  --darkPannel: #000;
   --darkColor: #999;
   --darkTitle: #fff;
   /* Light Theme */
   --lightBG: #fff;      
   --lightColor: #666;
-  --lightPannel: #ffff;
+  --lightPannel: #fff;
   --lightTitle: #000;
  }
 
@@ -163,6 +163,7 @@ background: rgb(102,102,153);
   font-size: 16pt;
   overflow-y: scroll;
   background-color: var(--lightPannel);
+  border: #777 solid 1px;
 }
 
 
