@@ -1,4 +1,4 @@
-import './style.css'
+import './style.css';
 import APPbuild from "./version.json";
 
 var defColor = "#808080";
@@ -13,7 +13,8 @@ var hasAboutBox = false;
 var pkrState = {
   "setting": {
     "isDark": false,
-    "colorPaletteSize" : 500
+    "colorPaletteSize" : 500,
+    "isSmallSize": false
   },
   "slider": {
     "color": "#00ff00",
@@ -92,8 +93,12 @@ document.getElementById("btLoad").addEventListener("click", loadColor);
 document.getElementById("btSave").addEventListener("click", saveColorPalette);
 document.getElementById("btRandom").addEventListener("click", genRandomColorPalette);
 document.getElementById("btFlipBG").addEventListener("click", flipDarkMode);
+document.getElementById("btFlipSize").addEventListener("click", flipSize);
+
 document.getElementById("btAbout").addEventListener("click", toggleAboutBox);
 document.getElementById("aboutBox").addEventListener("click", toggleAboutBox);
+
+
 
 document.getElementById("btDownload").addEventListener("click", showDownloadDlg);
 document.getElementById("btDoDownload").addEventListener("click", doDownload);
@@ -420,6 +425,32 @@ function flipDarkMode() {
   pkrState.setting.isDark  = !pkrState.setting.isDark ;
   setMainBGColor();
 }
+
+
+function flipSize() {
+  pkrState.setting.isSmallSize = !pkrState.setting.isSmallSize;
+  const myBt = document.getElementById("btFlipSize");
+  const span = myBt.querySelector("span");
+  const isSmall = pkrState.setting.isSmallSize;
+
+  myBt.title = isSmall ? "Maximize Color Square" : "Minimize Color Square";
+  span.classList.toggle("fa-minimize", !isSmall);
+  span.classList.toggle("fa-maximize", isSmall);
+  
+  const allLabels = document.querySelectorAll(".hexColor, .rgbColor, .hslColor100, .hslColor255, .colTitle");
+  allLabels.forEach(label => {
+    label.style.display = isSmall ? "none" : "block";
+  });   
+
+  const allPaletteColors = document.querySelectorAll(".paletteColor input");
+  allPaletteColors.forEach(paletteColor => {
+    paletteColor.style.width = isSmall ? "48px" : "150px";
+    paletteColor.style.height = isSmall ? "48px" : "150px";
+  });
+
+}
+
+
 
 function setColorContainer(colorContainerID, aColorHex, aTitle) {
   var aCol = document.getElementById(colorContainerID);
