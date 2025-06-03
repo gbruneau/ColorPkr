@@ -1,4 +1,4 @@
-import './style.css'
+import './style.css';
 import APPbuild from "./version.json";
 
 var defColor = "#808080";
@@ -13,14 +13,15 @@ var hasAboutBox = false;
 var pkrState = {
   "setting": {
     "isDark": false,
-    "colorPaletteSize" : 250
+    "colorPaletteSize" : 500,
+    "isSmallSize": false
   },
   "slider": {
     "color": "#00ff00",
     "steps": 6,
     "deltaH": 15,
-    "deltaS": -10,
-    "deltaL": 10
+    "deltaS": 0,
+    "deltaL": 0
   },
   "mixer": {
     "color1": "#F0ff00",
@@ -86,14 +87,45 @@ var colors = document.getElementById("colPalette").getElementsByClassName("inCol
 for (var i = 0; i < colors.length; i++) {
   colors[i].addEventListener("change", changePaletteColor);
 }
+
+
+
+
+
+// add event listener to all color title to call function titleFieldChange
+var colorTitle = document.getElementById("colPalette").getElementsByClassName("colTitle");
+for (var i = 0; i < colorTitle.length; i++) {
+  colorTitle[i].addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      this.blur(); // Trigger blur event when Enter is pressed
+    }
+  });
+
+  colorTitle[i].addEventListener("blur", function () {
+    document.getElementById("btSave").style.visibility = "visible";
+    // change title of the corresponding input color
+    const inputElement = this.parentElement?.querySelector("input");
+    if (inputElement && this.innerText) {
+      inputElement.title = this.innerText;
+    }
+  });
+}
+
+
+
 // add event listener to all color input
 document.getElementById("btReset").addEventListener("click", resetColor);
 document.getElementById("btLoad").addEventListener("click", loadColor);
 document.getElementById("btSave").addEventListener("click", saveColorPalette);
 document.getElementById("btRandom").addEventListener("click", genRandomColorPalette);
-document.getElementById("btFlipBG").addEventListener("click", flipBG);
+document.getElementById("btFlipBG").addEventListener("click", flipDarkMode);
+document.getElementById("btFlipSize").addEventListener("click", flipSize);
+
 document.getElementById("btAbout").addEventListener("click", toggleAboutBox);
 document.getElementById("aboutBox").addEventListener("click", toggleAboutBox);
+
+
 
 document.getElementById("btDownload").addEventListener("click", showDownloadDlg);
 document.getElementById("btDoDownload").addEventListener("click", doDownload);
@@ -167,6 +199,7 @@ genBlender();
 genBoiler();
 genLoremBox()
 setLoremContent()
+goTab(1);
 
 // Drag and drop handling
 
@@ -215,6 +248,7 @@ function setPkrState() {
   document.getElementById("inColorBoi1").value = pkrState.boiler.color1
   document.getElementById("inColorBoi2").value = pkrState.boiler.color2
   
+
   // Lorem
   document.getElementById("inColorText1").value = pkrState.lorem.color1
   document.getElementById("inColorText2").value = pkrState.lorem.color2
@@ -314,7 +348,7 @@ function handleDragLeave(e) {
 
 function colHexCodeToHTML(aDomID, aColHex, aColTitle, hasTitle, isReadOnly) {
   var html = `<div id="${aDomID}" class="paletteColor">
-  <input class="inColor" type="color" value="${aColHex}" draggable="true" ${isReadOnly ? "disabled='true'" : ""}">
+  <input class="inColor" type="color" value="${aColHex}"  title="${hasTitle  ? aColTitle : aColHex}"  draggable="true" ${isReadOnly ? "disabled='true'" : "" } >
   ${hasTitle ? '<div class="colTitle"   contenteditable="true"   >' + aColTitle + '</div>' : ""} 
   <div class="hexColor">${aColHex}</div>
   <div class="rgbColor">${hexToRgb(aColHex).rgb}</div>
@@ -414,19 +448,47 @@ function resetColor() {
   document.getElementById("btSave").style.visibility = "hidden";
 }
 
-function flipBG() {
+function flipDarkMode() {
   pkrState.setting.isDark  = !pkrState.setting.isDark ;
   setMainBGColor();
 }
+
+
+function flipSize() {
+  pkrState.setting.isSmallSize = !pkrState.setting.isSmallSize;
+  const myBt = document.getElementById("btFlipSize");
+  const span = myBt.querySelector("span");
+  const isSmall = pkrState.setting.isSmallSize;
+
+  myBt.title = isSmall ? "Maximize Color Square" : "Minimize Color Square";
+  span.classList.toggle("fa-minimize", !isSmall);
+  span.classList.toggle("fa-maximize", isSmall);
+  
+  const allLabels = document.querySelectorAll(".hexColor, .rgbColor, .hslColor100, .hslColor255, .colTitle");
+  allLabels.forEach(label => {
+    label.style.display = isSmall ? "none" : "block";
+  });   
+
+  const allPaletteColors = document.querySelectorAll(".paletteColor input");
+  allPaletteColors.forEach(paletteColor => {
+    paletteColor.style.width = isSmall ? "48px" : "150px";
+    paletteColor.style.height = isSmall ? "48px" : "150px";
+  });
+
+}
+
+
 
 function setColorContainer(colorContainerID, aColorHex, aTitle) {
   var aCol = document.getElementById(colorContainerID);
   var aColorHexCode = /[a-f\d]{6}/i.exec(aColorHex)[0];
   var titleElem
 
-  console.log("setColorContainer", colorContainerID, aColorHex, aTitle) 
-
   aCol.querySelector("input").value = "#" + aColorHexCode;
+  aCol.querySelector("input").title = aTitle ? aTitle : "#" + aColorHexCode;
+
+
+
   aCol.querySelector(".hexColor").innerText = "#" + aColorHexCode;
 
   titleElem = aCol.querySelector(".colTitle")

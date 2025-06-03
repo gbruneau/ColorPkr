@@ -4,13 +4,14 @@
 :root{
   /* Dark theme */
   --darkBG: #000;
-  --darkPannel: #222;
+  --darkPannel: #000;
   --darkColor: #999;
   --darkTitle: #fff;
   /* Light Theme */
   --lightBG: #fff;      
   --lightColor: #666;
-  --lightPannel: #ddd;
+  --lightGB: #fff; /* Added missing variable */
+  --lightPannel: #fff;
   --lightTitle: #000;
  }
 
@@ -120,7 +121,7 @@ background: rgb(102,102,153);
 .paletteColor input{
   width:  150px;
   height:  150px;
-  border: none;
+  border:  solid 1px #777;
 }
 .textColorBox{
   width:  150px;
@@ -130,12 +131,16 @@ background: rgb(102,102,153);
   top: 50%;
   position:inherit;
   font-size: 12pt;
+  border: solid 1px #777;
 }
 .textColorBox span{
   font-size: 64pt;
 }
 
 
+
+
+/*
 @media only screen and (max-width: 768px) {
   .paletteColor input{
     width:  50px;
@@ -145,6 +150,7 @@ background: rgb(102,102,153);
     display: none;
   }
 }
+*/
 
 
 
@@ -163,6 +169,7 @@ background: rgb(102,102,153);
   font-size: 16pt;
   overflow-y: scroll;
   background-color: var(--lightPannel);
+  border: #777 solid 1px;
 }
 
 
@@ -278,3 +285,17 @@ opacity: 100;
   height: 50px;
 }
 
+::-webkit-scrollbar {
+  width: 15px;
+} 
+::-webkit-scrollbar-thumb {
+  background: #777; 
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #222; 
+}   
+::-webkit-scrollbar-track {
+  background: #ddd; 
+  border-radius: 10px;
+}
