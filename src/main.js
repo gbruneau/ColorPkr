@@ -68,7 +68,7 @@ for (let i = 0; i < pkrState.setting.colorPaletteSize; i++) {
     if (event.key === "Enter") {
       event.preventDefault();
     }
-    document.getElementById("btSave").style.visibility = "visible";
+    document.getElementById("btCommit").style.visibility = "visible";
   });
 }
 
@@ -77,7 +77,7 @@ var changePaletteColor = function () {
   var thisID = this.parentElement.id.substring(1);
   setColorContainer(`c${thisID}`, newCol, newCol.slice(1));
   lastColor = Math.max(lastColor, thisID);
-  document.getElementById("btSave").style.visibility = "visible";
+  document.getElementById("btCommit").style.visibility = "visible";
 };
 
 
@@ -103,7 +103,7 @@ for (var i = 0; i < colorTitle.length; i++) {
   });
 
   colorTitle[i].addEventListener("blur", function () {
-    document.getElementById("btSave").style.visibility = "visible";
+    document.getElementById("btCommit").style.visibility = "visible";
     // change title of the corresponding input color
     const inputElement = this.parentElement?.querySelector("input");
     if (inputElement && this.innerText) {
@@ -117,7 +117,7 @@ for (var i = 0; i < colorTitle.length; i++) {
 // add event listener to all color input
 document.getElementById("btReset").addEventListener("click", resetColor);
 document.getElementById("btLoad").addEventListener("click", loadColor);
-document.getElementById("btSave").addEventListener("click", saveColorPalette);
+document.getElementById("btCommit").addEventListener("click", commitColorPalette);
 document.getElementById("btRandom").addEventListener("click", genRandomColorPalette);
 document.getElementById("btFlipBG").addEventListener("click", flipDarkMode);
 document.getElementById("btFlipSize").addEventListener("click", flipSize);
@@ -445,7 +445,7 @@ function resetColor() {
     setColorContainer(`c${i + 1}`, defColor, defColor.slice(1));
     lastColor = 0;
   }
-  document.getElementById("btSave").style.visibility = "hidden";
+  document.getElementById("btCommit").style.visibility = "hidden";
 }
 
 function flipDarkMode() {
@@ -634,7 +634,7 @@ function genRandomColorPalette() {
     setColorContainer(`c${i + 1}`, newCol);
   }
   lastColor = pkrState.setting.colorPaletteSize - 1;
-  document.getElementById("btSave").style.visibility = "visible";
+  document.getElementById("btCommit").style.visibility = "visible";
 }
 
 
@@ -697,7 +697,7 @@ function processUpload(event) {
     let hexcol = json[i].Hexcolor
     setColorContainer(`c${i + 1}`, hexcol, title);
   }
-  document.getElementById("btSave").style.visibility = "visible";
+  document.getElementById("btCommit").style.visibility = "visible";
 }
 
 
@@ -711,7 +711,7 @@ function doUploadColor() {
 
 }
 
-function saveColorPalette() {
+function commitColorPalette() {
   var colHex, colTitle, colID
   var colors = document.getElementById("colPalette").getElementsByClassName("paletteColor");
   for (var aCol of colors) {
@@ -720,7 +720,7 @@ function saveColorPalette() {
     colHex = aCol.querySelector(".inColor").value
     updateColorToDB(colID, colHex, colTitle)
   }
-  document.getElementById("btSave").style.visibility = "hidden";
+  document.getElementById("btCommit").style.visibility = "hidden";
 }
 
 function rgbToHex(r, g, b) {

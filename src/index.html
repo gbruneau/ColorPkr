@@ -15,7 +15,7 @@
     <nav id="toolbar">
       <div id="btUpload"><span class="fa-solid fa-folder-open" title="Open"></span></div>
       <div id="btDownload"><span class="fa-solid fa-floppy-disk" title="Save"></span></div>
-      <div id="btSave"><span class="fa fa-check" title="Commit"></span></div>
+      <div id="btCommit"><span class="fa fa-check" title="Commit"></span></div>
 
 
       <div id="btLoad"><span class="fa-solid fa-undo" title="Undo"></span></div>
@@ -177,19 +177,19 @@
   <!-- UPLOAD DIALOG -->
   <div id="dlgUpload" class="dlgBox" style="display:none ;">
     <div class="dlgHeader">
-      <h3>Load Palette File</h3>
+      <h3>Open Palette File</h3>
     </div>
     <label for="colorFile">File</label>
     <input id="colorFile" type="file" accept=".json" />
     <div class="dlgButtons">
       <button id="btCancelUpload">Cancel</button>
-      <button id="btDoUpload">Upload</button>
+      <button id="btDoUpload">Open</button>
     </div>
   </div>
   <!-- DOWNLOAD DIALOG -->
   <div id="dlgDownload" class="dlgBox" style="display:none ;">
     <div class="dlgHeader">
-      <h3>Download Palette</h3>
+      <h3>Save Palette</h3>
     </div>
     <label for="chkExclud">Exclude Color</label>
     <input id="chkExclude" type="checkbox" />
@@ -197,7 +197,7 @@
     <input id="colExclude" value="#808080" disabled type="color" />
     <div class="dlgButtons">
       <button id="btCancelDownload">Cancel</button>
-      <button id="btDoDownload">Download</button>
+      <button id="btDoDownload">Save</button>
     </div>
   </div>
   <script type="module" src="./main.js"></script>
