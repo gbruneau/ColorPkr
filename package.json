@@ -5,10 +5,10 @@
     "dev": "vite --host",
     "build": "date +%Y%m%d.%H%M>src/version.json;vite build  --emptyOutDir",
     "preview": "vite preview --host",
-    "deploy" : "rm -r  ../gbruneau.github.io/ColorPkr/;cp -R dist/ColorPkr/ ../gbruneau.github.io/"
+    "deploy": "rm -r  ../gbruneau.github.io/ColorPkr/;cp -R dist/ColorPkr/ ../gbruneau.github.io/"
   },
   "devDependencies": {
-    "vite": "^2.7.1"
+    "vite": "^2.9.18"
   },
   "dependencies": {
     "jquery": "^3.6.0"
