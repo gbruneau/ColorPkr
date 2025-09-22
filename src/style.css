@@ -13,6 +13,10 @@
   --lightGB: #fff; /* Added missing variable */
   --lightPannel: #fff;
   --lightTitle: #000;
+
+  --colorSize: 140px; /* 150 */
+  --colorTextSize: 8pt;
+
  }
 
 
@@ -119,18 +123,18 @@ background: rgb(102,102,153);
 }
 
 .paletteColor input{
-  width:  150px;
-  height:  150px;
+  width:  var(--colorSize);
+  height:  var(--colorSize);
   border:  solid 1px #777;
 }
 .textColorBox{
-  width:  150px;
-  height:  150px;
+  width:  var(--colorSize);
+  height:  var(--colorSize);
   background-color: #777;
   text-align: center;
   top: 50%;
   position:inherit;
-  font-size: 12pt;
+  font-size: var(--colorTextSize);
   border: solid 1px #777;
 }
 .textColorBox span{
@@ -158,7 +162,7 @@ background: rgb(102,102,153);
 .paletteColor div{
   text-align: center;
   width: 100%;
-  font-size: 10pt;
+  font-size: var(--colorTextSize);
 }
 
 #btSave {
