@@ -384,17 +384,17 @@ function genLoremBox() {
   setLoremBoxColor("tb02", cb, c1)
   setLoremBoxColor("tb03", cw, c1)
 
-  setLoremBoxColor("tb04", c1, c2)
-  setLoremBoxColor("tb05", cb, c2)
-  setLoremBoxColor("tb06", cw, c2)
+  setLoremBoxColor("tb04", c2, cw)
+  setLoremBoxColor("tb05", cb, cw)
+  setLoremBoxColor("tb06", c1, cw)
 
-  setLoremBoxColor("tb07", c1, cw)
-  setLoremBoxColor("tb08", c2, cw)
-  setLoremBoxColor("tb09", cb, cw)
+  setLoremBoxColor("tb07", c2, cb)
+  setLoremBoxColor("tb08", cw, cb)
+  setLoremBoxColor("tb09", c1, cb)
 
-  setLoremBoxColor("tb10", c1, cb)
-  setLoremBoxColor("tb11", c2, cb)
-  setLoremBoxColor("tb12", cw, cb)
+  setLoremBoxColor("tb10", cw, c2)
+  setLoremBoxColor("tb11", cb, c2)
+  setLoremBoxColor("tb12", c1, c2)
 
 }
 
