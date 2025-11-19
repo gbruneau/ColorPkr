@@ -299,7 +299,7 @@ function showBigColor(aColorPalettNode) {
   let aTitle=aColorPalettNode.querySelector(".colTitle").innerText
   dlg.childNodes[3].innerText= aTitle ? aTitle : " "
   let hexColor = aColorPalettNode.querySelector(".hexColor").innerText
-  dlg.childNodes[4].innerText= hexColor ? hexColor : " "
+  dlg.childNodes[5].innerText= hexColor ? hexColor : " "
   let rgbColor = aColorPalettNode.querySelector(".rgbColor").innerText
   dlg.childNodes[7].innerText= rgbColor ? rgbColor : " "
   let hslColor100 = aColorPalettNode.querySelector(".hslColor100").innerText
