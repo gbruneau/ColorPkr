@@ -13,7 +13,7 @@ var hasAboutBox = false;
 var pkrState = {
   "setting": {
     "isDark": false,
-    "colorPaletteSize" : 500,
+    "colorPaletteSize": 500,
     "isSmallSize": false
   },
   "slider": {
@@ -53,7 +53,7 @@ pkrState.blender.color = genRandomHexColor();
 pkrState.lorem.color1 = genRandomHexColor();
 pkrState.lorem.color2 = genRandomHexColor();
 pkrState.boiler.color1 = genRandomHexColor();
-pkrState.boiler.color2 = genRandomHexColor(); 
+pkrState.boiler.color2 = genRandomHexColor();
 
 // Generate color palette with default color
 for (let i = 0; i < pkrState.setting.colorPaletteSize; i++) {
@@ -62,6 +62,9 @@ for (let i = 0; i < pkrState.setting.colorPaletteSize; i++) {
 };
 
 // Set color palette
+/**4
+ * Add event listener to all color title to call function titleFieldChange
+ */
 for (let i = 0; i < pkrState.setting.colorPaletteSize; i++) {
   elm = document.querySelector(`#c${colID + i} .colTitle`)
   elm.addEventListener("keypress", function (event) {
@@ -72,6 +75,7 @@ for (let i = 0; i < pkrState.setting.colorPaletteSize; i++) {
   });
 }
 
+// add event listener to all color input to call function changePaletteColor
 var changePaletteColor = function () {
   var newCol = this.value;
   var thisID = this.parentElement.id.substring(1);
@@ -111,6 +115,24 @@ for (var i = 0; i < colorTitle.length; i++) {
     }
   });
 }
+
+// for all palette color input add right click event to open big color dialog
+var aPaletteColorNode = document.getElementsByClassName("paletteColor");
+for (var i = 0; i < aPaletteColorNode.length; i++) {
+  aPaletteColorNode[i].addEventListener("contextmenu", function (event) {
+    event.preventDefault();
+    showBigColor(this);
+  });
+}
+
+let bigColorBtOK = document.getElementById("bigColorBtOK");
+// add event ,on click hide dialog
+
+bigColorBtOK.addEventListener("click",function(event){
+  var dlg=document.getElementById("bigColorDlg");
+  dlg.style.display="none"
+})
+
 
 
 
@@ -247,7 +269,7 @@ function setPkrState() {
   // Boiler
   document.getElementById("inColorBoi1").value = pkrState.boiler.color1
   document.getElementById("inColorBoi2").value = pkrState.boiler.color2
-  
+
 
   // Lorem
   document.getElementById("inColorText1").value = pkrState.lorem.color1
@@ -262,6 +284,35 @@ function toggleAboutBox() {
     document.getElementById("aboutBox").style.display = "block";
   hasAboutBox = !hasAboutBox
 }
+
+/**
+ * add toggle BigColor  Dialog for color input object
+ *  */
+function showBigColor(aColorPalettNode) {
+  // Create overlay + dialog if needed
+  let dlg = document.getElementById("bigColorDlg");
+  dlg.style.display = 'block';
+  // get first child input colot node
+  let aColor = aColorPalettNode.querySelector('input[type="color"]').value;
+  let aColorDiv=dlg.querySelector(".bigColor")
+  aColorDiv.style.backgroundColor=aColor 
+  let aTitle=aColorPalettNode.querySelector(".colTitle").innerText
+  dlg.childNodes[3].innerText= aTitle ? aTitle : " "
+  let hexColor = aColorPalettNode.querySelector(".hexColor").innerText
+  dlg.childNodes[4].innerText= hexColor ? hexColor : " "
+  let rgbColor = aColorPalettNode.querySelector(".rgbColor").innerText
+  dlg.childNodes[7].innerText= rgbColor ? rgbColor : " "
+  let hslColor100 = aColorPalettNode.querySelector(".hslColor100").innerText
+  dlg.childNodes[9].innerText= hslColor100 ? hslColor100 : " "
+  let hslColor255 = aColorPalettNode.querySelector(".hslColor255").innerText
+  dlg.childNodes[11].innerText= hslColor255 ? hslColor255 : " "
+  
+}
+
+
+
+
+
 
 function addDragSource(aSelector) {
   var dragSources = document.querySelectorAll(aSelector);
@@ -348,7 +399,7 @@ function handleDragLeave(e) {
 
 function colHexCodeToHTML(aDomID, aColHex, aColTitle, hasTitle, isReadOnly) {
   var html = `<div id="${aDomID}" class="paletteColor">
-  <input class="inColor" type="color" value="${aColHex}"  title="${hasTitle  ? aColTitle : aColHex}"  draggable="true" ${isReadOnly ? "disabled='true'" : "" } >
+  <input class="inColor" type="color" value="${aColHex}"  title="${hasTitle ? aColTitle : aColHex}"  draggable="true" ${isReadOnly ? "disabled='true'" : ""} >
   ${hasTitle ? '<div class="colTitle"   contenteditable="true"   >' + aColTitle + '</div>' : ""} 
   <div class="hexColor">${aColHex}</div>
   <div class="rgbColor">${hexToRgb(aColHex).rgb}</div>
@@ -412,31 +463,31 @@ function setMainBGColor() {
   var lightTitle = getComputedStyle(document.documentElement).getPropertyValue('--lightTitle');
 
   document.body.style.backgroundColor = pkrState.setting.isDark ? darkBG : lightBG;
-  document.body.style.color = pkrState.setting.isDark  ? darkColor : lightColor;
+  document.body.style.color = pkrState.setting.isDark ? darkColor : lightColor;
 
   // Color pannel
-  document.getElementById("colorPanel").style.backgroundColor = pkrState.setting.isDark  ? darkPannel : lightPannel;
+  document.getElementById("colorPanel").style.backgroundColor = pkrState.setting.isDark ? darkPannel : lightPannel;
   // Color pannel input
   cols = document.querySelectorAll("#colorPanel .paletteColor input")
   cols.forEach(aColor => {
-    aColor.style.backgroundColor = pkrState.setting.isDark  ? darkPannel : lightPannel;
-    aColor.style.borderColor = pkrState.setting.isDark  ? darkPannel : lightPannel;
+    aColor.style.backgroundColor = pkrState.setting.isDark ? darkPannel : lightPannel;
+    aColor.style.borderColor = pkrState.setting.isDark ? darkPannel : lightPannel;
   })
 
   // color palette input
   var cols = document.querySelectorAll("#colPalette .paletteColor input")
   cols.forEach(aColor => {
-    aColor.style.backgroundColor = pkrState.setting.isDark  ? darkBG : lightBG;
-    aColor.style.borderColor = pkrState.setting.isDark  ? darkBG : lightBG;
+    aColor.style.backgroundColor = pkrState.setting.isDark ? darkBG : lightBG;
+    aColor.style.borderColor = pkrState.setting.isDark ? darkBG : lightBG;
   })
   // color palette input title
   var cols = document.querySelectorAll("#colPalette .paletteColor .colTitle")
   cols.forEach(aColor => {
-    aColor.style.color = pkrState.setting.isDark  ? darkTitle : lightTitle;
+    aColor.style.color = pkrState.setting.isDark ? darkTitle : lightTitle;
   })
 
   // Dark/Light mode Button
-  document.querySelector("#btFlipBG span").title = pkrState.setting.isDark  ? "Light Mode" : "Dark Mode";
+  document.querySelector("#btFlipBG span").title = pkrState.setting.isDark ? "Light Mode" : "Dark Mode";
 }
 
 function resetColor() {
@@ -449,7 +500,7 @@ function resetColor() {
 }
 
 function flipDarkMode() {
-  pkrState.setting.isDark  = !pkrState.setting.isDark ;
+  pkrState.setting.isDark = !pkrState.setting.isDark;
   setMainBGColor();
 }
 
@@ -463,11 +514,11 @@ function flipSize() {
   myBt.title = isSmall ? "Maximize Color Square" : "Minimize Color Square";
   span.classList.toggle("fa-minimize", !isSmall);
   span.classList.toggle("fa-maximize", isSmall);
-  
+
   const allLabels = document.querySelectorAll(".hexColor, .rgbColor, .hslColor100, .hslColor255, .colTitle");
   allLabels.forEach(label => {
     label.style.display = isSmall ? "none" : "block";
-  });   
+  });
 
   const allPaletteColors = document.querySelectorAll(".paletteColor input");
   allPaletteColors.forEach(paletteColor => {
@@ -793,7 +844,7 @@ function genBlender() {
   addDragSource("#BlnPaletteContainer input[type=color]");
 }
 
-function genBoiler(){
+function genBoiler() {
   // React to boiler control and save state
   pkrState.boiler.color1 = document.getElementById("inColorBoi1").value;
   pkrState.boiler.color2 = document.getElementById("inColorBoi2").value;
@@ -802,7 +853,7 @@ function genBoiler(){
   const boilerPalette = boilerPaletteContainer.querySelectorAll('.paletteColor');
   boilerPalette.forEach(aColor => {
     aColor.remove();
-  }); 
+  });
   // Convert boiler color to HSL
   var hsl1 = hexToHSL(pkrState.boiler.color1);
   var hsl2 = hexToHSL(pkrState.boiler.color2);
