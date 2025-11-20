@@ -296,16 +296,16 @@ function showBigColor(aColorPalettNode) {
   let aColor = aColorPalettNode.querySelector('input[type="color"]').value;
   let aColorDiv=dlg.querySelector(".bigColor")
   aColorDiv.style.backgroundColor=aColor 
-  let aTitle=aColorPalettNode.querySelector(".colTitle").innerText
-  dlg.childNodes[3].innerText= aTitle ? aTitle : " "
-  let hexColor = aColorPalettNode.querySelector(".hexColor").innerText
-  dlg.childNodes[5].innerText= hexColor ? hexColor : " "
-  let rgbColor = aColorPalettNode.querySelector(".rgbColor").innerText
-  dlg.childNodes[7].innerText= rgbColor ? rgbColor : " "
-  let hslColor100 = aColorPalettNode.querySelector(".hslColor100").innerText
-  dlg.childNodes[9].innerText= hslColor100 ? hslColor100 : " "
-  let hslColor255 = aColorPalettNode.querySelector(".hslColor255").innerText
-  dlg.childNodes[11].innerText= hslColor255 ? hslColor255 : " "
+  let aTitle=aColorPalettNode.querySelector(".colTitle").innerHTML
+  dlg.childNodes[3].innerHTML= aTitle ? aTitle : " "
+  let hexColor = aColorPalettNode.querySelector(".hexColor").innerHTML
+  dlg.childNodes[5].innerHTML= hexColor ? hexColor : " "
+  let rgbColor = aColorPalettNode.querySelector(".rgbColor").innerHTML
+  dlg.childNodes[7].innerHTML= rgbColor ? rgbColor : " "
+  let hslColor100 = aColorPalettNode.querySelector(".hslColor100").innerHTML
+  dlg.childNodes[9].innerHTML= hslColor100 ? hslColor100 : " "
+  let hslColor255 = aColorPalettNode.querySelector(".hslColor255").innerHTML
+  dlg.childNodes[11].innerHTML= hslColor255 ? hslColor255 : " "
   
 }
 
@@ -474,6 +474,15 @@ function setMainBGColor() {
     aColor.style.borderColor = pkrState.setting.isDark ? darkPannel : lightPannel;
   })
 
+  // color big dialog 
+  //  bigColorDlg
+  var bigColorDlg= document.getElementById("bigColorDlg")
+  bigColorDlg.style.backgroundColor = pkrState.setting.isDark ? darkBG : lightBG;
+  bigColorDlg.style.color = pkrState.setting.isDark ? darkColor : lightColor;
+
+
+
+
   // color palette input
   var cols = document.querySelectorAll("#colPalette .paletteColor input")
   cols.forEach(aColor => {
@@ -545,9 +554,9 @@ function setColorContainer(colorContainerID, aColorHex, aTitle) {
   titleElem = aCol.querySelector(".colTitle")
   if (titleElem) titleElem.innerText = aTitle;
 
-  aCol.querySelector(".rgbColor").innerText = hexToRgb(aColorHexCode).rgb;
-  aCol.querySelector(".hslColor100").innerText = hexToHSL(aColorHexCode).hsl100;
-  aCol.querySelector(".hslColor255").innerText = hexToHSL(aColorHexCode).hsl255;
+  aCol.querySelector(".rgbColor").innerHTML = hexToRgb(aColorHexCode).rgb;
+  aCol.querySelector(".hslColor100").innerHTML = hexToHSL(aColorHexCode).hsl100;
+  aCol.querySelector(".hslColor255").innerHTML = hexToHSL(aColorHexCode).hsl255;
 }
 
 
@@ -580,12 +589,17 @@ function hexToHSL(hex) {
   var s255 = parseInt(s100 / 100 * 255);
   var l255 = parseInt(l * 255);
 
+  var hsl100 =`hsl(<span style="color: hsl(${h360}, 100%, 50%);">${h360}</span>,${s100}%,${l100}%)`;
+  
+
+
   return {
     "h360": h360,
     "s100": s100,
     "l100": l100,
-    "hsl100": `hsl(${h360},${s100}%,${l100}%)`,
+    "hsl100": hsl100,
     "hsl255": `hsl(${h255},${s255},${l255})`
+    // 
   }
 
 }
@@ -660,7 +674,7 @@ function hexToRgb(hex) {
     "r": r,
     "g": g,
     "b": b,
-    "rgb": `rgb(${r},${g},${b})`
+    "rgb": `rgb(<span style="color:#F00">${r}</span>,<span style="color:#0F0">${g}</span>,<span style="color:#00F">${b}</span>)`
   };
 }
 
@@ -948,12 +962,12 @@ function genMix2Color() {
 }
 
 function setColorLabel(nodeID, hexColor) {
-  document.querySelector(`#${nodeID} .hexColor`).innerText = `${hexColor}`;
+  document.querySelector(`#${nodeID} .hexColor`).innerHTML = `${hexColor}`;
   var rgb = hexToRgb(hexColor);
-  document.querySelector(`#${nodeID} .rgbColor`).innerText = `${rgb.rgb}`;
+  document.querySelector(`#${nodeID} .rgbColor`).innerHTML = `${rgb.rgb}`;
   var hsl = hexToHSL(hexColor);
-  document.querySelector(`#${nodeID} .hslColor100`).innerText = `${hsl.hsl100}`;
-  document.querySelector(`#${nodeID} .hslColor255`).innerText = `${hsl.hsl255}`;
+  document.querySelector(`#${nodeID} .hslColor100`).innerHTML = `${hsl.hsl100}`;
+  document.querySelector(`#${nodeID} .hslColor255`).innerHTML = `${hsl.hsl255}`;
 }
 
 function genSlider() {
