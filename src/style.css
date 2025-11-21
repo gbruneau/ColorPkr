@@ -359,11 +359,12 @@ input[type=color] {
   height: 45vmin;
   flex-direction: column;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .colProp{
-  width: 7vmin;
-  height: 7vmin;
+  width: 14vmin;
+  height: 14vmin;
   font-size: 16pt !important;
   font-weight: normal !important;
   text-align: center;
