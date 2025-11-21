@@ -234,11 +234,42 @@ dragTargets.forEach(function (target) {
   addDropTarget(target)
 });
 
+
+
+
+
+
 // ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  === 
 
 // END OF MAIN
 
 // ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  ===  === 
+
+function populateBigColorSliders(aHue100) {
+  var allSliders = document.querySelectorAll("#bigColorComponents .colPropSlide")
+  allSliders.forEach(aSlider => {
+    aSlider.innerHTML=""
+  } )
+
+  var nbSlide=20
+  for (let i = 0; i < nbSlide; i++) {
+    var rHTML=`<div class="sliderStep" style="background-color: rgb(${i*255/nbSlide},0,0);"><div>`
+    allSliders[0].innerHTML+=rHTML
+    var gHTML=`<div class="sliderStep" style="background-color: rgb(0,${i*255/nbSlide},0);"><div>`
+    allSliders[1].innerHTML+=gHTML
+    var bHTML=`<div class="sliderStep" style="background-color: rgb(0,0,${i*255/nbSlide});"><div>`
+    allSliders[2].innerHTML+=bHTML
+
+    var hHTML=`<div class="sliderStep" style="background-color: hsl(${i*360/nbSlide},100%,50%);"><div>`
+    allSliders[3].innerHTML+=hHTML
+    var sHTML=`<div class="sliderStep" style="background-color: hsl(${aHue100},${(9-i)*100/nbSlide}%,50%);"><div>`
+    allSliders[4].innerHTML+=sHTML
+    var lHTML=`<div class="sliderStep" style="background-color: hsl(0,0%,${i*100/nbSlide}%);"><div>`
+    allSliders[5].innerHTML+=lHTML
+
+  }
+}
+
 
 function addDropTarget(aTargetNode) {
   aTargetNode.addEventListener("dragover", handleDragOver);
@@ -309,22 +340,24 @@ function showBigColor(aColorPalettNode) {
   dlg.childNodes[9].innerHTML = hslColor100 ? hslColor100 : " "
   let hslColor255 = aColorPalettNode.querySelector(".hslColor255").innerHTML
   dlg.childNodes[11].innerHTML = hslColor255 ? hslColor255 : " "
-  let colorComponentNode=document.getElementById("bigColorComponents")
-  colorComponentNode.querySelector(".colProp:nth-child(1)").style.backgroundColor=`rgb(${aRgb.r},0,0)`
-  colorComponentNode.querySelector(".colProp:nth-child(2)").style.backgroundColor=`rgb(0,${aRgb.g},0)`
-  colorComponentNode.querySelector(".colProp:nth-child(3)").style.backgroundColor=`rgb(0,0,${aRgb.b})`
+  let colorComponentNode = document.getElementById("bigColorComponents")
+  colorComponentNode.querySelector(".colProp:nth-child(1)").style.backgroundColor = `rgb(${aRgb.r},0,0)`
+  colorComponentNode.querySelector(".colProp:nth-child(2)").style.backgroundColor = `rgb(0,${aRgb.g},0)`
+  colorComponentNode.querySelector(".colProp:nth-child(3)").style.backgroundColor = `rgb(0,0,${aRgb.b})`
 
-  var h=`hsl(${aHsl.h360},100%,50%)`
-  var s=`hsl(${aHsl.h360},${aHsl.s100}%,50%)`
-  var l=`hsl(${aHsl.h360},0%,${aHsl.l100}%)`
-  colorComponentNode.querySelector(".colProp:nth-child(4)").style.backgroundColor=h
-  colorComponentNode.querySelector(".colProp:nth-child(5)").style.backgroundColor=s
-  colorComponentNode.querySelector(".colProp:nth-child(6)").style.backgroundColor=l
+  var h = `hsl(${aHsl.h360},100%,50%)`
+  var s = `hsl(${aHsl.h360},${aHsl.s100}%,50%)`
+  var l = `hsl(${aHsl.h360},0%,${aHsl.l100}%)`
+  colorComponentNode.querySelector(".colProp:nth-child(4)").style.backgroundColor = h
+  colorComponentNode.querySelector(".colProp:nth-child(5)").style.backgroundColor = s
+  colorComponentNode.querySelector(".colProp:nth-child(6)").style.backgroundColor = l
 
-  if( aHsl.l100 < 50)
+  if (aHsl.l100 < 50)
     colorComponentNode.style.color = "white"
- else
+  else
     colorComponentNode.style.color = "black"
+
+  populateBigColorSliders(aHsl.h360)
 }
 
 
