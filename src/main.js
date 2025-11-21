@@ -262,7 +262,7 @@ function populateBigColorSliders(aHue100) {
 
     var hHTML=`<div class="sliderStep" style="background-color: hsl(${i*360/nbSlide},100%,50%);"><div>`
     allSliders[3].innerHTML+=hHTML
-    var sHTML=`<div class="sliderStep" style="background-color: hsl(${aHue100},${(9-i)*100/nbSlide}%,50%);"><div>`
+    var sHTML=`<div class="sliderStep" style="background-color: hsl(${aHue100},${(nbSlide-i)*100/nbSlide}%,50%);"><div>`
     allSliders[4].innerHTML+=sHTML
     var lHTML=`<div class="sliderStep" style="background-color: hsl(0,0%,${i*100/nbSlide}%);"><div>`
     allSliders[5].innerHTML+=lHTML
