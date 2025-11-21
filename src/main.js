@@ -128,9 +128,9 @@ for (var i = 0; i < aPaletteColorNode.length; i++) {
 let bigColorBtOK = document.getElementById("bigColorBtOK");
 // add event ,on click hide dialog
 
-bigColorBtOK.addEventListener("click",function(event){
-  var dlg=document.getElementById("bigColorDlg");
-  dlg.style.display="none"
+bigColorBtOK.addEventListener("click", function (event) {
+  var dlg = document.getElementById("bigColorDlg");
+  dlg.style.display = "none"
 })
 
 
@@ -294,19 +294,37 @@ function showBigColor(aColorPalettNode) {
   dlg.style.display = 'block';
   // get first child input colot node
   let aColor = aColorPalettNode.querySelector('input[type="color"]').value;
-  let aColorDiv=dlg.querySelector(".bigColor")
-  aColorDiv.style.backgroundColor=aColor 
-  let aTitle=aColorPalettNode.querySelector(".colTitle").innerHTML
-  dlg.childNodes[3].innerHTML= aTitle ? aTitle : " "
+  var aRgb = hexToRgb(aColor)
+  var aHsl = hexToHSL(aColor)
+
+  let aColorDiv = dlg.querySelector(".bigColor")
+  aColorDiv.style.backgroundColor = aColor
+  let aTitle = aColorPalettNode.querySelector(".colTitle").innerHTML
+  dlg.childNodes[3].innerHTML = aTitle ? aTitle : " "
   let hexColor = aColorPalettNode.querySelector(".hexColor").innerHTML
-  dlg.childNodes[5].innerHTML= hexColor ? hexColor : " "
+  dlg.childNodes[5].innerHTML = hexColor ? hexColor : " "
   let rgbColor = aColorPalettNode.querySelector(".rgbColor").innerHTML
-  dlg.childNodes[7].innerHTML= rgbColor ? rgbColor : " "
+  dlg.childNodes[7].innerHTML = rgbColor ? rgbColor : " "
   let hslColor100 = aColorPalettNode.querySelector(".hslColor100").innerHTML
-  dlg.childNodes[9].innerHTML= hslColor100 ? hslColor100 : " "
+  dlg.childNodes[9].innerHTML = hslColor100 ? hslColor100 : " "
   let hslColor255 = aColorPalettNode.querySelector(".hslColor255").innerHTML
-  dlg.childNodes[11].innerHTML= hslColor255 ? hslColor255 : " "
-  
+  dlg.childNodes[11].innerHTML = hslColor255 ? hslColor255 : " "
+  let colorComponentNode=document.getElementById("bigColorComponents")
+  colorComponentNode.querySelector(".colProp:nth-child(1)").style.backgroundColor=`rgb(${aRgb.r},0,0)`
+  colorComponentNode.querySelector(".colProp:nth-child(2)").style.backgroundColor=`rgb(0,${aRgb.g},0)`
+  colorComponentNode.querySelector(".colProp:nth-child(3)").style.backgroundColor=`rgb(0,0,${aRgb.b})`
+
+  var h=`hsl(${aHsl.h360},100%,50%)`
+  var s=`hsl(${aHsl.h360},${aHsl.s100}%,50%)`
+  var l=`hsl(${aHsl.h360},0%,${aHsl.l100}%)`
+  colorComponentNode.querySelector(".colProp:nth-child(4)").style.backgroundColor=h
+  colorComponentNode.querySelector(".colProp:nth-child(5)").style.backgroundColor=s
+  colorComponentNode.querySelector(".colProp:nth-child(6)").style.backgroundColor=l
+
+  if( aHsl.l100 < 50)
+    colorComponentNode.style.color = "white"
+ else
+    colorComponentNode.style.color = "black"
 }
 
 
@@ -476,7 +494,7 @@ function setMainBGColor() {
 
   // color big dialog 
   //  bigColorDlg
-  var bigColorDlg= document.getElementById("bigColorDlg")
+  var bigColorDlg = document.getElementById("bigColorDlg")
   bigColorDlg.style.backgroundColor = pkrState.setting.isDark ? darkBG : lightBG;
   bigColorDlg.style.color = pkrState.setting.isDark ? darkColor : lightColor;
 
@@ -589,8 +607,9 @@ function hexToHSL(hex) {
   var s255 = parseInt(s100 / 100 * 255);
   var l255 = parseInt(l * 255);
 
-  var hsl100 =`hsl(<span style="color: hsl(${h360}, 100%, 50%);">${h360}</span>,${s100}%,${l100}%)`;
-  
+  var hsl100 = `hsl(<span style="color: hsl(${h360}, 100%, 50%);">${h360}</span>,${s100}%,${l100}%)`;
+  var hsl255 = `hsl(<span style="color: hsl(${h360}, 100%, 50%);">${h255}</span>,${s255},${l255})`;
+
 
 
   return {
@@ -598,7 +617,7 @@ function hexToHSL(hex) {
     "s100": s100,
     "l100": l100,
     "hsl100": hsl100,
-    "hsl255": `hsl(${h255},${s255},${l255})`
+    "hsl255": hsl255
     // 
   }
 
@@ -665,8 +684,13 @@ function goTab(aTabIndex) {
   });
 }
 
-function hexToRgb(hex) {
-  var result = /#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})/i.exec(hex);
+/**
+ * Convert a hexcolor stringtoits component
+ * @param {string} hexColorString 
+ * @returns 
+ */
+function hexToRgb(hexColorString) {
+  var result = /#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})/i.exec(hexColorString);
   var r = parseInt(result[1], 16);
   var g = parseInt(result[2], 16);
   var b = parseInt(result[3], 16);
