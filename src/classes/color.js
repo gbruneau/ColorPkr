@@ -166,7 +166,7 @@ class Color {
 }
 
 
-class colorDIV extends HTMLElement {
+class ColorCard extends HTMLElement {
     /**
      * 
      * @param {Color} aColor  A Color instance
@@ -177,10 +177,9 @@ class colorDIV extends HTMLElement {
         this._color = aColor;
         this.setColorContext(aColorContext);
 
-        this.style.backgroundColor = aColor.hex;
-        this.style.color = aColor.contrastedColor;
-        this.classList.add('color-div');
+        this.classList.add('color-card');
         this.innerHTML = `
+            <div class="colorBloc"></div>
             <div class="colorName"></div>
             <div class="colorHex"></div>
             <div class="colorRGB"></div>
@@ -191,13 +190,12 @@ class colorDIV extends HTMLElement {
                 div.style.display = 'none';
             });
         }
-        else
-            this.redisplayColor();
 
 
         if (!this._showName) {
             this.querySelector('.colorName').style.display = 'none';
         }
+        this.redisplayColor();
         this.dragAndDropSetup();
     }
     /** if showLabels and nameEditable, make the first child div editable and reflect the change in aColor.name */
@@ -222,17 +220,27 @@ class colorDIV extends HTMLElement {
 
         if (this._isEditable === true) {
             /** create an event listener when user click, display hello */
-            const hexDiv = this.querySelectorAll('div')[1]
+            const hexDiv = this.querySelector('.colorBloc')
 
             hexDiv.addEventListener('click', () => {
                 var newDIV = document.createElement('input');
                 newDIV.type = 'color';
-                newDIV.value = this._color;
+                newDIV.value = this._color._hex;
                 //* on clict change, change div background color */
                 newDIV.addEventListener('input', (event) => {
                     this._color.hex = event.target.value;
                     this.redisplayColor();
                 }, false);
+                /* position in the middle of the screeen */
+                newDIV.style.position = 'fixed';
+                newDIV.style.top = '50%';
+                newDIV.style.left = '50%';
+                newDIV.style.transform = 'translate(-50%, -50%)';
+                newDIV.style.zIndex = '1000';
+                newDIV.style.width = '100px';
+                newDIV.style.height = '100px';
+
+
                 newDIV.click()
                 newDIV = null
             });
@@ -270,7 +278,7 @@ class colorDIV extends HTMLElement {
         }
         else if (aColorContext === ColorContext.ToolOutput) {
             this._isEditable = false;
-            this._showLabels = false;
+            this._showLabels = true;
             this._nameEditable = false;
             this._showName = false;
             this._dragSource = true;
@@ -282,24 +290,24 @@ class colorDIV extends HTMLElement {
     redisplayColor() {
         //* update the inner text of all inner html dives
 
+        /*
+        '#000000' : '#FFFFFF'
         const bgColor = this._color.hex;
-        const fgColor = this._color.contrastedColor
+        const fgColor = this._color.contrastedColor;
+        */
+        const bgColor = '#FFFFFF';
+        const fgColor = '#000000';
 
+        this.querySelector('.colorBloc').style.backgroundColor = this._color.hex;
 
+        
         this.querySelector('.colorName').innerText = this._color.name;
-        this.querySelectorAll('div')[1].innerText = this._color.hex;
-        this.querySelectorAll('div')[2].innerText = this._color.rgb;
-        this.querySelectorAll('div')[3].innerText = this._color.hsl;
+        this.querySelector('.colorHex').innerText = this._color.hex;
+        this.querySelector('.colorRGB').innerText = this._color.rgb;
+        this.querySelector('.colorHSL').innerText = this._color.hsl;
+
         this.style.backgroundColor = bgColor
         this.style.color = fgColor
-
-        if (this._showLabels) {
-            const hexDIV = this.querySelectorAll('div')[1]
-/*            hexDIV.style.color = bgColor
-            hexDIV.style.backgroundColor = fgColor */
-            hexDIV.style.border = `1px solid ${fgColor}`
-        }
-
     }
 
     /** handle drag and drop */
@@ -335,7 +343,7 @@ class colorDIV extends HTMLElement {
                     this.redisplayColor();
 
                     // Find the source element and update its color
-                    const sourceElements = document.querySelectorAll('color-div');
+                    const sourceElements = document.querySelectorAll('color-card');
                     sourceElements.forEach(elem => {
                         if (elem._color.colorID === srcColorID && elem !== this) {
                             elem._color.hex = targetColorHex;
@@ -379,6 +387,7 @@ class colorDIV extends HTMLElement {
         closeButton.classList.add('full-close-button');
         closeButton.style.backgroundColor = this._color.contrastedColor;
         closeButton.style.color = this._color.hex;
+        closeButton.innerText = 'OK';
 
         closeButton.addEventListener('click', () => {
             document.body.removeChild(fullScreenDiv);
@@ -388,5 +397,5 @@ class colorDIV extends HTMLElement {
 }
 
 
-export { Color, colorDIV, ColorContext };
+export { Color, ColorCard , ColorContext };
 export default Color;

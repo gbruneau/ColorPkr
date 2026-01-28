@@ -3,11 +3,11 @@ import './style/color.css';
 
 import APPbuild from "./version.json";
 
-import { Color, colorDIV , ColorContext} from './classes/color.js';
+import { Color, ColorCard , ColorContext} from './classes/color.js';
 
 
 
-customElements.define('color-div', colorDIV);
+customElements.define('color-card', ColorCard);
 
 /*
 const p1 = new Color(Color.genRandomColor(), 'P1');
@@ -22,10 +22,10 @@ const out1 = new Color(Color.genRandomColor(), 'Out 1');
 const out2 = new Color(Color.genRandomColor(), 'Out 2');
 const out3 = new Color(Color.genRandomColor(), 'Out 3');
 
-const color1Div = new colorDIV(p1, ColorContext.Palette);
-const color2Div = new colorDIV(p2, ColorContext.Palette);
-const color3Div = new colorDIV(p3, ColorContext.Palette);
-const color4Div = new colorDIV(p4, ColorContext.Palette);   
+const color1Div = new ColorCard(p1, ColorContext.Palette);
+const color2Div = new ColorCard(p2, ColorContext.Palette);
+const color3Div = new ColorCard(p3, ColorContext.Palette);
+const color4Div = new ColorCard(p4, ColorContext.Palette);   
 
 
 
@@ -37,17 +37,17 @@ document.body.appendChild(color4Div);
 
 document.body.appendChild(document.createElement('hr'));
 
-const input1Div = new colorDIV(in1,ColorContext.ToolInput);
-const input2Div = new colorDIV(in2,ColorContext.ToolInput);
+const input1Div = new ColorCard(in1,ColorContext.ToolInput);
+const input2Div = new ColorCard(in2,ColorContext.ToolInput);
 
 document.body.appendChild(input1Div);
 document.body.appendChild(input2Div);
 
 document.body.appendChild(document.createElement('hr'));
 
-const output1Div = new colorDIV(out1, ColorContext.ToolOutput);
-const output2Div = new colorDIV(out2, ColorContext.ToolOutput);
-const output3Div = new colorDIV(out3, ColorContext.ToolOutput);
+const output1Div = new ColorCard(out1, ColorContext.ToolOutput);
+const output2Div = new ColorCard(out2, ColorContext.ToolOutput);
+const output3Div = new ColorCard(out3, ColorContext.ToolOutput);
 
 document.body.appendChild(output1Div);
 document.body.appendChild(output2Div);
@@ -74,21 +74,21 @@ for (let i = 1; i <= 15; i++) {
 }
 
 
-/** add 2 random colordiv to tool input */
+/** add 2 random ColorCard to tool input */
 const toolInput = document.getElementById('toolInput');
 for (let i = 1; i <= 2; i++) {
   const randColor = new Color(Color.genRandomColor(), `In Color ${i}`);
-  const colorDiv = new colorDIV(randColor, ColorContext.ToolInput);
-  toolInput.appendChild(colorDiv);
+  const aColorCard = new ColorCard(randColor, ColorContext.ToolInput);
+  toolInput.appendChild(aColorCard);
 }
 
 
-/** add 20 dandom colorDIV to tool output */
+/** add 20 dandom ColorCard to tool output */
 const toolOutput = document.getElementById('toolOutput');
 for (let i = 1; i <= 20; i++) {
   const randColor = new Color(Color.genRandomColor(), `Out Color ${i}`);
-  const colorDiv = new colorDIV(randColor, ColorContext.ToolOutput);
-  toolOutput.appendChild(colorDiv);
+  const aColorCard = new ColorCard(randColor, ColorContext.ToolOutput);
+  toolOutput.appendChild(aColorCard);
 }
 
 
@@ -96,7 +96,7 @@ for (let i = 1; i <= 20; i++) {
 const palette = document.getElementById('palette');
 for (let i = 1; i <= 250; i++) {
   const randColor = new Color(Color.genRandomColor(), `Color ${i}`);
-  const colorDiv = new colorDIV(randColor, ColorContext.Palette);
-  palette.appendChild(colorDiv);
+  const aColorCard = new ColorCard(randColor, ColorContext.Palette);
+  palette.appendChild(aColorCard);
 }   
 
