@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Testing stuff</title>
+  <style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    div {
+        width: 100px;
+        height: 100px;
+        background-color: rgb(159, 155, 155);
+        border: 1px solid black   ;
+    }
+  </style>
+</head>
+
+<body>
+    hello world
+   <div id="toto"></div> 
+
+    <script>
+    var acolor = '#ff0000';    
+    const div = document.getElementById('toto');
+    div.addEventListener('click', () => {
+        newDIV= document.createElement('input');
+        newDIV.type = 'color';
+        newDIV.value = acolor;
+        //* on clict change, change div background color */
+        newDIV.addEventListener('input', (event) => {
+            acolor = event.target.value;
+            div.style.backgroundColor = acolor;         
+        }, false);
+        newDIV.click()
+        newDIV=null
+    });
+
+    </script>
+
+
+
+</body>
+
+</html>
