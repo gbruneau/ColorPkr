@@ -73,27 +73,30 @@ for (let i = 1; i <= 15; i++) {
   toolbar.appendChild(navItem);
 }
 
-/** add 20 div to palette */
-const palette = document.getElementById('palette');
-for (let i = 1; i <= 250; i++) {
-  const colorItem = document.createElement('div');
-  colorItem.innerText = `Color ${i}`;
-  palette.appendChild(colorItem);
-}
 
-/** add 2 div to tool input */
+/** add 2 random colordiv to tool input */
 const toolInput = document.getElementById('toolInput');
 for (let i = 1; i <= 2; i++) {
-  const inputItem = document.createElement('div');
-  inputItem.innerText = `In${i}`;
-  toolInput.appendChild(inputItem);
+  const randColor = new Color(Color.genRandomColor(), `In Color ${i}`);
+  const colorDiv = new colorDIV(randColor, ColorContext.ToolInput);
+  toolInput.appendChild(colorDiv);
 }
 
-const toolOutput = document.getElementById('toolOutput');
-for (let i = 1; i <= 50; i++) {
-  const outputItem = document.createElement('div');
-  outputItem.innerText = `Out${i}`;
-  toolOutput.appendChild(outputItem);
-}   
 
+/** add 20 dandom colorDIV to tool output */
+const toolOutput = document.getElementById('toolOutput');
+for (let i = 1; i <= 20; i++) {
+  const randColor = new Color(Color.genRandomColor(), `Out Color ${i}`);
+  const colorDiv = new colorDIV(randColor, ColorContext.ToolOutput);
+  toolOutput.appendChild(colorDiv);
+}
+
+
+/** add 20 random colorsDIV to palette */
+const palette = document.getElementById('palette');
+for (let i = 1; i <= 250; i++) {
+  const randColor = new Color(Color.genRandomColor(), `Color ${i}`);
+  const colorDiv = new colorDIV(randColor, ColorContext.Palette);
+  palette.appendChild(colorDiv);
+}   
 

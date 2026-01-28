@@ -2,18 +2,20 @@
   width: 150px;
   height: 150px;
   margin: 0px;
-  border: none;
+  border:#808080 4px solid;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-family: Outfit, sans-serif;
-  font-weight: 1em;
+  font-weight: normal;
+  font-size: 0.8em;
 }
 
 .color-div div {
   text-align: center;
-}
+ }
 
 .colorName {
   font-size: 1em;
@@ -31,7 +33,7 @@
 
 .colorHex {
   border-radius: 5px;
-  padding: 2px 5px;
+  padding: 0px 2px;
   width: 50%;
 }
 

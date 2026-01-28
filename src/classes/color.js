@@ -262,7 +262,7 @@ class colorDIV extends HTMLElement {
         }
         else if (aColorContext === ColorContext.ToolInput) {
             this._isEditable = true;
-            this._showLabels = false;
+            this._showLabels = true;
             this._nameEditable = false;
             this._showName = false;
             this._dragSource = true;
@@ -292,11 +292,14 @@ class colorDIV extends HTMLElement {
         this.querySelectorAll('div')[3].innerText = this._color.hsl;
         this.style.backgroundColor = bgColor
         this.style.color = fgColor
+
         if (this._showLabels) {
             const hexDIV = this.querySelectorAll('div')[1]
-            hexDIV.style.color = bgColor
-            hexDIV.style.backgroundColor = fgColor
+/*            hexDIV.style.color = bgColor
+            hexDIV.style.backgroundColor = fgColor */
+            hexDIV.style.border = `1px solid ${fgColor}`
         }
+
     }
 
     /** handle drag and drop */

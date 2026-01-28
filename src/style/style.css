@@ -103,11 +103,14 @@ SECTION {
     align-items: flex-start;
     align-content: flex-start;
 }
-
-#palette div , #toolInput div, #toolOutput div {
-    width: 100px;
-    height: 100px;
+  
+#palette , #toolOutput
+  {
+      overflow-y: auto;
   }
+
+/* For simulation only **/
+
 
 #toolbar div {
   width: 50px;
@@ -115,7 +118,3 @@ SECTION {
   }
 
 
-  #palette , #toolOutput
-  {
-      overflow-y: auto;
-  }
