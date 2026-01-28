@@ -1,4 +1,6 @@
-import './style.css';
+import './style/style.css';
+import './style/color.css';
+
 import APPbuild from "./version.json";
 
 import { Color, colorDIV , ColorContext} from './classes/color.js';
@@ -7,7 +9,7 @@ import { Color, colorDIV , ColorContext} from './classes/color.js';
 
 customElements.define('color-div', colorDIV);
 
-
+/*
 const p1 = new Color(Color.genRandomColor(), 'P1');
 const p2 = new Color(Color.genRandomColor(), 'P2');
 const p3 = new Color(Color.genRandomColor(), 'P3');
@@ -61,11 +63,37 @@ footer.innerText = `ColorPkr App - Version ${APPbuild} `;
 document.body.appendChild(footer);
 
 
+*/
 
+/** add 5 div to toolbar */
+const toolbar = document.getElementById('toolbar');
+for (let i = 1; i <= 15; i++) {
+  const navItem = document.createElement('div');
+  navItem.innerText = `Nav ${i}`;
+  toolbar.appendChild(navItem);
+}
 
+/** add 20 div to palette */
+const palette = document.getElementById('palette');
+for (let i = 1; i <= 250; i++) {
+  const colorItem = document.createElement('div');
+  colorItem.innerText = `Color ${i}`;
+  palette.appendChild(colorItem);
+}
 
+/** add 2 div to tool input */
+const toolInput = document.getElementById('toolInput');
+for (let i = 1; i <= 2; i++) {
+  const inputItem = document.createElement('div');
+  inputItem.innerText = `In${i}`;
+  toolInput.appendChild(inputItem);
+}
 
-
-
+const toolOutput = document.getElementById('toolOutput');
+for (let i = 1; i <= 50; i++) {
+  const outputItem = document.createElement('div');
+  outputItem.innerText = `Out${i}`;
+  toolOutput.appendChild(outputItem);
+}   
 
 

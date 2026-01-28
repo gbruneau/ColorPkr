@@ -280,7 +280,7 @@ class colorDIV extends HTMLElement {
 
     /** method updateInnerHTML */
     redisplayColor() {
-        //* update the innet text of all inner html dives
+        //* update the inner text of all inner html dives
 
         const bgColor = this._color.hex;
         const fgColor = this._color.contrastedColor
