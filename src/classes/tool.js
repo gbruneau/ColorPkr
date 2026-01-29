@@ -31,14 +31,16 @@ class Tool {
         this.buttonDiv.style.visibility = 'hidden';
     }
 
-    addTool(aToolBar,aButtonHTML , aToolArea) {
+    addTool(aToolBar,aButtonHTML , aToolArea,hintText="") {
         aToolBar.appendChild(this.buttonDiv);
         aToolArea.appendChild(this.toolDiv);
         this.buttonDiv.innerHTML = aButtonHTML;
+        this.buttonDiv.title = hintText;
     }
-    addButton(aToolBar,aButtonHTML) {
+    addButton(aToolBar,aButtonHTML,hintText="") {
         aToolBar.appendChild(this.buttonDiv)
         this.buttonDiv.innerHTML = aButtonHTML;
+        this.buttonDiv.title = hintText;
     }
 }
 

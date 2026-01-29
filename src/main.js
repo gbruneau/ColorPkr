@@ -14,7 +14,7 @@ var tools = document.getElementById('tools');
 
 const aboutTool = new AboutTool()
 const dummyTool = new Tool(() => dummyTool.showTool());
-dummyTool.toolDiv.innerHTML = `<h2>Test Tool</h2><p>This is a test tool.</p>`;
+dummyTool.toolDiv.innerHTML = `<h2>Dummy Test Tool</h2><p>This is a test tool.</p>`;
 
 /** mode switcher */
 const modeSwitchTool = new Tool(() => {
@@ -23,8 +23,8 @@ const modeSwitchTool = new Tool(() => {
 
 /* Build the toolbar */
 dummyTool.addTool(toolbar,"dummy",tools);
-modeSwitchTool.addButton(toolbar,'🌗');  ;
-aboutTool.addTool(toolbar,"A",tools);  
+modeSwitchTool.addButton(toolbar,'🌗',"Dark Mode Swiitcher");  ;
+aboutTool.addTool(toolbar,"A",tools,"About ColorPkr");  
 
 /* Show default tool */
 aboutTool.showTool();
