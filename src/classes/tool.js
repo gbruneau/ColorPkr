@@ -22,10 +22,15 @@ class Tool {
     }
     showButton() {
         this.buttonDiv.style.display = 'block';
+        this.buttonDiv.style.visibility = 'visible';
     }
     hideButton() {
         this.buttonDiv.style.display = 'none';
     }
+    invisibleButton() {
+        this.buttonDiv.style.visibility = 'hidden';
+    }
+
     addTool(aToolBar,aButtonHTML , aToolArea) {
         aToolBar.appendChild(this.buttonDiv);
         aToolArea.appendChild(this.toolDiv);
