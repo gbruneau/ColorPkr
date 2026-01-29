@@ -1,5 +1,8 @@
 //** Class to support a color hex code and the name of the color */
 
+import '../style/color.css';
+
+
 /**
  * Enumeration for Color Contexts
  */
@@ -9,6 +12,7 @@ const ColorContext = Object.freeze({
     ToolOutput: 3
 })
 
+const defaultColor = '#808080';
 
 class Color {
     /**
@@ -16,7 +20,8 @@ class Color {
      * @param {string} hex - The hex code of the color (e.g., '#FFFFFF').
      * @param {string} name - The name of the color (e.g., 'White').
      */
-    constructor(hex, name = '') {
+
+    constructor(hex=defaultColor , name = '') {
         this.hex = hex;
         this.name = name === '' ? hex : name;
         this.colorID = crypto.randomUUID();
@@ -156,12 +161,18 @@ class Color {
         return brightness > 125 ? '#000000' : '#FFFFFF';
     }
 
+
     /** static method to generate a random hex color */
 
     static genRandomColor() {
         const randomColor = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
         return `#${randomColor}`;
     }
+
+    static getDefaultColor() {
+        return defaultColor;
+    }
+
 
 }
 
@@ -195,7 +206,7 @@ class ColorCard extends HTMLElement {
         if (!this._showName) {
             this.querySelector('.colorName').style.display = 'none';
         }
-        this.redisplayColor();
+        this.refreshColorLabels();
         this.dragAndDropSetup();
     }
     /** if showLabels and nameEditable, make the first child div editable and reflect the change in aColor.name */
@@ -229,7 +240,7 @@ class ColorCard extends HTMLElement {
                 //* on clict change, change div background color */
                 newDIV.addEventListener('input', (event) => {
                     this._color.hex = event.target.value;
-                    this.redisplayColor();
+                    this.refreshColorLabels();
                 }, false);
                 /* position in the middle of the screeen */
                 newDIV.style.position = 'fixed';
@@ -253,9 +264,35 @@ class ColorCard extends HTMLElement {
             this.showColorFullSreen()
         });
 
-
-
-
+        /** clic on colorHex copy the innertext to clipboard */ 
+        const copiedFeedBack='<span class="emoji">&#128203;</span>'; // clipboard emoji
+        const hexDiv = this.querySelector('.colorHex')
+        hexDiv.addEventListener('click', () => {
+            navigator.clipboard.writeText(this._color.hex);
+            /** add some feedback */
+            hexDiv.innerHTML = copiedFeedBack
+            setTimeout(() => {
+                this.refreshColorLabels();
+            }, 1000);   
+        });
+        const rgbDiv = this.querySelector('.colorRGB')
+        rgbDiv.addEventListener('click', () => {
+            navigator.clipboard.writeText(this._color.rgb);
+            /** add some feedback */
+            rgbDiv.innerHTML = copiedFeedBack
+            setTimeout(() => {
+                this.refreshColorLabels();
+            }, 1000);   
+        });
+        const hslDiv = this.querySelector('.colorHSL')
+        hslDiv.addEventListener('click', () => {
+            navigator.clipboard.writeText(this._color.hsl);
+            /** add some feedback */
+            hslDiv.innerHTML = copiedFeedBack
+            setTimeout(() => {
+                this.refreshColorLabels();
+            }, 1000);   
+        });
     }
 
     setColorContext(aColorContext) {
@@ -287,27 +324,13 @@ class ColorCard extends HTMLElement {
     }
 
     /** method updateInnerHTML */
-    redisplayColor() {
-        //* update the inner text of all inner html dives
-
-        /*
-        '#000000' : '#FFFFFF'
-        const bgColor = this._color.hex;
-        const fgColor = this._color.contrastedColor;
-        */
-        const bgColor = '#FFFFFF';
-        const fgColor = '#000000';
-
+    refreshColorLabels() {
+        // update the inner text of all inner html div
         this.querySelector('.colorBloc').style.backgroundColor = this._color.hex;
-
-        
         this.querySelector('.colorName').innerText = this._color.name;
         this.querySelector('.colorHex').innerText = this._color.hex;
         this.querySelector('.colorRGB').innerText = this._color.rgb;
         this.querySelector('.colorHSL').innerText = this._color.hsl;
-
-        this.style.backgroundColor = bgColor
-        this.style.color = fgColor
     }
 
     /** handle drag and drop */
@@ -340,7 +363,7 @@ class ColorCard extends HTMLElement {
                 if (srcColorContext === ColorContext.Palette && targetContext === ColorContext.Palette) {
                     this._color.hex = srcColorHex;
                     this._color.name = srcColorName;
-                    this.redisplayColor();
+                    this.refreshColorLabels();
 
                     // Find the source element and update its color
                     const sourceElements = document.querySelectorAll('color-card');
@@ -357,7 +380,7 @@ class ColorCard extends HTMLElement {
                 /** Replace target color */ {
                     this._color.hex = srcColorHex;
                     this._color.name = srcColorHex;
-                    this.redisplayColor();
+                    this.refreshColorLabels();
                     this.setColorContext(targetContext);
                 }
             });

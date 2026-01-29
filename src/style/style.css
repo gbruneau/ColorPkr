@@ -1,17 +1,21 @@
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css");
-
-@import url(https://fonts.googleapis.com/css2?family:Outfit:wght@100..900&display:swap);
-
+@import url('https://fonts.googleapis.com/css2?family=Noto+Emoji:wght@300..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 
 body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Outfit, sans-serif;
+  font-family: "Noto Sans", sans-serif;
   display: flex;
+  background-color: white;
+  color: black;
 }
 
+
+.dark-mode {
+  background-color: black;
+  color: white;
+}
 
 /*
   border: 1px solid black;
@@ -53,7 +57,7 @@ SECTION {
     width: 100%;
   }
 
-  #tool {
+  #tools {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -86,7 +90,7 @@ SECTION {
     height: 100%;
   }
 
-  #tool {
+  #tools {
     width: 30%;
     height: 100%;
     display: flex;
@@ -94,7 +98,7 @@ SECTION {
   }
 }
 
-#palette , #toolInput , #toolOutput
+#palette , .toolInput , .toolOutput
 {
     display: flex;
     flex-direction: row;
@@ -104,17 +108,15 @@ SECTION {
     align-content: flex-start;
 }
   
-#palette , #toolOutput
+#palette , .toolOutput
   {
       overflow-y: auto;
   }
 
-/* For simulation only **/
-
-
-#toolbar div {
-  width: 50px;
-  height: 50px;
-  }
-
+.emoji {
+  font-family: "Noto Emoji", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
 
