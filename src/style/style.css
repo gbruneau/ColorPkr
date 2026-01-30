@@ -9,13 +9,15 @@ body {
   display: flex;
   background-color: white;
   color: black;
+  
 }
 
 
 .dark-mode {
-  background-color: black;
-  color: white;
+  background-color: black!important;
+  color: white!important;
 }
+
 
 /*
   border: 1px solid black;
@@ -119,4 +121,6 @@ SECTION {
   font-weight: 400;
   font-style: normal;
 }
+
+
 

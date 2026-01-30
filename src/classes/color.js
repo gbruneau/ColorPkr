@@ -21,7 +21,7 @@ class Color {
      * @param {string} name - The name of the color (e.g., 'White').
      */
 
-    constructor(hex=defaultColor , name = '') {
+    constructor(hex = defaultColor, name = '') {
         this.hex = hex;
         this.name = name === '' ? hex : name;
         this.colorID = crypto.randomUUID();
@@ -186,7 +186,8 @@ class ColorCard extends HTMLElement {
     constructor(aColor, aColorContext) {
         super();
         this._color = aColor;
-        this.setColorContext(aColorContext);
+        this._isCommited = true;
+        this.#setColorCardContext(aColorContext);
 
         this.classList.add('color-card');
         this.innerHTML = `
@@ -206,21 +207,29 @@ class ColorCard extends HTMLElement {
         if (!this._showName) {
             this.querySelector('.colorName').style.display = 'none';
         }
-        this.refreshColorLabels();
+        this.#refreshColorCard();
         this.dragAndDropSetup();
     }
     /** if showLabels and nameEditable, make the first child div editable and reflect the change in aColor.name */
+    /** called when added to the DOM */
     connectedCallback() {
         if (this._nameEditable) {
             const nameDiv = this.querySelector('.colorName');
             nameDiv.contentEditable = 'true';
             nameDiv.addEventListener('input', (e) => {
+                /** if name changed then  commited = false */
+                if (this._color.name !== e.target.innerText) {
+                    this.unCommitColorCard();
+                }
                 this._color.name = e.target.innerText;
                 //** support also when enter key is pressed in edition */ 
                 nameDiv.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         nameDiv.blur();
+                        if (this._color.name !== e.target.innerText) {
+                            this.unCommitColorCard();
+                        }
                     }
                 });
             });
@@ -236,11 +245,13 @@ class ColorCard extends HTMLElement {
             hexDiv.addEventListener('click', () => {
                 var newDIV = document.createElement('input');
                 newDIV.type = 'color';
-                newDIV.value = this._color._hex;
+                newDIV.value = this._color.hex;
                 //* on clict change, change div background color */
                 newDIV.addEventListener('input', (event) => {
+                    if (this._color.hex != event.target.value)
+                        this.unCommitColorCard();
                     this._color.hex = event.target.value;
-                    this.refreshColorLabels();
+                    this.#refreshColorCard();
                 }, false);
                 /* position in the middle of the screeen */
                 newDIV.style.position = 'fixed';
@@ -250,8 +261,6 @@ class ColorCard extends HTMLElement {
                 newDIV.style.zIndex = '1000';
                 newDIV.style.width = '100px';
                 newDIV.style.height = '100px';
-
-
                 newDIV.click()
                 newDIV = null
             });
@@ -264,16 +273,16 @@ class ColorCard extends HTMLElement {
             this.showColorFullSreen()
         });
 
-        /** clic on colorHex copy the innertext to clipboard */ 
-        const copiedFeedBack='<span class="emoji">&#128203;</span>'; // clipboard emoji
+        /** clic on colorHex copy the innertext to clipboard */
+        const copiedFeedBack = '<span class="emoji">&#128203;</span>'; // clipboard emoji
         const hexDiv = this.querySelector('.colorHex')
         hexDiv.addEventListener('click', () => {
             navigator.clipboard.writeText(this._color.hex);
             /** add some feedback */
             hexDiv.innerHTML = copiedFeedBack
             setTimeout(() => {
-                this.refreshColorLabels();
-            }, 1000);   
+                this.#refreshColorCard();
+            }, 1000);
         });
         const rgbDiv = this.querySelector('.colorRGB')
         rgbDiv.addEventListener('click', () => {
@@ -281,8 +290,8 @@ class ColorCard extends HTMLElement {
             /** add some feedback */
             rgbDiv.innerHTML = copiedFeedBack
             setTimeout(() => {
-                this.refreshColorLabels();
-            }, 1000);   
+                this.#refreshColorCard();
+            }, 1000);
         });
         const hslDiv = this.querySelector('.colorHSL')
         hslDiv.addEventListener('click', () => {
@@ -290,12 +299,12 @@ class ColorCard extends HTMLElement {
             /** add some feedback */
             hslDiv.innerHTML = copiedFeedBack
             setTimeout(() => {
-                this.refreshColorLabels();
-            }, 1000);   
+                this.#refreshColorCard();
+            }, 1000);
         });
     }
 
-    setColorContext(aColorContext) {
+    #setColorCardContext(aColorContext) {
         this._colorContext = aColorContext;
         if (aColorContext === ColorContext.Palette) {
             this._isEditable = true;
@@ -324,7 +333,7 @@ class ColorCard extends HTMLElement {
     }
 
     /** method updateInnerHTML */
-    refreshColorLabels() {
+    #refreshColorCard() {
         // update the inner text of all inner html div
         this.querySelector('.colorBloc').style.backgroundColor = this._color.hex;
         this.querySelector('.colorName').innerText = this._color.name;
@@ -339,12 +348,19 @@ class ColorCard extends HTMLElement {
             this.draggable = true;
             this.addEventListener('dragstart', (e) => {
                 e.dataTransfer.setData('text/plain', JSON.stringify(this));
-                //                e.dataTransfer.setData('text/plain', this._color.hex);
+                //                e.dataTransfer.setData('text/plain', this.color.hex);
             });
         }
         if (this._dropTarget) {
             this.addEventListener('dragover', (e) => {
                 e.preventDefault();
+                this.style.borderWidth = '5px';
+                setTimeout(() => {
+                    this.style.borderWidth = '1px';
+                }, 100);
+
+
+
             });
             this.addEventListener('drop', (e) => {
                 e.preventDefault();
@@ -363,7 +379,8 @@ class ColorCard extends HTMLElement {
                 if (srcColorContext === ColorContext.Palette && targetContext === ColorContext.Palette) {
                     this._color.hex = srcColorHex;
                     this._color.name = srcColorName;
-                    this.refreshColorLabels();
+                    this.unCommitColorCard();
+                    this.#refreshColorCard();
 
                     // Find the source element and update its color
                     const sourceElements = document.querySelectorAll('color-card');
@@ -371,7 +388,8 @@ class ColorCard extends HTMLElement {
                         if (elem._color.colorID === srcColorID && elem !== this) {
                             elem._color.hex = targetColorHex;
                             elem._color.name = targetColorName;
-                            elem.redisplayColor();
+                            elem.unCommitColorCard();
+                            elem.refreshColorLabels();
                         }
                     });
                     return; // Exit after swapping
@@ -380,8 +398,9 @@ class ColorCard extends HTMLElement {
                 /** Replace target color */ {
                     this._color.hex = srcColorHex;
                     this._color.name = srcColorHex;
-                    this.refreshColorLabels();
-                    this.setColorContext(targetContext);
+                    this.#refreshColorCard();
+                    this.#setColorCardContext(targetContext);
+                    this.unCommitColorCard();
                 }
             });
         }
@@ -400,9 +419,9 @@ class ColorCard extends HTMLElement {
     `;
         document.body.appendChild(fullScreenDiv);
         // hide name if not in the context of a palette
-        if (!this._showName) {          
+        if (!this._showName) {
             fullScreenDiv.querySelector('#fullName').style.display = 'none';
-        }   
+        }
 
 
         // Add a div button at the bottom to close the full screen
@@ -415,10 +434,38 @@ class ColorCard extends HTMLElement {
         closeButton.addEventListener('click', () => {
             document.body.removeChild(fullScreenDiv);
         });
-        fullScreenDiv.appendChild(closeButton); 
+        fullScreenDiv.appendChild(closeButton);
     }
+
+    get color() {
+        return this._color;
+    }
+    get isCommited() {
+        return this._isCommited;
+    }
+    resetColorCard() {
+        this._color.hex = Color.getDefaultColor();
+        this.unCommitColorCard();
+        this.#refreshColorCard();
+    }
+    commitColorCard() {
+        if (this.ColorContext === ColorContext.Palette) {
+            this._isCommited = true;
+            this.style.borderColor = 'black';
+            this.parentElement.dispatchEvent(new Event('colorChange'));
+        }
+    }
+    unCommitColorCard() {
+        if (this.ColorContext === ColorContext.Palette) {
+            this._isCommited = false;
+            this.parentElement.isCommited = false;
+            this.style.borderColor = 'red';
+            this.parentElement.dispatchEvent(new Event('colorChange'));
+        }
+    }
+
 }
 
 
-export { Color, ColorCard , ColorContext };
+export { Color, ColorCard, ColorContext };
 export default Color;

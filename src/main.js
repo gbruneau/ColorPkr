@@ -1,8 +1,10 @@
 import './style/style.css';
 
-import { Color, ColorCard , ColorContext} from './classes/color.js';
-import { AboutTool} from './tools/about.js';
-import   {Tool} from './classes/tool.js';
+import { Color, ColorCard, ColorContext } from './classes/color.js';
+import { AboutTool } from './tools/about.js';
+import { CommitTool } from './tools/commit.js';
+import { UndoTool } from './tools/undo.js';
+import { Tool } from './classes/tool.js';
 
 customElements.define('color-card', ColorCard);
 
@@ -13,21 +15,28 @@ var tools = document.getElementById('tools');
 
 
 const aboutTool = new AboutTool()
-const dummyTool = new Tool(() => dummyTool.showTool());
-dummyTool.toolDiv.innerHTML = `<h2>Dummy Test Tool</h2><p>This is a test tool.</p>`;
 
 /** mode switcher */
 const modeSwitchTool = new Tool(() => {
   document.body.classList.toggle('dark-mode');
+  /** for all color-card elements */
+  const colorCards = document.querySelectorAll('.color-card');
+  colorCards.forEach(card => {
+    card.classList.toggle('dark-mode');
+  });
 });
 
-/* Build the toolbar */
-dummyTool.addTool(toolbar,"dummy",tools);
-modeSwitchTool.addButton(toolbar,'🌗',"Dark Mode Swiitcher");  ;
-aboutTool.addTool(toolbar,"A",tools,"About ColorPkr");  
+/** clear palette tool */
+const clearPaletteTool = new Tool(() => {
+  const pDIV = document.getElementById('palette');
 
-/* Show default tool */
-aboutTool.showTool();
+  const colorCards = pDIV.querySelectorAll('.color-card');
+  colorCards.forEach(card => {
+    card.resetColorCard();
+  });
+});
+
+
 
 /** ================================= */
 
@@ -35,12 +44,16 @@ class AppState {
   constructor() {
     this.paletteColors = [];
   }
-  addColorToPalette(color=this.defaultColor) {
+  /**
+   * Add a color to the palette
+   * @param {Color} color 
+   */
+  addColorToPalette(color = this.defaultColor) {
     this.paletteColors.push(color);
   }
   get paletteSize() {
     return this.paletteColors.length;
-  } 
+  }
 }
 
 
@@ -49,11 +62,36 @@ const appState = new AppState();
 // Populate palette with some random colors for demonstration
 
 
+const paletteDIV = document.getElementById('palette');
+paletteDIV.isCommited = true;
 
-const palette = document.getElementById('palette');
+
+
 for (let i = 1; i <= 250; i++) {
   const defaultColor = new Color();
   appState.addColorToPalette(defaultColor);
   const aColorCard = new ColorCard(defaultColor, ColorContext.Palette);
-  palette.appendChild(aColorCard);
-}   
+  paletteDIV.appendChild(aColorCard);
+}
+
+const commitTool = new CommitTool();
+commitTool.bindToPalette(paletteDIV);
+
+const undoTool = new UndoTool();
+undoTool.bindToPalette(paletteDIV);
+
+
+/* Show palette status */
+
+
+/* Build the toolbar */
+commitTool.addButton(toolbar, "✔️", "Commit Palette Colors");
+undoTool.addButton(toolbar, "↩️", "Undo Last Change"); 
+clearPaletteTool.addButton(toolbar, "🧹", "Clear Palette");
+modeSwitchTool.addButton(toolbar, '🌗', "Dark Mode Swiitcher");;
+aboutTool.addTool(toolbar, "?", tools, "About ColorPkr");
+
+
+/* Show default tool */
+aboutTool.showTool();
+
