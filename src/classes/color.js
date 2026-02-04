@@ -207,7 +207,7 @@ class ColorCard extends HTMLElement {
         if (!this._showName) {
             this.querySelector('.colorName').style.display = 'none';
         }
-        this.#refreshColorCard();
+        this.refreshColorCard();
         this.dragAndDropSetup();
     }
     /** if showLabels and nameEditable, make the first child div editable and reflect the change in aColor.name */
@@ -251,7 +251,7 @@ class ColorCard extends HTMLElement {
                     if (this._color.hex != event.target.value)
                         this.unCommitColorCard();
                     this._color.hex = event.target.value;
-                    this.#refreshColorCard();
+                    this.refreshColorCard();
                 }, false);
                 /* position in the middle of the screeen */
                 newDIV.style.position = 'fixed';
@@ -281,7 +281,7 @@ class ColorCard extends HTMLElement {
             /** add some feedback */
             hexDiv.innerHTML = copiedFeedBack
             setTimeout(() => {
-                this.#refreshColorCard();
+                this.refreshColorCard();
             }, 1000);
         });
         const rgbDiv = this.querySelector('.colorRGB')
@@ -290,7 +290,7 @@ class ColorCard extends HTMLElement {
             /** add some feedback */
             rgbDiv.innerHTML = copiedFeedBack
             setTimeout(() => {
-                this.#refreshColorCard();
+                this.refreshColorCard();
             }, 1000);
         });
         const hslDiv = this.querySelector('.colorHSL')
@@ -299,7 +299,7 @@ class ColorCard extends HTMLElement {
             /** add some feedback */
             hslDiv.innerHTML = copiedFeedBack
             setTimeout(() => {
-                this.#refreshColorCard();
+                this.refreshColorCard();
             }, 1000);
         });
     }
@@ -333,7 +333,7 @@ class ColorCard extends HTMLElement {
     }
 
     /** method updateInnerHTML */
-    #refreshColorCard() {
+    refreshColorCard() {
         // update the inner text of all inner html div
         this.querySelector('.colorBloc').style.backgroundColor = this._color.hex;
         this.querySelector('.colorName').innerText = this._color.name;
@@ -380,7 +380,7 @@ class ColorCard extends HTMLElement {
                     this._color.hex = srcColorHex;
                     this._color.name = srcColorName;
                     this.unCommitColorCard();
-                    this.#refreshColorCard();
+                    this.refreshColorCard();
 
                     // Find the source element and update its color
                     const sourceElements = document.querySelectorAll('color-card');
@@ -389,7 +389,7 @@ class ColorCard extends HTMLElement {
                             elem._color.hex = targetColorHex;
                             elem._color.name = targetColorName;
                             elem.unCommitColorCard();
-                            elem.refreshColorLabels();
+                            elem.refreshColorCard();
                         }
                     });
                     return; // Exit after swapping
@@ -398,7 +398,7 @@ class ColorCard extends HTMLElement {
                 /** Replace target color */ {
                     this._color.hex = srcColorHex;
                     this._color.name = srcColorHex;
-                    this.#refreshColorCard();
+                    this.refreshColorCard();
                     this.#setColorCardContext(targetContext);
                     this.unCommitColorCard();
                 }
@@ -446,17 +446,17 @@ class ColorCard extends HTMLElement {
     resetColorCard() {
         this._color.hex = Color.getDefaultColor();
         this.unCommitColorCard();
-        this.#refreshColorCard();
+        this.refreshColorCard();
     }
     commitColorCard() {
-        if (this.ColorContext === ColorContext.Palette) {
+        if (this._colorContext === ColorContext.Palette) {
             this._isCommited = true;
             this.style.borderColor = 'black';
             this.parentElement.dispatchEvent(new Event('colorChange'));
         }
     }
     unCommitColorCard() {
-        if (this.ColorContext === ColorContext.Palette) {
+        if (this._colorContext === ColorContext.Palette) {
             this._isCommited = false;
             this.parentElement.isCommited = false;
             this.style.borderColor = 'red';

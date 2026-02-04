@@ -83,11 +83,22 @@ undoTool.bindToPalette(paletteDIV);
 
 /* Show palette status */
 
+/** catch custom event colorChange for paletteDIV */
+paletteDIV.addEventListener('colorChange', (event) => {
+  /** if is commited false, show commit button */
+  if (!paletteDIV.isCommited) {
+    commitTool.showButton();
+  } else {
+    commitTool.invisibleButton();
+  } 
+});
+
+
 
 /* Build the toolbar */
 commitTool.addButton(toolbar, "✔️", "Commit Palette Colors");
 undoTool.addButton(toolbar, "↩️", "Undo Last Change"); 
-clearPaletteTool.addButton(toolbar, "🧹", "Clear Palette");
+clearPaletteTool.addButton(toolbar, "▩", "Clear Palette");
 modeSwitchTool.addButton(toolbar, '🌗', "Dark Mode Swiitcher");;
 aboutTool.addTool(toolbar, "?", tools, "About ColorPkr");
 

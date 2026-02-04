@@ -1,15 +1,31 @@
 
 /* Generic for tools */
 
+@media (orientation: portrait) {
+  #toolbar {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+@media (orientation:landscape) {
+  #toolbar {
+    width: auto;
+    height: 100%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+}
+
+
+
+
 #toolbar {
-  display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
   align-content: flex-start;
-  width: 100%;
-  height: auto;
   box-sizing: border-box;
   padding: 5px;
   gap: 5px;
