@@ -7,6 +7,16 @@ Refonte Complete
 - Metre en place le CSSS
 - Ajouter les outils modulairements
 
-- add undo on loading
+- Save
+- Load
+
+- Setings
+    - Resize Palette
+    - Language
+
+- Gradient
+- HSL Slider
+- Test Color
+- HSL Fixer
 
  
