@@ -6,7 +6,9 @@ class UndoTool extends Tool {
         super(() => this.undo());
         this.paletteDIV = null;
     }
-    undo() {
+    /** Undo the last commit by loading colors from IndexedDB */
+    /** on success call the function in argument */
+    undo(fSucccess=null) {
         if (this.paletteDIV) {
             /** remove all paletteDIV child cards first */
             this.paletteDIV.innerHTML = '';
@@ -26,10 +28,17 @@ class UndoTool extends Tool {
                         const color = new Color(colorData.hexColor, colorData.title);
                         const colorCard = new ColorCard(color, ColorContext.Palette);
                         this.paletteDIV.appendChild(colorCard);
+                        this.paletteDIV.appState.addColorToPalette(color);
                     });         
-
+                    if (fSucccess) {
+                        fSucccess();
+                    }   
                 };
             };
+            /* Handle errors */
+            request.onerror = (event) => {
+                console.error("Error opening IndexedDB:", event.target.error);
+            };  
         }
     }   
     bindToPalette(paletteDIV) {

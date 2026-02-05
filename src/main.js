@@ -6,6 +6,8 @@ import { CommitTool } from './tools/commit.js';
 import { UndoTool } from './tools/undo.js';
 import { Tool } from './classes/tool.js';
 
+const defaultPaletteSize = 50;
+
 customElements.define('color-card', ColorCard);
 
 var toolbar = document.getElementById('toolbar');
@@ -64,15 +66,8 @@ const appState = new AppState();
 
 const paletteDIV = document.getElementById('palette');
 paletteDIV.isCommited = true;
+paletteDIV.appState = appState;
 
-
-
-for (let i = 1; i <= 20; i++) {
-  const defaultColor = new Color();
-  appState.addColorToPalette(defaultColor);
-  const aColorCard = new ColorCard(defaultColor, ColorContext.Palette);
-  paletteDIV.appendChild(aColorCard);
-}
 
 const commitTool = new CommitTool();
 commitTool.bindToPalette(paletteDIV);
@@ -90,14 +85,32 @@ paletteDIV.addEventListener('colorChange', (event) => {
     commitTool.showButton();
   } else {
     commitTool.invisibleButton();
-  } 
+  }
 });
+
+
+
+
+undoTool.undo(() => {
+  /** if palette is empty, fill with default colors */
+  if (appState.paletteSize === 0) {
+    for (let i = 1; i <= defaultPaletteSize; i++) {
+      const defaultColor = new Color();
+      appState.addColorToPalette(defaultColor);
+      const aColorCard = new ColorCard(defaultColor, ColorContext.Palette);
+      paletteDIV.appendChild(aColorCard);
+    }
+  }
+  paletteDIV.isCommited = true;
+});
+
+
 
 
 
 /* Build the toolbar */
 commitTool.addButton(toolbar, "✔️", "Commit Palette Colors");
-undoTool.addButton(toolbar, "↩️", "Undo Last Change"); 
+undoTool.addButton(toolbar, "↩️", "Undo Last Change");
 clearPaletteTool.addButton(toolbar, "▩", "Clear Palette");
 modeSwitchTool.addButton(toolbar, '🌗', "Dark Mode Swiitcher");;
 aboutTool.addTool(toolbar, "?", tools, "About ColorPkr");
