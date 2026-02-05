@@ -1,0 +1,54 @@
+[
+    {
+        "Title": "BM Bouton",
+        "Hexcolor": "#45c9ff"
+    },
+    {
+        "Title": "BM Highlight",
+        "Hexcolor": "#55ffc7"
+    },
+    {
+        "Title": "BM Table Header",
+        "Hexcolor": "#154657"
+    },
+    {
+        "Title": "BM Odd Row",
+        "Hexcolor": "#3db4e6"
+    },
+    {
+        "Title": "BM Even Row",
+        "Hexcolor": "#2c87ad"
+    },
+    {
+        "Title": "MB Background",
+        "Hexcolor": "#191a1d"
+    },
+    {
+        "Title": "BM Highlight Strong",
+        "Hexcolor": "#ceff55"
+    },
+    {
+        "Title": "VeloxCool blue",
+        "Hexcolor": "#406380"
+    },
+    {
+        "Title": "Velox Blue Dark",
+        "Hexcolor": "#273c4d"
+    },
+    {
+        "Title": "VeloxUML-1",
+        "Hexcolor": "#8c4d34"
+    },
+    {
+        "Title": "VeloxUML-2",
+        "Hexcolor": "#991039"
+    },
+    {
+        "Title": "Velox uml-3",
+        "Hexcolor": "#ffba00"
+    },
+    {
+        "Title": "Velox Ums-4",
+        "Hexcolor": "#29006a"
+    }
+]

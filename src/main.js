@@ -67,7 +67,7 @@ paletteDIV.isCommited = true;
 
 
 
-for (let i = 1; i <= 250; i++) {
+for (let i = 1; i <= 20; i++) {
   const defaultColor = new Color();
   appState.addColorToPalette(defaultColor);
   const aColorCard = new ColorCard(defaultColor, ColorContext.Palette);
