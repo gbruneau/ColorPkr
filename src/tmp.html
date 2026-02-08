@@ -4,49 +4,65 @@
     <meta charset="UTF-8" />
     <title>Testing stuff</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
+        form {
+            margin: 20px;
+            display: flex;
+            flex-flow: column nowrap;
+            gap: 5px;
         }
 
-        div {
-            width: 100px;
-            height: 100px;
-            background-color: rgb(159, 155, 155);
-            border: 1px solid black;
+        form div {
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
         }
+
+        form div div {
+            width: 45%;
+        }   
+
+        form label {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            width: 45%;
+            text-align: right;
+        }
+
+        form input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+            }
+       form input[type="color"] {
+            padding: 0;
+            cursor: pointer;
+        }
+
+        form input[type="button"] {
+            width: auto;
+            padding: 5px 15px;
+            cursor: pointer;
+        }     
     </style>
 </head>
 
 <body>
-    hello world
-    <div id="toto"></div>
+    <h1>Hello</h1>
+    <form action="" id="formSave">
+        <div>
+            <label for="inExclColor">Exclude color</label>
+            <input type="checkbox" id="inExclColor" name="inExclColor" checked />
+        </div>
+        <div>
+            <label for="inExcludedColor">Color</label>
+            <input type="color" id="inExcludedColor" name="inExcludedColor" value="#808080" />
+        </div>
+            <input type="button" id="btCancelSave" value="Cancel" />
+            <input type="button" id="btSubmitSave" value="Save" />
+        </div>
+    </form>
 
-
-    <p>Guy Bruneau</p>
-    <p><a href="https://gbruneau.github.io/">GitHub</a></p>
-    <p><a href="https://www.linkedin.com/in/guybruneau1964" target="_blank">LinkedIn</a></p>
-
-    <script>
-        var acolor = '#ff0000';
-        const div = document.getElementById('toto');
-        div.addEventListener('click', () => {
-            newDIV = document.createElement('input');
-            newDIV.type = 'color';
-            newDIV.value = acolor;
-            //* on clict change, change div background color */
-            newDIV.addEventListener('input', (event) => {
-                acolor = event.target.value;
-                div.style.backgroundColor = acolor;
-            }, false);
-            newDIV.click()
-            newDIV = null
-        });
-
-    </script>
 
     
-
 
 
 

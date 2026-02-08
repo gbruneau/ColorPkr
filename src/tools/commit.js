@@ -51,6 +51,7 @@ class CommitTool extends Tool {
                 };
             }
         });
+        this.paletteDIV.dispatchEvent(new Event('colorChange'));
     }   
     bindToPalette(paletteDIV) {
         this.paletteDIV = paletteDIV;

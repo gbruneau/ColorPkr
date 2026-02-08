@@ -40,7 +40,9 @@
   border: none;
   box-sizing: border-box;
   background-color: black;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   font-size: 1.5em;
   line-height: 50px;
@@ -49,6 +51,15 @@
 .toolBarButton:hover {
     background-color: gray;
   } 
+
+.toolBarButton img  {
+    width: auto;
+    height: auto;
+    max-width: 90%;
+    max-height: 90%;
+
+    object-fit: contain;
+}
 
  .toolContainer {
     height:calc(100% - 20px);
