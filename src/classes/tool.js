@@ -20,6 +20,13 @@ class Tool {
         /** show this tool div */
         this.toolDiv.style.display = 'block';
     }
+    hideDialog() {
+        this.toolDiv.style.display = 'none';
+    }   
+    showDialog() {
+        this.toolDiv.style.display = 'block';
+    }
+
     showButton() {
         this.buttonDiv.style.display = 'block';
         this.buttonDiv.style.visibility = 'visible';

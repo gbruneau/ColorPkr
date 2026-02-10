@@ -6,6 +6,7 @@ import { CommitTool } from './tools/commit.js';
 import { UndoTool } from './tools/undo.js';
 import { Tool } from './classes/tool.js';
 import { SaveTool } from './tools/fileSave.js';
+import { OpenTool  } from './tools/fileOpen.js';
 
 const defaultPaletteSize = 50;
 
@@ -43,7 +44,7 @@ const dummyTool = new Tool(() => {
   alert("This is a dummy tool. It does nothing.");
 });
 
-const fileSaveTool = new SaveTool();
+
 
 
 
@@ -64,6 +65,9 @@ class AppState {
   get paletteSize() {
     return this.paletteColors.length;
   }
+  clearPalette() {
+    this.paletteColors = [];
+  }
 }
 
 
@@ -76,6 +80,12 @@ const paletteDIV = document.getElementById('palette');
 paletteDIV.isCommited = true;
 paletteDIV.appState = appState;
 
+
+const fileSaveTool = new SaveTool();
+fileSaveTool.bindToPalette(paletteDIV);
+
+const fileOpenTool = new OpenTool();
+fileOpenTool.bindToPalette(paletteDIV);
 
 const commitTool = new CommitTool();
 commitTool.bindToPalette(paletteDIV);
@@ -112,20 +122,21 @@ undoTool.undo(() => {
   paletteDIV.isCommited = true;
 });
 
-fileSaveTool.bindToPalette(paletteDIV);
+
 
 
 
 
 /* Build the toolbar */
 fileSaveTool.addTool(toolbar, '<img src="save.png">', tools, "Save Palette to File");
+fileOpenTool.addTool(toolbar, '<img src="open.png">', tools, "Open Palette from File");
 commitTool.addButton(toolbar, '<img src="commit.png">', "Commit Palette Colors");
 undoTool.addButton(toolbar, '<img src="undo.png">', "Undo Last Change");
 clearPaletteTool.addButton(toolbar, '<img src="clear.png">', "Clear Palette");
 modeSwitchTool.addButton(toolbar, '<img src="darkmode.png">', "Dark Mode Swiitcher");
 aboutTool.addTool(toolbar, '<img src="about.png">', tools, "About ColorPkr");
 
-dummyTool.addTool(toolbar, '<img src="commit.png">', tools, "This is a dummy tool. It does nothing.");
+// dummyTool.addTool(toolbar, '<img src="commit.png">', tools, "This is a dummy tool. It does nothing.");
 
 
 /* Show default tool */
