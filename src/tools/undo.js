@@ -13,6 +13,7 @@ class UndoTool extends Tool {
             /** remove all paletteDIV child cards first */
             this.paletteDIV.innerHTML = '';
             this.paletteDIV.isCommited = false;
+            this.paletteDIV.appState.clearPalette();
             /** clear paletteDIV a dn load color from indexedDB */
             const dbName = "ColorPkr";
             const storeName = "colors";

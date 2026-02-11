@@ -6,7 +6,8 @@ import { CommitTool } from './tools/commit.js';
 import { UndoTool } from './tools/undo.js';
 import { Tool } from './classes/tool.js';
 import { SaveTool } from './tools/fileSave.js';
-import { OpenTool  } from './tools/fileOpen.js';
+import { OpenTool } from './tools/fileOpen.js';
+import { SettingsTool } from './tools/settings.js';
 
 const defaultPaletteSize = 50;
 
@@ -48,7 +49,6 @@ const dummyTool = new Tool(() => {
 
 
 
-
 /** ================================= */
 
 class AppState {
@@ -67,6 +67,16 @@ class AppState {
   }
   clearPalette() {
     this.paletteColors = [];
+  }
+  /** resize the palette, if the new size is greater, add default color */
+  resisePalette(newSize) {
+    if (newSize > this.paletteColors.length) {
+      for (let i = this.paletteColors.length; i < newSize; i++) {
+        this.paletteColors.push(new Color());
+      }
+    } else {
+      this.paletteColors = this.paletteColors.slice(0, newSize);
+    }
   }
 }
 
@@ -92,6 +102,9 @@ commitTool.bindToPalette(paletteDIV);
 
 const undoTool = new UndoTool();
 undoTool.bindToPalette(paletteDIV);
+
+const settingsTool = new SettingsTool();
+settingsTool.bindToPalette(paletteDIV);
 
 
 /* Show palette status */
@@ -128,12 +141,15 @@ undoTool.undo(() => {
 
 
 /* Build the toolbar */
+
+
 fileSaveTool.addTool(toolbar, '<img src="save.png">', tools, "Save Palette to File");
 fileOpenTool.addTool(toolbar, '<img src="open.png">', tools, "Open Palette from File");
 commitTool.addButton(toolbar, '<img src="commit.png">', "Commit Palette Colors");
 undoTool.addButton(toolbar, '<img src="undo.png">', "Undo Last Change");
 clearPaletteTool.addButton(toolbar, '<img src="clear.png">', "Clear Palette");
 modeSwitchTool.addButton(toolbar, '<img src="darkmode.png">', "Dark Mode Swiitcher");
+settingsTool.addTool(toolbar, '<img src="settings.png">', tools, "Settings");
 aboutTool.addTool(toolbar, '<img src="about.png">', tools, "About ColorPkr");
 
 // dummyTool.addTool(toolbar, '<img src="commit.png">', tools, "This is a dummy tool. It does nothing.");

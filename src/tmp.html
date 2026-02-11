@@ -4,65 +4,26 @@
     <meta charset="UTF-8" />
     <title>Testing stuff</title>
     <style>
-        form {
-            margin: 20px;
-            display: flex;
-            flex-flow: column nowrap;
-            gap: 5px;
-        }
-
-        form div {
-            display: flex;
-            flex-direction: row;
-            gap: 5px;
-        }
-
-        form div div {
-            width: 45%;
-        }   
-
-        form label {
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            width: 45%;
-            text-align: right;
-        }
-
-        form input[type="checkbox"] {
-            width: auto;
-            cursor: pointer;
-            }
-       form input[type="color"] {
-            padding: 0;
-            cursor: pointer;
-        }
-
-        form input[type="button"] {
-            width: auto;
-            padding: 5px 15px;
-            cursor: pointer;
-        }     
+        @import url('style/tool.css');
     </style>
 </head>
 
 <body>
-    <h1>Hello</h1>
-    <form action="" id="formSave">
-        <div>
-            <label for="inExclColor">Exclude color</label>
-            <input type="checkbox" id="inExclColor" name="inExclColor" checked />
-        </div>
-        <div>
-            <label for="inExcludedColor">Color</label>
-            <input type="color" id="inExcludedColor" name="inExcludedColor" value="#808080" />
-        </div>
-            <input type="button" id="btCancelSave" value="Cancel" />
-            <input type="button" id="btSubmitSave" value="Save" />
-        </div>
-    </form>
 
 
-    
+    <div ID="divSettings" class="dialogTool">
+        <form id="formsettings">
+            <div>
+                <label for="inPaletteSize">Palette size</label>
+                <input type="number" id="inPaletteSize" name="inPaletteSize" min="1" />
+            </div>
+            <div>
+                <input type="button" id="btCancelSettings" value="Cancel" />
+                <input type="button" id="btSubmitSettings" value="Save" />
+            </div>
+        </form>
+    </div>
+
 
 
 

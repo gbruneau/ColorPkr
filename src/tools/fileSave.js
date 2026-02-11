@@ -43,8 +43,15 @@ class SaveTool extends Tool {
             });
 
             this.#download(JSON.stringify(jsonData), "ColorPalette.json", "text/plain");
-
-            this.hideDialog();
+            //** display a message for 2second before closing the dialog    */
+            const message = document.createElement('div');
+            message.classList.add('message');
+            message.textContent = 'Palette saved';
+            this.toolDiv.appendChild(message);
+            setTimeout(() => {
+                this.hideDialog();
+                this.toolDiv.removeChild(message);
+            }, 2000);
         });
 
         const inExclColor = this.toolDiv.querySelector('#inExclColor');
