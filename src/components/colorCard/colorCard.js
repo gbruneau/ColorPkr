@@ -13,6 +13,8 @@ const ColorContext = Object.freeze({
     ToolOutput: 3
 })
 
+const copiedFeedBack = '<span class="emoji">&#128203;</span>'; // clipboard emoji
+const copiedFeedbackDuration=1000 // in ms
 
 class ColorCard extends HTMLElement {
     /**
@@ -111,7 +113,6 @@ class ColorCard extends HTMLElement {
         });
 
         /** clic on colorHex copy the innertext to clipboard */
-        const copiedFeedBack = '<span class="emoji">&#128203;</span>'; // clipboard emoji
         const hexDiv = this.querySelector('.colorHex')
         hexDiv.addEventListener('click', () => {
             navigator.clipboard.writeText(this._color.hex);
@@ -119,7 +120,7 @@ class ColorCard extends HTMLElement {
             hexDiv.innerHTML = copiedFeedBack
             setTimeout(() => {
                 this.refreshColorCard();
-            }, 1000);
+            }, copiedFeedbackDuration);
         });
         const rgbDiv = this.querySelector('.colorRGB')
         rgbDiv.addEventListener('click', () => {
@@ -128,7 +129,7 @@ class ColorCard extends HTMLElement {
             rgbDiv.innerHTML = copiedFeedBack
             setTimeout(() => {
                 this.refreshColorCard();
-            }, 1000);
+            }, copiedFeedbackDuration);
         });
         const hslDiv = this.querySelector('.colorHSL')
         hslDiv.addEventListener('click', () => {
@@ -161,7 +162,7 @@ class ColorCard extends HTMLElement {
         }
         else if (aColorContext === ColorContext.ToolOutput) {
             this._isEditable = false;
-            this._showLabels = true;
+            this._showLabels = false;
             this._nameEditable = false;
             this._showName = false;
             this._dragSource = true;
@@ -254,11 +255,28 @@ class ColorCard extends HTMLElement {
         <div id="fullRGB">${this._color.rgb}</div>
         <div id="fullHSL">${this._color.hsl}</div>
     `;
-        document.body.appendChild(fullScreenDiv);
+
+         document.body.appendChild(fullScreenDiv);
         // hide name if not in the context of a palette
         if (!this._showName) {
             fullScreenDiv.querySelector('#fullName').style.display = 'none';
         }
+        
+        /** on click for name hex, rgf and hsl, copy to clipborad and display a message  */
+        var idList=["fullName","fullHex","fullRGB","fullHSL"   ]
+        /** for each in idlist , listen for click and copy to clipborad */ 
+        idList.forEach(lableID => {
+            const label = fullScreenDiv.querySelector(`#${lableID}`); 
+            label.addEventListener('click', () => {
+                navigator.clipboard.writeText(label.innerText);
+                const oldText = label.innerText;
+                label.innerHTML = copiedFeedBack;
+                setTimeout(() => {
+                    label.innerHTML = oldText;
+                }, copiedFeedbackDuration);
+            });
+        });    
+
 
 
         // Add a div button at the bottom to close the full screen
@@ -272,6 +290,10 @@ class ColorCard extends HTMLElement {
             document.body.removeChild(fullScreenDiv);
         });
         fullScreenDiv.appendChild(closeButton);
+
+
+
+
     }
 
     get color() {

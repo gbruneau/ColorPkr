@@ -19,4 +19,5 @@ Refonte Complete
 - Test Color
 - HSL Fixer
 
- 
+Fix
+- Gradient doesn't work, no refresh when input color change

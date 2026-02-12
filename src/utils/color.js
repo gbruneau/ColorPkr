@@ -158,16 +158,17 @@ class Color {
     static getDefaultColor() {
         return defaultColor;
     }
-    static gradient(fromHex, toHex, steps) {
+    static genGradient(fromHex, toHex, steps) {
         // TODO: Implement gradient generation
         // gradient from fromHex to toHex with steps steps using HSL interpolation 
         var grad = [];  
         for (let i = 0; i < steps; i++) {
-            grad.push(Color.interpolateHSL(fromHex, toHex, i / steps));
+            grad.push(Color.interpolateHSL(fromHex, toHex, i / (steps-1)));
         }
         return grad;
     }
     static interpolateHSL(fromHex, toHex, ratio) {
+        //console.log(`fromHex:  ${fromHex}, toHex: ${toHex}, ratio: ${ratio}`);
         // TODO: Implement HSL interpolation
         if (ratio < 0 || ratio > 1) {
             throw new Error('Ratio must be between 0 and 1');
@@ -180,12 +181,10 @@ class Color {
         }   
         const fromColor = new Color(fromHex);
         const toColor = new Color(toHex);
-        const newH = fromColor.H + (toColor.H - fromColor.H) * ratio;
-        const newS = fromColor.S + (toColor.S - fromColor.S) * ratio;
-        const newL = fromColor.L + (toColor.L - fromColor.L) * ratio;
-        toColor.H = newH;
-        toColor.S = newS;
-        toColor.L = newL;
+        const newH = Math.round(fromColor.H + (toColor.H - fromColor.H) * ratio);
+        const newS = Math.round(fromColor.S + (toColor.S - fromColor.S) * ratio);
+        const newL = Math.round(fromColor.L + (toColor.L - fromColor.L) * ratio);
+        toColor.hsl = `hsl(${newH},${newS}%,${newL}%)`;
         return toColor.hex;
     }   
 }

@@ -5,25 +5,65 @@ import gradientIcon from './gradient.png';
 class GradientTool extends Tool {
     constructor() {
         super(() => this.showTool());
-        const inputSection = document.createElement('section');
-        inputSection.className = 'toolInput';
+        this.inputSection = document.createElement('section');
+        this.inputSection.className = 'toolInput';
         const colorFrom = new ColorCard(new Color(Color.genRandomColor()), ColorContext.ToolInput);
-        const colorTo = new ColorCard(new Color(Color.genRandomColor()), ColorContext.ToolInput);
-        inputSection.appendChild(colorFrom);
-        inputSection.appendChild(colorTo);
-        
-        const outputSection = document.createElement('section');
-        outputSection.className = 'toolOutput';
-        outputSection.textContent = 'Gradient output';
+        this.colorFrom = colorFrom.color.hex;
 
-        this.toolDiv.appendChild(inputSection);
-        this.toolDiv.appendChild(outputSection);
+        const colorTo = new ColorCard(new Color(Color.genRandomColor()), ColorContext.ToolInput);
+        this.colorTo = colorTo.color.hex;
+
+        const gradientSizeInput = document.createElement('input');
+        gradientSizeInput.type = 'number';
+        gradientSizeInput.min = '3';
+        gradientSizeInput.max = '1023';
+        gradientSizeInput.value = '5';
+       this.gradientSize = parseInt(gradientSizeInput.value);
+
+
+
+        this.inputSection.appendChild(colorFrom);
+        this.inputSection.appendChild(colorTo);
+        this.inputSection.appendChild(gradientSizeInput);
+        
+        this.outputSection = document.createElement('section');
+        this.outputSection.className = 'toolOutput';
+        this.outputSection.textContent = 'Gradient output';
+
+        this.toolDiv.appendChild(this.inputSection);
+        this.toolDiv.appendChild(this.outputSection);
+
+
+
+        gradientSizeInput.addEventListener('input', () => {
+            this.gradientSize = parseInt(gradientSizeInput.value);
+            this.refreshGradient();
+        });
+        colorFrom.querySelector(".colorBloc").addEventListener('change', () => {
+            this.colorFrom = colorFrom.querySelector(".colorBloc").value;
+            this.refreshGradient();
+        });
+        colorTo.querySelector(".colorBloc").addEventListener('change', () => {
+            this.colorTo = colorTo.querySelector(".colorBloc").value;
+            this.refreshGradient();
+        });
+        this.refreshGradient();
 
     }
     addTool(aToolArea,aToolBar) {
         const img = document.createElement('img');
         img.src = gradientIcon;
         super.addTool( aToolArea,aToolBar, 'Generate Gradient', img);
+    }
+    refreshGradient() {
+        /** cleat output section */
+        this.toolDiv.querySelector('.toolOutput').innerHTML = '';
+        /** create gradient */
+        const gradientArray= Color.genGradient(this.colorFrom,this.colorTo,this.gradientSize);
+        /** create gradient cards */
+        gradientArray.forEach((color) => {
+            this.outputSection.appendChild(new ColorCard(new Color(color), ColorContext.ToolOutput));
+        });
     }
 
 }
