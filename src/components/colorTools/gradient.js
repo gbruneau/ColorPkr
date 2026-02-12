@@ -39,12 +39,14 @@ class GradientTool extends Tool {
             this.gradientSize = parseInt(gradientSizeInput.value);
             this.refreshGradient();
         });
-        colorFrom.querySelector(".colorBloc").addEventListener('change', () => {
-            this.colorFrom = colorFrom.querySelector(".colorBloc").value;
+        const fromColorInput=colorFrom.querySelector(".colorBloc")
+        fromColorInput.addEventListener('change', () => {
+            this.colorFrom = fromColorInput.value;
             this.refreshGradient();
         });
-        colorTo.querySelector(".colorBloc").addEventListener('change', () => {
-            this.colorTo = colorTo.querySelector(".colorBloc").value;
+        const toColorInput=colorTo.querySelector(".colorBloc")
+        toColorInput.addEventListener('change', () => {
+            this.colorTo = toColorInput.value;
             this.refreshGradient();
         });
         this.refreshGradient();
