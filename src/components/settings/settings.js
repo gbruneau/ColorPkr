@@ -1,5 +1,6 @@
-import { Tool } from '../classes/tool.js';
-import { Color, ColorCard, ColorContext } from '../classes/color.js';
+import { Tool } from '../tool.js';
+import { Color, ColorCard, ColorContext } from '../colorCard/colorCard.js';
+import toolBtIcon from './settings.png';
 
 class SettingsTool extends Tool {
     constructor() {
@@ -63,7 +64,11 @@ class SettingsTool extends Tool {
         const inPaletteSize = this.toolDiv.querySelector('#inPaletteSize');
         inPaletteSize.value = this.paletteDIV.appState.paletteSize;
     }   
-
+    addTool(aToolArea,aToolBar) {
+        const img=document.createElement('img');
+        img.src=toolBtIcon;
+        super.addTool(aToolArea,aToolBar, "Settings", img);
+    }
 
 
 }

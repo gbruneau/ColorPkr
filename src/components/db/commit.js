@@ -1,4 +1,5 @@
-import { Tool } from '../classes/tool.js';
+import { Tool } from '../tool.js';
+import commitIcon from './commit.png';
 
 class CommitTool extends Tool {
     constructor( ) {
@@ -70,6 +71,12 @@ class CommitTool extends Tool {
         }       
 
     }   
+    
+    addButton(aToolBar) {
+        const img = document.createElement('img');
+        img.src = commitIcon;
+        super.addButton(aToolBar, 'Commit Palette Colors', img);
+    }
 }
 
 export { CommitTool };

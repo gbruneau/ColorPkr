@@ -1,5 +1,6 @@
-import { Tool } from '../classes/tool.js';
-import { Color, ColorCard, ColorContext } from '../classes/color.js';
+import { Tool } from '../tool.js';
+import { Color, ColorCard, ColorContext } from '../colorCard/colorCard.js';
+import undoIcon from './undo.png';
 
 class UndoTool extends Tool {
     constructor() {
@@ -67,7 +68,11 @@ class UndoTool extends Tool {
     bindToPalette(paletteDIV) {
         this.paletteDIV = paletteDIV;
     };
-
+    addButton(aToolBar) {
+        const img = document.createElement('img');
+        img.src = undoIcon;
+        super.addButton(aToolBar, 'Undo Last Change', img);
+    }
 }
 
 export { UndoTool };

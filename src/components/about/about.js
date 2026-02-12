@@ -1,6 +1,7 @@
 
-import '../style/about.css';
-import { Tool } from '../classes/tool.js';
+import './asset/about.css';
+import { Tool } from '../tool.js';
+import aboutIcon from './asset/about.png';
 
 class AboutTool extends Tool {
     constructor( ) {
@@ -10,7 +11,6 @@ class AboutTool extends Tool {
 
 
         super(() => this.showTool());
-        this.buttonDiv.innerHTML = 'About';
         this.toolDiv.innerHTML =`
     <h2>About ColorPkr</h2>
     <p>Version: ${version} (Build ${buildNumber})</p>
@@ -20,6 +20,11 @@ class AboutTool extends Tool {
 
   `
     this.toolDiv.classList.add('aboutToolContainer');
+    }
+    addButton(aToolBar) {
+        const img = document.createElement('img');
+        img.src = aboutIcon;
+        super.addButton (aToolBar, 'About ColorPkr', img);
     }
 }
 

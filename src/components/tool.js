@@ -1,11 +1,14 @@
-import '../style/tool.css';
+import './tool.css';
 
 class Tool {
-    constructor(onClickFunction) {
+    /**
+     * @param {Function} onClickToolIcon - The function to call when the tool icon is clicked
+     */
+    constructor(onClickToolIcon) {
         /** create 2 new instance of div element node, one name buttonDiv , the other toolDiv */
         this.buttonDiv = document.createElement('div');
         this.buttonDiv.classList.add('toolBarButton');
-        this.buttonDiv.addEventListener('click', onClickFunction);
+        this.buttonDiv.addEventListener('click', onClickToolIcon);
 
         this.toolDiv = document.createElement('div');
         this.toolDiv.classList.add('toolContainer');
@@ -19,7 +22,7 @@ class Tool {
             parent.children[i].style.display = 'none';
         }
         /** show this tool div */
-        this.toolDiv.style.display = 'block';
+        this.toolDiv.style.display = 'flex';
     }
     /** hide the tool div */
     hideDialog() {
@@ -45,16 +48,18 @@ class Tool {
     }
 
     /** add the tool to the toolbar and tool area */
-    addTool(aToolBar,aButtonHTML , aToolArea,hintText="") {
-        aToolBar.appendChild(this.buttonDiv);
+    /** @param {HTMLElement} aToolArea - The tool area element */
+    /** @param {HTMLElement} aToolBar - The tool bar element */
+    /** @param {string} hintText - The hint text for the tool */
+    /** @param {HTMLElement} imgNode - The image node for the tool */
+    addTool(aToolArea,aToolBar,hintText="",imgNode ) {
         aToolArea.appendChild(this.toolDiv);
-        this.buttonDiv.innerHTML = aButtonHTML;
-        this.buttonDiv.title = hintText;
+        this.addButton(aToolBar,  hintText, imgNode);
     }
     /** add the tool button to the toolbar */
-    addButton(aToolBar,aButtonHTML,hintText="") {
+    addButton(aToolBar,hintText="",imgNode) {
         aToolBar.appendChild(this.buttonDiv)
-        this.buttonDiv.innerHTML = aButtonHTML;
+        this.buttonDiv.appendChild(imgNode);
         this.buttonDiv.title = hintText;
     }
 }

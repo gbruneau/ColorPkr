@@ -1,13 +1,26 @@
-import './style/style.css';
+import './asset/style.css';
 
-import { Color, ColorCard, ColorContext } from './classes/color.js';
-import { AboutTool } from './tools/about.js';
-import { CommitTool } from './tools/commit.js';
-import { UndoTool } from './tools/undo.js';
-import { Tool } from './classes/tool.js';
-import { SaveTool } from './tools/fileSave.js';
-import { OpenTool } from './tools/fileOpen.js';
-import { SettingsTool } from './tools/settings.js';
+import appIcon from './asset/ColorPkrIcon.png';
+
+import { Color, ColorCard, ColorContext } from './components/colorCard/colorCard.js';
+import { AboutTool } from './components/about/about.js';
+import { CommitTool } from './components/db/commit.js';
+import { UndoTool } from './components/db/undo.js';
+import { SaveTool } from './components/file/fileSave.js';
+import { OpenTool } from './components/file/fileOpen.js';
+import { SettingsTool } from './components/settings/settings.js';
+import { ModesTool } from './components/settings/modes.js';
+import { ClearTool } from './components/db/clear.js';
+import { GradientTool } from './components/colorTools/gradient.js';
+
+/** add app icon to document head */
+const link = document.createElement('link');
+link.rel = 'icon';
+link.type = 'image/png';
+link.href = appIcon;
+document.head.appendChild(link);  
+
+
 
 const defaultPaletteSize = 50;
 
@@ -22,31 +35,11 @@ var tools = document.getElementById('tools');
 const aboutTool = new AboutTool()
 
 /** mode switcher */
-const modeSwitchTool = new Tool(() => {
-  document.body.classList.toggle('dark-mode');
-  /** for all color-card elements */
-  const colorCards = document.querySelectorAll('.color-card');
-  colorCards.forEach(card => {
-    card.classList.toggle('dark-mode');
-  });
-});
+const modeSwitchTool = new ModesTool();
+
 
 /** clear palette tool */
-const clearPaletteTool = new Tool(() => {
-  const pDIV = document.getElementById('palette');
-
-  const colorCards = pDIV.querySelectorAll('.color-card');
-  colorCards.forEach(card => {
-    card.resetColorCard();
-  });
-});
-
-const dummyTool = new Tool(() => {
-  alert("This is a dummy tool. It does nothing.");
-});
-
-
-
+const clearPaletteTool = new ClearTool();
 
 
 /** ================================= */
@@ -106,6 +99,7 @@ undoTool.bindToPalette(paletteDIV);
 const settingsTool = new SettingsTool();
 settingsTool.bindToPalette(paletteDIV);
 
+const gradientTool = new GradientTool();
 
 /* Show palette status */
 
@@ -143,18 +137,22 @@ undoTool.undo(() => {
 /* Build the toolbar */
 
 
-fileSaveTool.addTool(toolbar, '<img src="save.png">', tools, "Save Palette to File");
-fileOpenTool.addTool(toolbar, '<img src="open.png">', tools, "Open Palette from File");
-commitTool.addButton(toolbar, '<img src="commit.png">', "Commit Palette Colors");
-undoTool.addButton(toolbar, '<img src="undo.png">', "Undo Last Change");
-clearPaletteTool.addButton(toolbar, '<img src="clear.png">', "Clear Palette");
-modeSwitchTool.addButton(toolbar, '<img src="darkmode.png">', "Dark Mode Swiitcher");
-settingsTool.addTool(toolbar, '<img src="settings.png">', tools, "Settings");
-aboutTool.addTool(toolbar, '<img src="about.png">', tools, "About ColorPkr");
-
-// dummyTool.addTool(toolbar, '<img src="commit.png">', tools, "This is a dummy tool. It does nothing.");
+fileSaveTool.addTool(tools,toolbar );
+fileOpenTool.addTool(tools,toolbar );
 
 
-/* Show default tool */
+commitTool.addButton(toolbar);
+
+undoTool.addButton(toolbar);
+
+clearPaletteTool.addButton(toolbar);
+modeSwitchTool.addButton(toolbar);
+
+gradientTool.addTool(tools, toolbar);
+
+settingsTool.addTool(tools,toolbar);
+aboutTool.addTool(tools,toolbar);
+
+
 aboutTool.showTool();
 

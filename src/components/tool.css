@@ -65,7 +65,35 @@
   height: calc(100% - 20px);
   width: calc(100% - 20px);
   padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+/** adjust tool container flex direction acording to device orientation */
+@media (orientation: portrait) {
+  .toolContainer {
+    flex-direction: row;
+  }
+}
+
+@media (orientation: landscape) {
+  .toolContainer {
+    flex-direction: column;
+  }
+}
+
+
+
+
+.toolInput {
+  border: 1px solid red;
+}
+
+.toolOutput {
+  border: 1px solid blue;
+}
+
 
 /** dialog tool with drop shadow  */
 

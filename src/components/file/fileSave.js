@@ -1,4 +1,5 @@
-import { Tool } from '../classes/tool.js';
+import { Tool } from '../tool.js';
+import toolBtIcon from './save.png';
 
 class SaveTool extends Tool {
     constructor() {
@@ -80,7 +81,11 @@ class SaveTool extends Tool {
         a.download = fileName;
         a.click();
     }
-
+    addTool(aToolArea,aToolBar ) {
+        const img=document.createElement('img');
+        img.src=toolBtIcon;
+        super.addTool(aToolArea,aToolBar,"Save palette",img);
+    }
 }
 
 

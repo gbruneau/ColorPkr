@@ -1,5 +1,8 @@
-import { Tool } from '../classes/tool.js';
-import { Color, ColorCard, ColorContext  } from '../classes/color.js';
+import { Tool } from '../tool.js';
+import { Color, ColorCard, ColorContext } from '../colorCard/colorCard.js';
+import toolBtIcon from './open.png';
+
+
 
 class OpenTool extends Tool {
     constructor() {
@@ -42,7 +45,7 @@ class OpenTool extends Tool {
                     }
                     /** check for fiels Title , Hexcolor for backward compatibility */
                     if (color.Title && color.Hexcolor) {
-                        const aColor = new Color(color.Hexcolor,color.Title );
+                        const aColor = new Color(color.Hexcolor, color.Title);
                         const aColorCard = new ColorCard(aColor, ColorContext.Palette);
                         this.paletteDIV.appendChild(aColorCard);
                         this.paletteDIV.appState.addColorToPalette(aColor);
@@ -57,7 +60,12 @@ class OpenTool extends Tool {
     }
     bindToPalette(paletteDIV) {
         this.paletteDIV = paletteDIV;
-    }   
+    }
+    addTool(aToolArea,aToolBar) {
+        const img=document.createElement('img');
+        img.src=toolBtIcon;
+        super.addTool( aToolArea,aToolBar, "Open palette file", img);
+    }
 }
 
 
