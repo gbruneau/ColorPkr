@@ -44,19 +44,16 @@ class CommitTool extends Tool {
                     title: card._color.name
                 };
                 const addRequest = objectStore.add(colorData);
-                addRequest.onsuccess = function() {
-                    console.log('Color saved to IndexedDB:', colorData);
-                };
                 addRequest.onerror = function() {
-                    console.error('Error saving color to IndexedDB');
+                    console.error('Error saving color ' + colorData.hexColor + ' to IndexedDB');
                 };
             }
         });
-        this.paletteDIV.dispatchEvent(new Event('colorChange'));
+        this.paletteDIV.dispatchEvent(new CustomEvent('colorCardChange', { detail: this.paletteDIV.isCommited }));
     }   
     bindToPalette(paletteDIV) {
         this.paletteDIV = paletteDIV;
-        this.paletteDIV.addEventListener('colorPaletteChange', () => {
+        this.paletteDIV.addEventListener('colorCardChange', () => {
             if (this.paletteDIV.isCommited) {
                 this.invisibleButton();
             } else {

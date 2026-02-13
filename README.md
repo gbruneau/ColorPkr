@@ -20,6 +20,6 @@ Refonte Complete
 - HSL Fixer
 
 Fix
-- Gradient doesn't work, no refresh when input color change
-- colorCard when uncommit should trigger colorChange event in parent tool
-- Il est 23h00 je me couche
+- Gradient doesn't work in firefox when user click on a color
+- but work when drag and drop
+

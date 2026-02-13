@@ -1,6 +1,8 @@
 import { Tool } from '../tool.js';
 import toolBtIcon from './save.png';
 
+const DEFAULT_FILE_NAME = "ColorPkrPalette.json";
+
 class SaveTool extends Tool {
     constructor() {
         super(() => this.showDialog());
@@ -43,7 +45,7 @@ class SaveTool extends Tool {
                 if ((!inExclColorChecked) || (inExcludedColorHex != card._color._hex)) jsonData.push(colorObj)
             });
 
-            this.#download(JSON.stringify(jsonData), "ColorPalette.json", "text/plain");
+            this.#download(JSON.stringify(jsonData), DEFAULT_FILE_NAME, "text/plain");
             //** display a message for 2second before closing the dialog    */
             const message = document.createElement('div');
             message.classList.add('message');

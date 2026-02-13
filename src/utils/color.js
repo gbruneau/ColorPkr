@@ -1,4 +1,4 @@
-const defaultColor = '#808080';
+const DEFAULT_COLOR = '#808080';
 
 class Color {
     /**
@@ -7,7 +7,7 @@ class Color {
      * @param {string} name - The name of the color (e.g., 'White').
      */
 
-    constructor(hex = defaultColor, name = '') {
+    constructor(hex = DEFAULT_COLOR, name = '') {
         this.hex = hex;
         this.name = name === '' ? hex : name;
         this.colorID = crypto.randomUUID();
@@ -156,7 +156,7 @@ class Color {
     }
 
     static getDefaultColor() {
-        return defaultColor;
+        return DEFAULT_COLOR;
     }
     static genGradient(fromHex, toHex, steps) {
         // TODO: Implement gradient generation
@@ -190,4 +190,5 @@ class Color {
 }
 
 export default Color;
-export { defaultColor };
+export { DEFAULT_COLOR as defaultColor ,Color};
+

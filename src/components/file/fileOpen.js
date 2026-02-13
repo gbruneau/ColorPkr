@@ -33,14 +33,14 @@ class OpenTool extends Tool {
             reader.onload = (e) => {
                 const json = JSON.parse(e.target.result);
                 this.paletteDIV.innerHTML = '';
-                this.paletteDIV.appState.clearPalette();
+                this.paletteDIV.ColorPalette.clearPalette();
                 json.forEach(color => {
                     //** check if fiels are present */
                     if (color.name || color.hex) {
                         const aColor = new Color(color.hex, color.name);
                         const aColorCard = new ColorCard(aColor, ColorContext.Palette);
                         this.paletteDIV.appendChild(aColorCard);
-                        this.paletteDIV.appState.addColorToPalette(aColor);
+                        this.paletteDIV.ColorPalette.addColorToPalette(aColor);
 
                     }
                     /** check for fiels Title , Hexcolor for backward compatibility */
@@ -48,11 +48,11 @@ class OpenTool extends Tool {
                         const aColor = new Color(color.Hexcolor, color.Title);
                         const aColorCard = new ColorCard(aColor, ColorContext.Palette);
                         this.paletteDIV.appendChild(aColorCard);
-                        this.paletteDIV.appState.addColorToPalette(aColor);
+                        this.paletteDIV.ColorPalette.addColorToPalette(aColor);
                     }
                 });
-                this.paletteDIV.dispatchEvent(new Event('colorChange'));
-
+                this.paletteDIV.isCommited = false;
+                this.paletteDIV.dispatchEvent(new CustomEvent('colorCardChange', { detail: false }));
             };
             reader.readAsText(file);
             this.hideDialog();

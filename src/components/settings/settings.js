@@ -29,18 +29,18 @@ class SettingsTool extends Tool {
     const btSubmit = this.toolDiv.querySelector('#btSubmitSettings');
     btSubmit.addEventListener('click', () => {
         /** update the palette size */
-        const oldPaletteSize = this.paletteDIV.appState.paletteSize;
+        const oldPaletteSize = this.paletteDIV.ColorPalette.paletteSize;
         /** get newPaletteSize from input as integer */
         const newPaletteSize = parseInt(this.toolDiv.querySelector('#inPaletteSize').value) ;
         if (oldPaletteSize != newPaletteSize) {
             /** remove the colors from the palette */
-            this.paletteDIV.appState.resisePalette(newPaletteSize);
+            this.paletteDIV.ColorPalette.resisePalette(newPaletteSize);
             /** remove all color cards from the palette */
             this.paletteDIV.querySelectorAll('.color-card').forEach(color => {
                 this.paletteDIV.removeChild(color);
             });
             /** add the color cards to the palette */
-            this.paletteDIV.appState.paletteColors.forEach(color => {
+            this.paletteDIV.ColorPalette.paletteColors.forEach(color => {
                 const aColorCard = new ColorCard(color, ColorContext.Palette);
                 this.paletteDIV.appendChild(aColorCard);
             });
@@ -62,7 +62,7 @@ class SettingsTool extends Tool {
         super.showDialog();
         /** set the value of the palette size input to the current palette size     */ 
         const inPaletteSize = this.toolDiv.querySelector('#inPaletteSize');
-        inPaletteSize.value = this.paletteDIV.appState.paletteSize;
+        inPaletteSize.value = this.paletteDIV.ColorPalette.paletteSize;
     }   
     addTool(aToolArea,aToolBar) {
         const img=document.createElement('img');

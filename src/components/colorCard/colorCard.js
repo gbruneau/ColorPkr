@@ -13,8 +13,8 @@ const ColorContext = Object.freeze({
     ToolOutput: 3
 })
 
-const copiedFeedBack = '<span class="emoji">&#128203;</span>'; // clipboard emoji
-const copiedFeedbackDuration=1000 // in ms
+const COPIED_TOCP_FEEDBACK = '<span class="emoji">&#128203;</span>'; // clipboard emoji
+const COPIED_TOCP_DURTION = 1000 // in ms
 
 class ColorCard extends HTMLElement {
     /**
@@ -78,14 +78,13 @@ class ColorCard extends HTMLElement {
         }
 
         if (this._isEditable === true) {
-            /** create an event listener when user click, display hello */
             const hexDiv = this.querySelector('.colorBloc')
-
             hexDiv.addEventListener('click', () => {
+                /** create a color picker */
                 var newDIV = document.createElement('input');
                 newDIV.type = 'color';
                 newDIV.value = this._color.hex;
-                //* on clict change, change div background color */
+                /** on clict change, change div background color */
                 newDIV.addEventListener('input', (event) => {
                     if (this._color.hex != event.target.value)
                         this.unCommitColorCard();
@@ -117,25 +116,25 @@ class ColorCard extends HTMLElement {
         hexDiv.addEventListener('click', () => {
             navigator.clipboard.writeText(this._color.hex);
             /** add some feedback */
-            hexDiv.innerHTML = copiedFeedBack
+            hexDiv.innerHTML = COPIED_TOCP_FEEDBACK
             setTimeout(() => {
                 this.refreshColorCard();
-            }, copiedFeedbackDuration);
+            }, COPIED_TOCP_DURTION);
         });
         const rgbDiv = this.querySelector('.colorRGB')
         rgbDiv.addEventListener('click', () => {
             navigator.clipboard.writeText(this._color.rgb);
             /** add some feedback */
-            rgbDiv.innerHTML = copiedFeedBack
+            rgbDiv.innerHTML = COPIED_TOCP_FEEDBACK
             setTimeout(() => {
                 this.refreshColorCard();
-            }, copiedFeedbackDuration);
+            }, COPIED_TOCP_DURTION);
         });
         const hslDiv = this.querySelector('.colorHSL')
         hslDiv.addEventListener('click', () => {
             navigator.clipboard.writeText(this._color.hsl);
             /** add some feedback */
-            hslDiv.innerHTML = copiedFeedBack
+            hslDiv.innerHTML = COPIED_TOCP_FEEDBACK
             setTimeout(() => {
                 this.refreshColorCard();
             }, 1000);
@@ -186,7 +185,7 @@ class ColorCard extends HTMLElement {
             this.draggable = true;
             this.addEventListener('dragstart', (e) => {
                 e.dataTransfer.setData('text/plain', JSON.stringify(this));
-                //                e.dataTransfer.setData('text/plain', this.color.hex);
+                
             });
         }
         if (this._dropTarget) {
@@ -202,7 +201,6 @@ class ColorCard extends HTMLElement {
             });
             this.addEventListener('drop', (e) => {
                 e.preventDefault();
-                //                const colorHex = e.dataTransfer.getData('text/plain');
                 const srcColorData = e.dataTransfer.getData('text/plain');
                 const srcColorObj = JSON.parse(srcColorData);
                 const srcColorHex = srcColorObj._color._hex;
@@ -270,10 +268,10 @@ class ColorCard extends HTMLElement {
             label.addEventListener('click', () => {
                 navigator.clipboard.writeText(label.innerText);
                 const oldText = label.innerText;
-                label.innerHTML = copiedFeedBack;
+                label.innerHTML = COPIED_TOCP_FEEDBACK;
                 setTimeout(() => {
                     label.innerHTML = oldText;
-                }, copiedFeedbackDuration);
+                }, COPIED_TOCP_DURTION);
             });
         });    
 
@@ -290,10 +288,6 @@ class ColorCard extends HTMLElement {
             document.body.removeChild(fullScreenDiv);
         });
         fullScreenDiv.appendChild(closeButton);
-
-
-
-
     }
 
     get color() {
@@ -311,7 +305,7 @@ class ColorCard extends HTMLElement {
         if (this._colorContext === ColorContext.Palette) {
             this._isCommited = true;
             this.style.borderColor = 'black';
-            this.parentElement.dispatchEvent(new Event('colorChange'));
+            this.parentElement.dispatchEvent(new CustomEvent('colorCardChange', { detail: this._isCommited }));
         }
     }
     unCommitColorCard() {
@@ -319,8 +313,13 @@ class ColorCard extends HTMLElement {
             this._isCommited = false;
             this.parentElement.isCommited = false;
             this.style.borderColor = 'red';
-            this.parentElement.dispatchEvent(new Event('colorChange'));
+            this.parentElement.dispatchEvent(new CustomEvent('colorCardChange', { detail: this._isCommited }));
         }
+        if (this._colorContext === ColorContext.ToolInput) {
+            this.dispatchEvent(new CustomEvent('colorCardChange', { detail: this._color }));
+        }
+
+
     }
     hideLabel() {
         this.querySelector('.color-card-label').style.display = 'none';

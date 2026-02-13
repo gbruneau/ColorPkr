@@ -1,0 +1,43 @@
+
+
+
+
+@media (orientation: portrait) {
+
+    #gradientTool .toolInput .color-card {
+        width: auto;
+        height: auto;
+    }
+
+    #gradientTool .toolInput label {
+        width: 50%;
+        height: auto;
+        text-align: right;
+        padding: 5px;
+    }
+
+    #gradientTool .toolInput input[type="number"] {
+        width: 25%;
+        height: auto;
+        text-align: left;
+        padding: 5px;
+    }
+}
+@media (orientation: landscape) {
+    #gradientTool .toolInput label {
+        width: auto;
+        height: auto;
+        text-align: right;
+        padding: 5px;
+    }
+    #gradientTool .toolInput input[type="number"] {
+        text-align: left; 
+        padding: 5px;
+    }
+
+}
+
+#gradientTool h2 {
+        width: 100%;
+        height: auto;
+}

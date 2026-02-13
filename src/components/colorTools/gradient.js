@@ -2,28 +2,40 @@ import { Tool } from '../tool.js';
 import { Color,ColorCard, ColorContext } from '../colorCard/colorCard.js';
 import gradientIcon from './gradient.png';
 
+import './gradient.css';
+
 class GradientTool extends Tool {
     constructor() {
         super(() => this.showTool());
         this.inputSection = document.createElement('section');
         this.inputSection.className = 'toolInput';
-        const colorFrom = new ColorCard(new Color(Color.genRandomColor()), ColorContext.ToolInput);
-        this.colorFrom = colorFrom.color.hex;
+        const colorFromCard = new ColorCard(new Color(Color.genRandomColor()), ColorContext.ToolInput);
+        this.colorFrom = colorFromCard.color.hex;
 
-        const colorTo = new ColorCard(new Color(Color.genRandomColor()), ColorContext.ToolInput);
-        this.colorTo = colorTo.color.hex;
+        const colorToCard = new ColorCard(new Color(Color.genRandomColor()), ColorContext.ToolInput);
+        this.colorTo = colorToCard.color.hex;
+
+        const toolName = document.createElement('h2');
+        toolName.textContent = 'Gradient Tool';
+        this.inputSection.appendChild(toolName);
 
         const gradientSizeInput = document.createElement('input');
         gradientSizeInput.type = 'number';
         gradientSizeInput.min = '3';
         gradientSizeInput.max = '1023';
         gradientSizeInput.value = '5';
-       this.gradientSize = parseInt(gradientSizeInput.value);
+        gradientSizeInput.id = 'gradientSize';
+        this.gradientSize = parseInt(gradientSizeInput.value);
+        const gradientSizeLabel = document.createElement('label');
+        gradientSizeLabel.htmlFor = 'gradientSize';
+        gradientSizeLabel.textContent = 'Size';
 
 
 
-        this.inputSection.appendChild(colorFrom);
-        this.inputSection.appendChild(colorTo);
+
+        this.inputSection.appendChild(colorFromCard);
+        this.inputSection.appendChild(colorToCard);
+        this.inputSection.appendChild(gradientSizeLabel);
         this.inputSection.appendChild(gradientSizeInput);
         
         this.outputSection = document.createElement('section');
@@ -32,6 +44,7 @@ class GradientTool extends Tool {
 
         this.toolDiv.appendChild(this.inputSection);
         this.toolDiv.appendChild(this.outputSection);
+        this.toolDiv.id = 'gradientTool';
 
 
 
@@ -39,14 +52,13 @@ class GradientTool extends Tool {
             this.gradientSize = parseInt(gradientSizeInput.value);
             this.refreshGradient();
         });
-        const fromColorInput=colorFrom.querySelector(".colorBloc")
-        fromColorInput.addEventListener('change', () => {
-            this.colorFrom = fromColorInput.value;
+
+        colorFromCard.addEventListener('colorCardChange', () => {
+            this.colorFrom = colorFromCard.color.hex;
             this.refreshGradient();
         });
-        const toColorInput=colorTo.querySelector(".colorBloc")
-        toColorInput.addEventListener('change', () => {
-            this.colorTo = toColorInput.value;
+        colorToCard.addEventListener('colorCardChange', () => {
+            this.colorTo = colorToCard.color.hex;
             this.refreshGradient();
         });
         this.refreshGradient();
