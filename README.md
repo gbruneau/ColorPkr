@@ -19,7 +19,8 @@ Refonte Complete
 - Test Color
 - HSL Fixer
 
-Fix
-- Gradient doesn't work in firefox when user click on a color
-- but work when drag and drop
+Next
+- slider tool
+- fix HSL tool
+- lorem tool
 

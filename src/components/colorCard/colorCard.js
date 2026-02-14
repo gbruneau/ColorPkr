@@ -87,10 +87,12 @@ class ColorCard extends HTMLElement {
                 /** on clict change, change div background color */
                 newDIV.addEventListener('input', (event) => {
                     if (this._color.hex != event.target.value)
+                    {
+                        this._color.hex = event.target.value;
                         this.unCommitColorCard();
-                    this._color.hex = event.target.value;
-                    this.refreshColorCard();
-                }, false);
+                        this.refreshColorCard();
+                    }
+                });
                 /* position in the middle of the screeen */
                 newDIV.style.position = 'fixed';
                 newDIV.style.top = '50%';
