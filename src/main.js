@@ -13,6 +13,7 @@ import { SettingsTool } from './components/settings/settings.js';
 import { ModesTool } from './components/settings/modes.js';
 import { ClearTool } from './components/db/clear.js';
 import { GradientTool } from './components/colorTools/gradient.js';
+import { SliderTool } from './components/colorTools/slider.js';
 
 const DEFAULT_PALETTE_SIZE = 20;
 
@@ -60,6 +61,7 @@ const settingsTool = new SettingsTool();
 settingsTool.bindToPalette(paletteDIV);
 
 const gradientTool = new GradientTool();
+const sliderTool = new SliderTool();
 
 /* Show palette status */
 
@@ -90,10 +92,12 @@ clearPaletteTool.addButton(toolbar);
 modeSwitchTool.addButton(toolbar);
 
 gradientTool.addTool(tools, toolbar);
+sliderTool.addTool(tools, toolbar);
 
 settingsTool.addTool(tools,toolbar);
 aboutTool.addTool(tools,toolbar);
 
 
-aboutTool.showTool();
+/** Default tool to gradient */
+gradientTool.showTool();
 

@@ -23,7 +23,7 @@ class GradientTool extends Tool {
         gradientSizeInput.type = 'number';
         gradientSizeInput.min = '3';
         gradientSizeInput.max = '1023';
-        gradientSizeInput.value = '5';
+        gradientSizeInput.value = '6';
         gradientSizeInput.id = 'gradientSize';
         this.gradientSize = parseInt(gradientSizeInput.value);
         const gradientSizeLabel = document.createElement('label');
