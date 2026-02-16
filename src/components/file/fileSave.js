@@ -1,5 +1,6 @@
 import { Tool } from '../tool.js';
 import toolBtIcon from './save.png';
+import './file.css';
 
 const DEFAULT_FILE_NAME = "ColorPkrPalette.json";
 

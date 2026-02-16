@@ -1,6 +1,7 @@
 import { Tool } from '../tool.js';
 import { Color, ColorCard, ColorContext } from '../colorCard/colorCard.js';
 import toolBtIcon from './open.png';
+import './file.css';
 
 
 

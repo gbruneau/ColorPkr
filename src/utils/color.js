@@ -75,19 +75,19 @@ class Color {
         return parseInt(this.hsl.match(/hsl\((\d+),/)[1]);
     }
     set h(value) {
-        this.hsl = Color.HSLfromValues(value,this.s,this.l);
+        this.hsl = Color.HSLfromValues(value, this.s, this.l);
     }
     get s() {
         return parseInt(this.hsl.match(/,\s*(\d+)%/)[1]);
     }
     set s(value) {
-        this.hsl = Color.HSLfromValues(this.h,value,this.l);
+        this.hsl = Color.HSLfromValues(this.h, value, this.l);
     }
     get l() {
         return parseInt(this.hsl.match(/,\s*(\d+)%\)/)[1]);
     }
     set l(value) {
-        this.hsl = Color.HSLfromValues(this.h,this.s,value);
+        this.hsl = Color.HSLfromValues(this.h, this.s, value);
     }
 
     get contrastedColor() {
@@ -118,12 +118,12 @@ class Color {
                 case b: h = ((r - g) / d + 4) / 6; break;
             }
         }
-        const newHSL=`hsl(${Math.round(h * 360)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`.replace(/ /g,'');
+        const newHSL = `hsl(${Math.round(h * 360)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`.replace(/ /g, '');
         return newHSL;
     }
 
-    static HSLfromValues(h,s,l) {
-        return `hsl(${h},${s}%,${l}%)`.replace(/ /g,'');
+    static HSLfromValues(h, s, l) {
+        return `hsl(${h},${s}%,${l}%)`.replace(/ /g, '');
     }
 
     static fromHSLtoHEX(hslString) {
@@ -133,24 +133,24 @@ class Color {
         let s = parseInt(hslMatch[2]) / 100;
         let l = parseInt(hslMatch[3]) / 100;
         let r, g, b;
-        if (s===0) {
-            r=g=b=l;
+        if (s === 0) {
+            r = g = b = l;
         }
         else {
             const hue2rgb = (p, q, t) => {
                 if (t < 0) t += 1;
                 if (t > 1) t -= 1;
-                if (t < 1/6) return p + (q - p) * 6 * t;
-                if (t < 1/2) return q;
-                if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                if (t < 1 / 6) return p + (q - p) * 6 * t;
+                if (t < 1 / 2) return q;
+                if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
                 return p;
             };
 
             const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
             const p = 2 * l - q;
-            r = hue2rgb(p, q, h + 1/3);
+            r = hue2rgb(p, q, h + 1 / 3);
             g = hue2rgb(p, q, h);
-            b = hue2rgb(p, q, h - 1/3);
+            b = hue2rgb(p, q, h - 1 / 3);
         }
 
         const toHex = (x) => {
@@ -175,7 +175,7 @@ class Color {
     static genGradient(fromHex, toHex, steps) {
         // TODO: Implement gradient generation
         // gradient from fromHex to toHex with steps steps using HSL interpolation 
-        var grad = [];  
+        var grad = [];
         for (let i = 0; i < steps; i++) {
             grad.push(Color.interpolateHSL(fromHex, toHex, i / (steps)));
         }
@@ -186,13 +186,13 @@ class Color {
         // TODO: Implement HSL interpolation
         if (ratio < 0 || ratio > 1) {
             throw new Error('Ratio must be between 0 and 1');
-        }   
+        }
         if (ratio === 0) {
             return fromHex;
         }
         if (ratio === 1) {
             return toHex;
-        }   
+        }
         const fromColor = new Color(fromHex);
         const toColor = new Color(toHex);
         const newH = Math.round(fromColor.h + (toColor.h - fromColor.h) * ratio);
@@ -200,27 +200,27 @@ class Color {
         const newL = Math.round(fromColor.l + (toColor.l - fromColor.l) * ratio);
         toColor.hsl = `hsl(${newH},${newS}%,${newL}%)`;
         return toColor.hex;
-    }   
+    }
     /** generate a slider of colors from a color and HSL deltas 
-     *  @param {string} aColor - The hex code of the color (e.g., '#FFFFFF').
+     *  @param {Color} aColor - A color object.
      *  @param {number} steps - The number of steps in the slider.
      *  @param {number} deltaH - The delta of H in the slider.
      *  @param {number} deltaS - The delta of S in the slider.
      *  @param {number} deltaL - The delta of L in the slider.
-     *  @returns {Array} An array of hex colors.
+     *  @returns {Array} An array of hex color .
     */
-    static genSlider(aColor,steps,deltaH,deltaS,deltaL) {
+    static genSlider(aColor, steps, deltaH, deltaS, deltaL) {
         var slider = [];
-        
+
         for (let i = 0; i < steps; i++) {
             /** for H muste wrap aroud to reflect Hue weel and take into account that delta can be negative , h must alwat be in the 0-360 range     */
-            var newH = Math.round(aColor.h  + deltaH * i) % 360;
+            var newH = Math.round(aColor.h + deltaH * i) % 360;
             if (newH < 0) newH += 360;
             if (newH > 360) newH -= 360;
             var newS = Math.round(aColor.s + deltaS * i);
             if (newS < 0) newS = 0;
             if (newS > 100) newS = 100;
-            var newL = Math.round(aColor.l + deltaL * i);   
+            var newL = Math.round(aColor.l + deltaL * i);
             if (newL < 0) newL = 0;
             if (newL > 100) newL = 100;
             console.log(`i: ${i}, newH: ${newH}, newS: ${newS}, newL: ${newL}`);
@@ -232,11 +232,19 @@ class Color {
         }
         return slider;
     }
-
-
+    /** return array of foreground to background combinaitions of color including black and white */
+    static genColorTest(hexColor1, hexColor2) {
+        const White = "#FFFFFF";
+        const Black = "#000000";
+        const hexColors = [[hexColor2, hexColor1], [Black, hexColor1], [White, hexColor1]]  // color 1 BG
+        hexColors.push([hexColor2, White], [Black, White], [hexColor1, White])  // White BG
+        hexColors.push([hexColor2, Black], [Black, Black], [hexColor1, Black]) // Black BG
+        hexColors.push([hexColor2, hexColor2], [Black, hexColor2], [White, hexColor2]) // color 2 BG
+        return hexColors
+    }
 
 }
 
 export default Color;
-export { DEFAULT_COLOR as defaultColor ,Color};
+export { DEFAULT_COLOR as defaultColor, Color };
 

@@ -19,8 +19,11 @@ Refonte Complete
 - Test Color
 - HSL Fixer
 
+fIX
+- bug , drag and drop reset color palette
+
+
 Next
-- slider tool
 - fix HSL tool
 - lorem tool
 

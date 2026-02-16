@@ -30,9 +30,6 @@ class GradientTool extends Tool {
         gradientSizeLabel.htmlFor = 'gradientSize';
         gradientSizeLabel.textContent = 'Size';
 
-
-
-
         this.inputSection.appendChild(colorFromCard);
         this.inputSection.appendChild(colorToCard);
         this.inputSection.appendChild(gradientSizeLabel);
