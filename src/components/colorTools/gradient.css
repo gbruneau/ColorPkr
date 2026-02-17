@@ -23,6 +23,8 @@
         padding: 5px;
     }
 }
+
+
 @media (orientation: landscape) {
     #gradientTool .toolInput label {
         width: auto;

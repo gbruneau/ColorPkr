@@ -1,0 +1,65 @@
+@media (orientation: portrait) {
+
+    #loremTool .toolInput .color-card {
+        width: auto;
+        height: auto;
+    }
+
+    #loremTool .toolInput label {
+        width: 50%;
+        height: auto;
+        text-align: right;
+        padding: 5px;
+    }
+
+}
+
+
+
+@media (orientation: landscape) {
+    #loremTool .toolInput label {
+        width: auto;
+        height: auto;
+        text-align: right;
+        padding: 5px;
+    }
+
+    #loremTool .toolInput input[type="number"] {
+        text-align: left;
+        padding: 5px;
+    }
+
+}
+
+#loremTool .toolOutput {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+#loremTool h2 {
+    width: 100% !important;
+    height: auto;
+}
+
+.loremCard {
+    width: 30%;
+    height: 140px;
+    font-size: 9pt;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loremText {
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+
+.loremBlock {
+    width: 50px;
+    height: 50px;
+
+}

@@ -207,7 +207,7 @@ class ColorCard extends HTMLElement {
                 const srcColorObj = JSON.parse(srcColorData);
                 const srcColorHex = srcColorObj._color._hex;
                 const srcColorName = srcColorObj._color._name;
-                const srcColorID = srcColorObj._color.colorID;
+                const srcColorID = srcColorObj._color._colorID;
                 const srcColorContext = srcColorObj._colorContext;
                 const targetContext = this._colorContext;
                 const targetColorName = this._color.name;
@@ -217,19 +217,21 @@ class ColorCard extends HTMLElement {
                 if (srcColorContext === ColorContext.Palette && targetContext === ColorContext.Palette) {
                     this._color.hex = srcColorHex;
                     this._color.name = srcColorName;
-                    this.unCommitColorCard();
-                    this.refreshColorCard();
 
                     // Find the source element and update its color
                     const sourceElements = document.querySelectorAll('color-card');
                     sourceElements.forEach(elem => {
-                        if (elem._color.colorID === srcColorID && elem !== this) {
+                        if (elem._color._colorID === srcColorID && elem !== this) {
                             elem._color.hex = targetColorHex;
                             elem._color.name = targetColorName;
                             elem.unCommitColorCard();
                             elem.refreshColorCard();
                         }
                     });
+
+                    this.unCommitColorCard();
+                    this.refreshColorCard();
+
                     return; // Exit after swapping
                 }
                 else

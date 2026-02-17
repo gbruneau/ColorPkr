@@ -1,6 +1,6 @@
 import './asset/style.css';
 
-import appIcon from './asset/ColorPkrIcon.png';
+import appIcon from './asset/ColorPkrIcon.svg';
 
 import { Color, ColorCard, ColorContext } from './components/colorCard/colorCard.js';
 import { ColorPalette } from './utils/colorPalette.js';
@@ -14,6 +14,7 @@ import { ModesTool } from './components/settings/modes.js';
 import { ClearTool } from './components/db/clear.js';
 import { GradientTool } from './components/colorTools/gradient.js';
 import { SliderTool } from './components/colorTools/slider.js';
+import { LoremTool } from './components/colorTools/lorem.js';
 
 const DEFAULT_PALETTE_SIZE = 20;
 
@@ -63,6 +64,8 @@ settingsTool.bindToPalette(paletteDIV);
 const gradientTool = new GradientTool();
 const sliderTool = new SliderTool();
 
+const loremTool = new LoremTool();
+
 /* Show palette status */
 
 /** catch custom event colorCardChange for paletteDIV */
@@ -93,6 +96,9 @@ modeSwitchTool.addButton(toolbar);
 
 gradientTool.addTool(tools, toolbar);
 sliderTool.addTool(tools, toolbar);
+
+loremTool.addTool(tools, toolbar);
+
 
 settingsTool.addTool(tools,toolbar);
 aboutTool.addTool(tools,toolbar);

@@ -238,8 +238,8 @@ class Color {
         const Black = "#000000";
         const hexColors = [[hexColor2, hexColor1], [Black, hexColor1], [White, hexColor1]]  // color 1 BG
         hexColors.push([hexColor2, White], [Black, White], [hexColor1, White])  // White BG
-        hexColors.push([hexColor2, Black], [Black, Black], [hexColor1, Black]) // Black BG
-        hexColors.push([hexColor2, hexColor2], [Black, hexColor2], [White, hexColor2]) // color 2 BG
+        hexColors.push([hexColor2, Black], [White, Black], [hexColor1, Black]) // Black BG
+        hexColors.push([White, hexColor2], [Black, hexColor2], [hexColor1, hexColor2]) // color 2 BG
         return hexColors
     }
 

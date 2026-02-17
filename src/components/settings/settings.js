@@ -44,8 +44,8 @@ class SettingsTool extends Tool {
                 const aColorCard = new ColorCard(color, ColorContext.Palette);
                 this.paletteDIV.appendChild(aColorCard);
             });
-
-
+             this.paletteDIV.isCommited = false;
+             this.paletteDIV.dispatchEvent(new CustomEvent('colorCardChange' ));
         }
 
 
