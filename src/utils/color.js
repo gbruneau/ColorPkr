@@ -235,7 +235,7 @@ class Color {
     static genColorTest(hexColor1, hexColor2) {
         const White = "#FFFFFF";
         const Black = "#000000";
-        const hexColors = [[hexColor2, hexColor1], [Black, hexColor1], [White, hexColor1]]  // color 1 BG
+        const hexColors = [[hexColor2, hexColor1], [White, hexColor1], [Black, hexColor1]]  // color 1 BG
         hexColors.push([hexColor2, White], [Black, White], [hexColor1, White])  // White BG
         hexColors.push([hexColor2, Black], [White, Black], [hexColor1, Black]) // Black BG
         hexColors.push([White, hexColor2], [Black, hexColor2], [hexColor1, hexColor2]) // color 2 BG
