@@ -22,8 +22,9 @@ Refonte Complete
 
 
 Next
-- add RGB mode to gradient
-- Add fix HSL tool
+- make about box to a dialog
+- add fix HSL tool
+- add big/small box mode switcher
 - Add t9n (translation support)
 
 
