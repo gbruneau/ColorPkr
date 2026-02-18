@@ -2,7 +2,8 @@ import './asset/style.css';
 
 import appIcon from './asset/ColorPkrIcon.svg';
 
-import { Color, ColorCard, ColorContext } from './components/colorCard/colorCard.js';
+import { Tool } from './components/tool.js';    
+import {  ColorCard } from './components/colorCard/colorCard.js';
 import { ColorPalette } from './utils/colorPalette.js';
 import { AboutTool } from './components/about/about.js';
 import { CommitTool } from './components/db/commit.js';
@@ -29,6 +30,8 @@ customElements.define('color-card', ColorCard);
 
 var toolbar = document.getElementById('toolbar');
 var tools = document.getElementById('tools');
+
+
 
 
 const colorPalette = new ColorPalette();
@@ -85,20 +88,18 @@ undoTool.undo()
 
 fileSaveTool.addTool(tools,toolbar );
 fileOpenTool.addTool(tools,toolbar );
-
-
 commitTool.addButton(toolbar);
-
 undoTool.addButton(toolbar);
-
 clearPaletteTool.addButton(toolbar);
 modeSwitchTool.addButton(toolbar);
+Tool.createSeparator(toolbar);
 
 gradientTool.addTool(tools, toolbar);
 sliderTool.addTool(tools, toolbar);
-
 loremTool.addTool(tools, toolbar);
 
+
+Tool.createSeparator(toolbar);
 
 settingsTool.addTool(tools,toolbar);
 aboutTool.addTool(tools,toolbar);

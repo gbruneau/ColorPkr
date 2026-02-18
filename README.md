@@ -19,11 +19,10 @@ Refonte Complete
 - Test Color
 - HSL Fixer
 
-fIX
-- bug , drag and drop reset color palette
 
 
 Next
-- fix HSL tool
-- lorem tool
+- Add fix HSL tool
+- Add t9n (translation support)
+
 

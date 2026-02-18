@@ -34,10 +34,12 @@ class LoremTool extends Tool {
         }
         /** if ColorC1 or C2 changed (colorCardChange) , trigger testChanged */
         colorC1Card.addEventListener('colorCardChange', () => {
-            this.colorTestChanged(colorC1Card.color.hex, this.colorC2)
+            this.colorC1 = colorC1Card.color.hex;
+            this.colorTestChanged(this.colorC1, this.colorC2)
         });
         colorC2Card.addEventListener('colorCardChange', () => {
-            this.colorTestChanged(this.colorC1, colorC2Card.color.hex)
+            this.colorC2 = colorC2Card.color.hex;
+            this.colorTestChanged(this.colorC1, this.colorC2)
         });
 
 

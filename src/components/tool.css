@@ -197,17 +197,17 @@
 }
 
 #tools section {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    align-content: flex-start;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
 }
 
 #tools h2 {
-    font-size: 1em;
-} 
+  font-size: 1em;
+}
 
 
 #tools .colorBloc {
@@ -224,23 +224,37 @@
 }
 
 #tools .toolInput {
-    background-color: #77777788;
-    padding: 5px;
-    margin: 0px;
+  background-color: #77777788;
+  padding: 5px;
+  margin: 0px;
 }
 
 #tools .toolOutput {
-    padding: 5px;
-    margin: 0px;
+  padding: 5px;
+  margin: 0px;
 }
 
 @media (orientation: portrait) {
 
-    #tools .toolInput {
-        width: 300px;
-    }
+  #tools .toolInput {
+    width: 300px;
+  }
 
-    #tools .toolOutput {
-        width:calc(100% - 300px);
-    }
+  #tools .toolOutput {
+    width: calc(100% - 300px);
+  }
+
+  .toolSeparator {
+    width: 20px;
+    height: 50px;
+    background-color: #44444400;
+  }
+}
+
+@media (orientation: landscape) {
+  .toolSeparator {
+    width: 50px;
+    height: 20px;
+    background-color: #44444400;
+  }
 }

@@ -62,6 +62,12 @@ class Tool {
         this.buttonDiv.appendChild(imgNode);
         this.buttonDiv.title = hintText;
     }
+    static createSeparator(atoolBarElement) {
+        const separator = document.createElement('div');
+        separator.classList.add('toolSeparator');
+        atoolBarElement.appendChild(separator);
+        return separator;
+    }
 }
 
 export { Tool };
