@@ -223,7 +223,6 @@ class Color {
             var newL = Math.round(aColor.l + deltaL * i);
             if (newL < 0) newL = 0;
             if (newL > 100) newL = 100;
-            console.log(`i: ${i}, newH: ${newH}, newS: ${newS}, newL: ${newL}`);
             const newColor = new Color(aColor.hex);
             newColor.h = newH;
             newColor.s = newS;

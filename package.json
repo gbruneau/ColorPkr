@@ -9,9 +9,8 @@
   },
   "devDependencies": {
     "patch-package": "^8.0.1",
-    "vite": "^7.2.2"
-  },
-  "dependencies": {
-
+    "vite": "^7.2.2",
+    "vite-plugin-pwa": "^1.2.0",
+    "workbox-window": "^7.4.0"
   }
 }
