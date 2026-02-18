@@ -51,20 +51,18 @@
 }
 
 .toolBarButton:hover {
-     background: linear-gradient(
-        45deg,
-        rgba(255, 0, 0, 1) 0%,
-        rgba(255, 154, 0, 1) 10%,
-        rgba(208, 222, 33, 1) 20%,
-        rgba(79, 220, 74, 1) 30%,
-        rgba(63, 218, 216, 1) 40%,
-        rgba(47, 201, 226, 1) 50%,
-        rgba(28, 127, 238, 1) 60%,
-        rgba(95, 21, 242, 1) 70%,
-        rgba(186, 12, 248, 1) 80%,
-        rgba(251, 7, 217, 1) 90%,
-        rgba(255, 0, 0, 1) 100%
-    );
+  background: linear-gradient(45deg,
+      rgba(255, 0, 0, 1) 0%,
+      rgba(255, 154, 0, 1) 10%,
+      rgba(208, 222, 33, 1) 20%,
+      rgba(79, 220, 74, 1) 30%,
+      rgba(63, 218, 216, 1) 40%,
+      rgba(47, 201, 226, 1) 50%,
+      rgba(28, 127, 238, 1) 60%,
+      rgba(95, 21, 242, 1) 70%,
+      rgba(186, 12, 248, 1) 80%,
+      rgba(251, 7, 217, 1) 90%,
+      rgba(255, 0, 0, 1) 100%);
 }
 
 .toolBarButton img {
@@ -90,6 +88,7 @@
     flex-direction: row;
     width: 100%;
     height: auto;
+    border-bottom: 2px solid #444;
   }
 }
 
@@ -98,6 +97,7 @@
     flex-direction: column;
     width: auto;
     height: 100%;
+    border-left: 2px solid #444;
   }
 }
 
@@ -195,39 +195,35 @@
 }
 
 .dialogTool input[type="file"]::file-selector-button:hover {
-       background: linear-gradient(
-        45deg,
-        rgba(255, 0, 0, 1) 0%,
-        rgba(255, 154, 0, 1) 10%,
-        rgba(208, 222, 33, 1) 20%,
-        rgba(79, 220, 74, 1) 30%,
-        rgba(63, 218, 216, 1) 40%,
-        rgba(47, 201, 226, 1) 50%,
-        rgba(28, 127, 238, 1) 60%,
-        rgba(95, 21, 242, 1) 70%,
-        rgba(186, 12, 248, 1) 80%,
-        rgba(251, 7, 217, 1) 90%,
-        rgba(255, 0, 0, 1) 100%
-    );
+  background: linear-gradient(45deg,
+      rgba(255, 0, 0, 1) 0%,
+      rgba(255, 154, 0, 1) 10%,
+      rgba(208, 222, 33, 1) 20%,
+      rgba(79, 220, 74, 1) 30%,
+      rgba(63, 218, 216, 1) 40%,
+      rgba(47, 201, 226, 1) 50%,
+      rgba(28, 127, 238, 1) 60%,
+      rgba(95, 21, 242, 1) 70%,
+      rgba(186, 12, 248, 1) 80%,
+      rgba(251, 7, 217, 1) 90%,
+      rgba(255, 0, 0, 1) 100%);
 }
 
 
 
 .dialogTool input[type="button"]:hover {
-       background: linear-gradient(
-        45deg,
-        rgba(255, 0, 0, 1) 0%,
-        rgba(255, 154, 0, 1) 10%,
-        rgba(208, 222, 33, 1) 20%,
-        rgba(79, 220, 74, 1) 30%,
-        rgba(63, 218, 216, 1) 40%,
-        rgba(47, 201, 226, 1) 50%,
-        rgba(28, 127, 238, 1) 60%,
-        rgba(95, 21, 242, 1) 70%,
-        rgba(186, 12, 248, 1) 80%,
-        rgba(251, 7, 217, 1) 90%,
-        rgba(255, 0, 0, 1) 100%
-    );
+  background: linear-gradient(45deg,
+      rgba(255, 0, 0, 1) 0%,
+      rgba(255, 154, 0, 1) 10%,
+      rgba(208, 222, 33, 1) 20%,
+      rgba(79, 220, 74, 1) 30%,
+      rgba(63, 218, 216, 1) 40%,
+      rgba(47, 201, 226, 1) 50%,
+      rgba(28, 127, 238, 1) 60%,
+      rgba(95, 21, 242, 1) 70%,
+      rgba(186, 12, 248, 1) 80%,
+      rgba(251, 7, 217, 1) 90%,
+      rgba(255, 0, 0, 1) 100%);
 
 }
 
@@ -236,6 +232,10 @@
   height: 2em;
   font-size: 0.5em
 }
+
+/* ============================================================================ */
+/* SECTION: Tools area */
+/* ============================================================================ */
 
 #tools section {
   display: flex;
@@ -265,7 +265,6 @@
 }
 
 #tools .toolInput {
-  background-color: #777777;
   padding: 5px;
   margin: 0px;
 }
@@ -279,6 +278,7 @@
 
   #tools .toolInput {
     width: 300px;
+    border-right: 2px solid #444;
   }
 
   #tools .toolOutput {
@@ -293,9 +293,37 @@
 }
 
 @media (orientation: landscape) {
+
+  #tools .toolInput {
+    border-bottom: 2px solid #444;
+  }
+
   .toolSeparator {
     width: 50px;
     height: 20px;
     background-color: #44444400;
   }
 }
+
+/** Tool input control */
+
+.toolInput select {
+        box-sizing: content-box;
+        height: auto;
+        text-align: left;
+        padding: 5px;
+        background-color: white;
+        border: 1px solid #ccc;
+        margin-left: 5px;
+        margin-top: 5px;
+    }
+
+.toolInput input[type="number"] {
+        box-sizing: content-box;
+        height: auto;
+        text-align: left;
+        border: 1px solid #ccc;
+        padding: 5px;
+        margin-left: 5px;
+        margin-top: 5px;
+    }

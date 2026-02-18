@@ -22,6 +22,7 @@ Refonte Complete
 
 
 Next
+- add RGB mode to gradient
 - Add fix HSL tool
 - Add t9n (translation support)
 

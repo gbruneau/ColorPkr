@@ -113,6 +113,7 @@ class SliderTool extends Tool {
      //       this.baseColor = baseColorCard.color;
             this.refreshSlider();
         });
+        
 
         this.refreshSlider();
     }

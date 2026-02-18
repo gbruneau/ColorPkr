@@ -97,6 +97,16 @@ class Color {
         return brightness > 125 ? '#000000' : '#FFFFFF';
     }
 
+    get rgbObject() {
+        return {
+            r: this.r,
+            g: this.g,
+            b: this.b
+        };
+    }
+    
+
+
     static fromHEXtoHSL(hexString) {
         const hex = String(hexString).replace('#', '');
         const r = parseInt(hex.slice(0, 2), 16) / 255;
@@ -161,6 +171,13 @@ class Color {
         return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
     }
 
+    static rgbToHex(r, g, b) {
+        const toHex = (x) => {
+            const hex = Math.round(x).toString(16);
+            return hex.length === 1 ? '0' + hex : hex;
+        };
+        return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    }
 
     /** static method to generate a random hex color */
 
@@ -172,7 +189,37 @@ class Color {
     static getDefaultColor() {
         return DEFAULT_COLOR;
     }
-    static genGradient(fromHex, toHex, steps) {
+    static genRGBGradient(fromHex, toHex, steps) {
+        // TODO: Implement gradient generation
+        // gradient from fromHex to toHex with steps steps using RGB interpolation 
+        var grad = [];
+        for (let i = 0; i < steps; i++) {
+            var newHex = Color.interpolateRGB(fromHex, toHex, i / (steps-1));
+            grad.push(newHex);
+        }
+        return grad;
+    }
+
+    static interpolateRGB(fromHex, toHex, ratio) {
+        // TODO: Implement RGB interpolation
+        if (ratio < 0 || ratio > 1) {
+            throw new Error('Ratio must be between 0 and 1');
+        }
+        if (ratio === 0) {
+            return fromHex;
+        }
+        if (ratio === 1) {
+            return toHex;
+        }
+        const fromRGBColor = new Color(fromHex);
+        const toRGBColor = new Color(toHex);
+        const r = Math.round(fromRGBColor.r + (toRGBColor.r - fromRGBColor.r) * ratio);
+        const g = Math.round(fromRGBColor.g + (toRGBColor.g - fromRGBColor.g) * ratio);
+        const b = Math.round(fromRGBColor.b + (toRGBColor.b - fromRGBColor.b) * ratio);
+        return Color.rgbToHex(r, g, b);
+    }
+
+    static genHSLGradient(fromHex, toHex, steps) {
         // TODO: Implement gradient generation
         // gradient from fromHex to toHex with steps steps using HSL interpolation 
         var grad = [];

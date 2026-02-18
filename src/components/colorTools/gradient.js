@@ -4,6 +4,16 @@ import gradientIcon from './gradient.png';
 
 import './gradient.css';
 
+const GradientTypes = Object.freeze({
+    HSL: 'HSL',
+    RGB: 'RGB'
+});
+
+const DEFAULT_GRADIENT_SIZE = 6;
+const DEFAULT_GRADIENT_TYPE = GradientTypes.RGB;
+
+
+
 class GradientTool extends Tool {
     constructor() {
         super(() => this.showTool());
@@ -18,22 +28,46 @@ class GradientTool extends Tool {
         const toolName = document.createElement('h2');
         toolName.textContent = 'Gradient Tool';
         this.inputSection.appendChild(toolName);
-
         const gradientSizeInput = document.createElement('input');
+
+        const gradientInput = document.createElement('div');
+        gradientInput.className = 'gradientInput';
+
         gradientSizeInput.type = 'number';
         gradientSizeInput.min = '3';
         gradientSizeInput.max = '1023';
-        gradientSizeInput.value = '6';
+        gradientSizeInput.value = DEFAULT_GRADIENT_SIZE;
         gradientSizeInput.id = 'gradientSize';
         this.gradientSize = parseInt(gradientSizeInput.value);
         const gradientSizeLabel = document.createElement('label');
         gradientSizeLabel.htmlFor = 'gradientSize';
         gradientSizeLabel.textContent = 'Size';
 
+        const gradientTypeSelect = document.createElement('select');
+        gradientTypeSelect.id = 'gradientType';
+        gradientTypeSelect.innerHTML = `
+            <option value="${GradientTypes.HSL}">${GradientTypes.HSL}</option>
+            <option value="${GradientTypes.RGB}">${GradientTypes.RGB}</option>
+        `;
+        this.gradientType = DEFAULT_GRADIENT_TYPE;
+        gradientTypeSelect.value = this.gradientType;
+        const gradientTypeLabel = document.createElement('label');
+        gradientTypeLabel.htmlFor = 'gradientType';
+        gradientTypeLabel.textContent = 'Type';
+
         this.inputSection.appendChild(colorFromCard);
         this.inputSection.appendChild(colorToCard);
-        this.inputSection.appendChild(gradientSizeLabel);
-        this.inputSection.appendChild(gradientSizeInput);
+
+
+
+        gradientInput.appendChild(gradientSizeLabel);
+        gradientInput.appendChild(gradientSizeInput);
+        gradientInput.appendChild(gradientTypeLabel);
+        gradientInput.appendChild(gradientTypeSelect);
+        this.inputSection.appendChild(gradientInput);
+
+
+
         
         this.outputSection = document.createElement('section');
         this.outputSection.className = 'toolOutput';
@@ -58,6 +92,13 @@ class GradientTool extends Tool {
             this.colorTo = colorToCard.color.hex;
             this.refreshGradient();
         });
+        gradientTypeSelect.addEventListener('change', () => {
+            this.gradientType = gradientTypeSelect.value  ;
+            this.refreshGradient();
+        });
+
+
+
         this.refreshGradient();
 
     }
@@ -70,7 +111,12 @@ class GradientTool extends Tool {
         /** cleat output section */
         this.toolDiv.querySelector('.toolOutput').innerHTML = '';
         /** create gradient */
-        const gradientArray= Color.genGradient(this.colorFrom,this.colorTo,this.gradientSize);
+        let gradientArray;
+        if (this.gradientType === GradientTypes.HSL) {
+            gradientArray= Color.genHSLGradient(this.colorFrom,this.colorTo,this.gradientSize);
+        } else {
+            gradientArray= Color.genRGBGradient(this.colorFrom,this.colorTo,this.gradientSize);
+        }
         /** create gradient cards */
         gradientArray.forEach((colorHex) => {
             this.outputSection.appendChild(new ColorCard(new Color(colorHex), ColorContext.ToolOutput));
