@@ -177,7 +177,7 @@ class Color {
         // gradient from fromHex to toHex with steps steps using HSL interpolation 
         var grad = [];
         for (let i = 0; i < steps; i++) {
-            grad.push(Color.interpolateHSL(fromHex, toHex, i / (steps)));
+            grad.push(Color.interpolateHSL(fromHex, toHex, i / (steps-1)));
         }
         return grad;
     }

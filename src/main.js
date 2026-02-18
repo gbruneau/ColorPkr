@@ -85,13 +85,13 @@ undoTool.undo()
 
 /* Build the toolbar */
 
-
-fileSaveTool.addTool(tools,toolbar );
 fileOpenTool.addTool(tools,toolbar );
-commitTool.addButton(toolbar);
-undoTool.addButton(toolbar);
+fileSaveTool.addTool(tools,toolbar );
+Tool.createSeparator(toolbar);
+
 clearPaletteTool.addButton(toolbar);
-modeSwitchTool.addButton(toolbar);
+undoTool.addButton(toolbar);
+commitTool.addButton(toolbar);
 Tool.createSeparator(toolbar);
 
 gradientTool.addTool(tools, toolbar);
@@ -101,6 +101,7 @@ loremTool.addTool(tools, toolbar);
 
 Tool.createSeparator(toolbar);
 
+modeSwitchTool.addButton(toolbar);
 settingsTool.addTool(tools,toolbar);
 aboutTool.addTool(tools,toolbar);
 

@@ -72,8 +72,8 @@ class GradientTool extends Tool {
         /** create gradient */
         const gradientArray= Color.genGradient(this.colorFrom,this.colorTo,this.gradientSize);
         /** create gradient cards */
-        gradientArray.forEach((color) => {
-            this.outputSection.appendChild(new ColorCard(new Color(color), ColorContext.ToolOutput));
+        gradientArray.forEach((colorHex) => {
+            this.outputSection.appendChild(new ColorCard(new Color(colorHex), ColorContext.ToolOutput));
         });
     }
 
