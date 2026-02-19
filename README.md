@@ -22,7 +22,6 @@ Refonte Complete
 
 
 Next
-- make about box to a dialog
 - add fix HSL tool
 - Add t9n (translation support)
 
