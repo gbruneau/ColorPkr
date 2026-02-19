@@ -4,12 +4,17 @@ import sliderIcon from './slide.png';
 
 import './slider.css';
 
+const DEFAULT_SLIDER_SIZE = 7;
+
 class SliderTool extends Tool {
     constructor() {
         super(() => this.showTool());
         this.inputSection = document.createElement('section');
         this.inputSection.className = 'toolInput';
-        const baseColorCard = new ColorCard(new Color(Color.genRandomColor()), ColorContext.ToolInput);
+        const baseColor = new Color(Color.genRandomColor());
+        baseColor.s = 100; /* make sure random color is vibrant enough */
+        baseColor.v = 50;
+        const baseColorCard = new ColorCard(baseColor, ColorContext.ToolInput);
         this.baseColor = baseColorCard.color;
 
         const toolName = document.createElement('h2');
@@ -23,7 +28,7 @@ class SliderTool extends Tool {
         this.sliderSizeInput.type = 'number';
         this.sliderSizeInput.min = '3';
         this.sliderSizeInput.max = '1023';
-        this.sliderSizeInput.value = '5';
+        this.sliderSizeInput.value = DEFAULT_SLIDER_SIZE;
         this.sliderSizeInput.id = 'sliderSize';
         this.sliderSize = parseInt(this.sliderSizeInput.value);
         this.sliderSizeLabel = document.createElement('label');

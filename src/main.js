@@ -108,4 +108,6 @@ aboutTool.addTool(tools,toolbar);
 
 /** Default tool to gradient */
 gradientTool.showTool();
+modeSwitchTool.initMode();
+
 

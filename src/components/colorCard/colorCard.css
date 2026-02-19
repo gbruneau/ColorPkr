@@ -11,8 +11,6 @@
   font-family: Outfit, sans-serif;
   font-weight: normal;
   font-size: 0.8em;
-  color: black;
-  background-color: white;
 }
 
 .color-card div {
@@ -32,7 +30,7 @@
 
 
 .colorName:hover {
-  background-color: white !important;
+  background-color: lightgrey !important;
   color: black !important;
   cursor: text;
 }

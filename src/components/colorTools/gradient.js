@@ -9,7 +9,7 @@ const GradientTypes = Object.freeze({
     RGB: 'RGB'
 });
 
-const DEFAULT_GRADIENT_SIZE = 6;
+const DEFAULT_GRADIENT_SIZE = 7;
 const DEFAULT_GRADIENT_TYPE = GradientTypes.RGB;
 
 

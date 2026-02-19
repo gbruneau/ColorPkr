@@ -1,22 +1,18 @@
+#gradientTool label {
+    text-align: right;
+    padding: 5px;
+    width: 30px !important;
+}
 
+#gradientTool input[type="number"] {
+    text-align: left;
+    padding: 5px;
+    width: 75px !important;
+}
 
-
-    #gradientTool label {
-        text-align: right;
-        padding: 5px;
-        width: 30px !important;
-    }
-    #gradientTool  input[type="number"] {
-        text-align: left; 
-        padding: 5px;
-        width: 75px !important;
-    }
-    #gradientTool select {
-        background-color: white;
-        width: 75px !important;
-    }
-
-
+#gradientTool select {
+    width: 75px !important;
+}
 
 #gradientTool .gradientInput {
     display: flex;
@@ -25,12 +21,18 @@
     justify-content: flex-start;
     align-content: flex-start;
     flex-wrap: wrap;
-    height: auto;
-    height: 140px;
     width: 140px;
 }
 
+
+
+@media (orientation: portrait) {
+    #gradientTool .gradientInput {
+        width: 140px;
+    }
+}
+
 #gradientTool h2 {
-        width: 100%;
-        height: auto;
+    width: 100%;
+    height: auto;
 }

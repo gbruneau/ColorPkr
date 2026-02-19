@@ -58,7 +58,7 @@ class LoremTool extends Tool {
             <div class="loremBlock"></div>
         `;
 
-        loremCard.querySelector(`#${loremCardID} .loremText`).textContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+        loremCard.querySelector(`#${loremCardID} .loremText`).textContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
         this.outputSection.appendChild(loremCard);
         this.setLoremCardColor(loremCardID, fgColor, bgColor);
     }

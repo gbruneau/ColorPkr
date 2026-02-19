@@ -1,36 +1,43 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Custom Events Example</title>
+    <title>Testing Stuff</title>
+    <style>
+        div {
+            display: flex;
+            gap: 10px;
+        }
+        #myMode {
+            font-weight: bold;
+        }
+    </style>
 </head>
+
 <body>
-    <button id="addItem">Add to Cart</button>
-    <p id="cartCount">Cart: 0 items</p>
+    <div>
+        <div>Current Mode:</div>
+        <div id="myMode"></div>
+    </div>
+    <div>
+        <button id="toggleMode">Toggle Mode</button>
+    </div>
+
+
 
     <script>
-        // Listen for the custom event on document
-        document.addEventListener('itemAdded', (event) => {
-            const item = event.detail;  // Access custom data
-            console.log(`Added ${item.name} ($${item.price}) to cart`);
-            updateCartDisplay();
+        /* display prefered mode (light / dark) */
+        const mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.getElementById('myMode').textContent = mode;
+
+        /* toggle mode */
+        document.getElementById('toggleMode').addEventListener('click', () => {
+            const currentMode = document.getElementById('myMode').textContent;
+            const newMode = currentMode === 'dark' ? 'light' : 'dark';
+            document.getElementById('myMode').textContent = newMode;
         });
 
-        // Function to update UI (simulating cart state)
-        function updateCartDisplay() {
-            const count = document.getElementById('cartCount');
-            count.textContent = `Cart: ${Math.floor(Math.random() * 5) + 1} items`;  // Demo only
-        }
-
-        // Button handler dispatches the custom event
-        document.getElementById('addItem').addEventListener('click', () => {
-            const itemData = { name: 'Laptop', price: 999 };
-            const itemAddedEvent = new CustomEvent('itemAdded', {
-                detail: itemData,
-                bubbles: true,    // Allows bubbling up DOM
-                cancelable: true  // Could be prevented with event.preventDefault()
-            });
-            document.dispatchEvent(itemAddedEvent);
-        });
     </script>
 </body>
+
 </html>
