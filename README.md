@@ -1,28 +1,15 @@
 
 # ColorPkr
 
+TODO
 
-Refonte Complete
-
-- Metre en place le CSSS
-- Ajouter les outils modulairements
-
-- Save
-- Load
+- general
+    - Add t9n (translation support)
 
 - Setings
-    - Resize Palette
     - Language
-
-- Gradient
-- HSL Slider
-- Test Color
-- HSL Fixer
+    - keep tool state
 
 
-
-Next
-- add fix HSL tool
-- Add t9n (translation support)
 
 

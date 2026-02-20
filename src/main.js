@@ -111,7 +111,7 @@ aboutTool.addTool(tools,toolbar);
 
 /** Default tool to gradient */
 // gradientTool.showTool();
-lockTool.showTool();
+gradientTool.showTool();
 modeSwitchTool.initMode();
 
 
