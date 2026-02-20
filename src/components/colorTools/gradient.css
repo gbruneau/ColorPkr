@@ -1,0 +1,38 @@
+#gradientTool label {
+    text-align: right;
+    padding: 5px;
+    width: 30px !important;
+}
+
+#gradientTool input[type="number"] {
+    text-align: left;
+    padding: 5px;
+    width: 75px !important;
+}
+
+#gradientTool select {
+    width: 75px !important;
+}
+
+#gradientTool .gradientInput {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    width: 140px;
+}
+
+
+
+@media (orientation: portrait) {
+    #gradientTool .gradientInput {
+        width: 140px;
+    }
+}
+
+#gradientTool h2 {
+    width: 100%;
+    height: auto;
+}

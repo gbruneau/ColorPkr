@@ -1,17 +1,16 @@
 {
   "name": "colorpkr",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "scripts": {
     "dev": "vite --host",
-    "build": "date +%Y%m%d.%H%M>src/version.json;vite build  --emptyOutDir",
+    "build": "vite build  --emptyOutDir",
     "preview": "vite preview --host",
     "deploy": "rm -r  ../gbruneau.github.io/ColorPkr/;cp -R dist/ColorPkr/ ../gbruneau.github.io/"
   },
   "devDependencies": {
     "patch-package": "^8.0.1",
-    "vite": "^7.2.2"
-  },
-  "dependencies": {
-
+    "vite": "^7.2.2",
+    "vite-plugin-pwa": "^1.2.0",
+    "workbox-window": "^7.4.0"
   }
 }

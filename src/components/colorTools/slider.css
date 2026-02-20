@@ -1,0 +1,42 @@
+/* @media (orientation: portrait) {
+*/
+
+#sliderTool .toolInput .color-card {
+    width: auto;
+    height: auto;
+}
+
+#sliderTool .toolInput label {
+    height: auto;
+    text-align: right;
+}
+
+#sliderTool .toolInput input[type="number"] {
+    height: auto;
+    text-align: right;
+}
+
+#sliderTool .sliderInputs {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 50%;
+}
+
+#sliderTool h2 {
+    width: 100%;
+    height: auto;
+}
+
+#sliderSize {
+    height: auto;
+}
+
+
+#sliderTool .toolInput input[type="number"] {
+    width: 40% !important;
+}
+
+#sliderTool .toolInput label {
+    width: 30% !important;
+}

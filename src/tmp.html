@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Testing Stuff</title>
+    <style>
+        div {
+            display: flex;
+            gap: 10px;
+        }
+        #myMode {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div>Current Mode:</div>
+        <div id="myMode"></div>
+    </div>
+    <div>
+        <button id="toggleMode">Toggle Mode</button>
+    </div>
+
+
+
+    <script>
+        /* display prefered mode (light / dark) */
+        const mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.getElementById('myMode').textContent = mode;
+
+        /* toggle mode */
+        document.getElementById('toggleMode').addEventListener('click', () => {
+            const currentMode = document.getElementById('myMode').textContent;
+            const newMode = currentMode === 'dark' ? 'light' : 'dark';
+            document.getElementById('myMode').textContent = newMode;
+        });
+
+    </script>
+</body>
+
+</html>

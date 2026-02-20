@@ -1,0 +1,76 @@
+.color-card {
+  width: 150px;
+  height: 200px;
+  margin: 0px;
+  border:#808080 1px solid;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: Outfit, sans-serif;
+  font-weight: normal;
+  font-size: 0.8em;
+}
+
+.color-card div {
+  text-align: center;
+ }
+
+.colorName {
+  font-size: 1em;
+  padding-bottom: 10px;
+  width: 80%;
+}
+
+.colorHex {
+  font-family: monospace;
+  text-transform: uppercase;
+}
+
+
+.colorName:hover {
+  background-color: lightgrey !important;
+  color: black !important;
+  cursor: text;
+}
+
+
+.colorBloc {
+  width: 140px;
+  height: 140px;
+}
+
+
+.full-close-button {
+  padding: 10px 10px;
+  margin-top: 10dvw;
+  cursor: pointer;
+  font-size: 1em;
+  width: 90vw;
+  height: 5vmax;
+  border-radius: 1em;
+  text-align: center;
+}
+
+.full-screen-color
+{
+        position : fixed;
+        top : 0;
+        left : 0;
+        width : 100%;
+        height : 100%;
+        display : flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size:  5em;
+        z-index: 1000;    
+
+}
+
+#fullHex {
+    font-family: monospace;
+    text-transform: uppercase;
+    font-size: 1.5em;
+ }   
