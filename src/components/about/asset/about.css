@@ -60,6 +60,11 @@
     background:  linear-gradient(120deg, hsl(0, var(--saturation), var(--ligntness)) 0%, hsl(60, var(--saturation), var(--ligntness)) 20%, hsl(120, var(--saturation), var(--ligntness)) 40%, hsl(180, var(--saturation), var(--ligntness)) 60%, hsl(240, var(--saturation), var(--ligntness)) 80%, hsl(300, var(--saturation), var(--ligntness)) 100%) ;
 }
 
+#aboutTool img {
+    width: 100px;
+    height: 100px;
+}
+
 /*
 
 */

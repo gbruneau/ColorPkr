@@ -2,8 +2,8 @@ import './asset/style.css';
 
 import appIcon from './asset/ColorPkrIcon.svg';
 
-import { Tool } from './components/tool.js';    
-import {  ColorCard } from './components/colorCard/colorCard.js';
+import { Tool } from './components/tool.js';
+import { ColorCard } from './components/colorCard/colorCard.js';
 import { ColorPalette } from './utils/colorPalette.js';
 import { AboutTool } from './components/about/about.js';
 import { CommitTool } from './components/db/commit.js';
@@ -25,7 +25,7 @@ const link = document.createElement('link');
 link.rel = 'icon';
 link.type = 'image/png';
 link.href = appIcon;
-document.head.appendChild(link);  
+document.head.appendChild(link);
 
 customElements.define('color-card', ColorCard);
 
@@ -88,8 +88,8 @@ undoTool.undo()
 
 /* Build the toolbar */
 
-fileOpenTool.addTool(tools,toolbar );
-fileSaveTool.addTool(tools,toolbar );
+fileOpenTool.addTool(tools, toolbar);
+fileSaveTool.addTool(tools, toolbar);
 Tool.createSeparator(toolbar);
 
 clearPaletteTool.addButton(toolbar);
@@ -105,8 +105,8 @@ loremTool.addTool(tools, toolbar);
 Tool.createSeparator(toolbar);
 
 modeSwitchTool.addButton(toolbar);
-settingsTool.addTool(tools,toolbar);
-aboutTool.addTool(tools,toolbar);
+settingsTool.addTool(tools, toolbar);
+aboutTool.addTool(tools, toolbar);
 
 
 /** Default tool to gradient */

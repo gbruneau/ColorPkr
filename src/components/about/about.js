@@ -2,6 +2,8 @@
 import './asset/about.css';
 import { Tool } from '../tool.js';
 import aboutIcon from './asset/about.png';
+import appIcon from '../../asset/ColorPkrIcon.svg';
+
 
 class AboutTool extends Tool {
     constructor() {
@@ -13,6 +15,7 @@ class AboutTool extends Tool {
         super(() => this.showDialog());
         this.toolDiv.innerHTML = `
            <div class="dialogTool" id="aboutTool">
+           <img src="${appIcon}" alt="ColorPkr Icon" />
     <h2>About ColorPkr</h2>
     <p>Version: ${version} (Build ${buildNumber})</p>
     <p>A cool color Manager and Picker</p>
