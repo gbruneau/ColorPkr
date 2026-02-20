@@ -309,7 +309,6 @@ class ColorCard extends HTMLElement {
         if (this._colorContext === ColorContext.Palette) {
             this._isCommited = true;
             this.style.borderColor = 'black';
-            this.parentElement.dispatchEvent(new CustomEvent('colorCardChange', { detail: this._isCommited }));
         }
     }
     unCommitColorCard() {
@@ -317,12 +316,9 @@ class ColorCard extends HTMLElement {
             this._isCommited = false;
             this.parentElement.isCommited = false;
             this.style.borderColor = 'red';
-            this.parentElement.dispatchEvent(new CustomEvent('colorCardChange', { detail: this._isCommited }));
+            this.parentElement.dispatchEvent(new CustomEvent('colorPaletteChange', { detail: this._isCommited }));
         }
-        if (this._colorContext === ColorContext.ToolInput) {
-            this.dispatchEvent(new CustomEvent('colorCardChange', { detail: this._color }));
-        }
-
+        this.dispatchEvent(new CustomEvent('colorCardChange', { detail: this._color , bubbles: true }));
 
     }
     hideLabel() {

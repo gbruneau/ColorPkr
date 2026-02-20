@@ -288,7 +288,29 @@ class Color {
         hexColors.push([White, hexColor2], [Black, hexColor2], [hexColor1, hexColor2]) // color 2 BG
         return hexColors
     }
-
+    /**
+     * 
+     * @param {string} hexRefColor 
+     * @param {string} hexInputColor 
+     * @param {boolean} lockH 
+     * @param {boolean} lockS 
+     * @param {boolean} lockL 
+     * @param {boolean} lockR 
+     * @param {boolean} lockG 
+     * @param {boolean} lockB 
+     * @returns {string} hex color
+     */
+   static lockColorPropery(hexRefColor,hexInputColor,lockH,lockS,lockL,lockR,lockG,lockB) {
+        const refColor = new Color(hexRefColor);
+        const inputColor = new Color(hexInputColor);
+        if (lockH) inputColor.h = refColor.h;
+        if (lockS) inputColor.s = refColor.s;
+        if (lockL) inputColor.l = refColor.l;
+        if (lockR) inputColor.r = refColor.r;
+        if (lockG) inputColor.g = refColor.g;
+        if (lockB) inputColor.b = refColor.b;
+        return inputColor.hex;
+   }
 }
 
 export default Color;

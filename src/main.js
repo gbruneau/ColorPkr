@@ -16,6 +16,7 @@ import { ClearTool } from './components/db/clear.js';
 import { GradientTool } from './components/colorTools/gradient.js';
 import { SliderTool } from './components/colorTools/slider.js';
 import { LoremTool } from './components/colorTools/lorem.js';
+import { LockTool } from './components/colorTools/lock.js';
 
 const DEFAULT_PALETTE_SIZE = 20;
 
@@ -69,10 +70,12 @@ const sliderTool = new SliderTool();
 
 const loremTool = new LoremTool();
 
+const lockTool = new LockTool();
+
 /* Show palette status */
 
 /** catch custom event colorCardChange for paletteDIV */
-paletteDIV.addEventListener('colorCardChange', (event) => {
+paletteDIV.addEventListener('colorPaletteChange', (event) => {
   /** if is commited false, show commit button */
   if (!paletteDIV.isCommited) {
     commitTool.showButton();
@@ -96,8 +99,8 @@ Tool.createSeparator(toolbar);
 
 gradientTool.addTool(tools, toolbar);
 sliderTool.addTool(tools, toolbar);
+lockTool.addTool(tools, toolbar);
 loremTool.addTool(tools, toolbar);
-
 
 Tool.createSeparator(toolbar);
 
@@ -107,7 +110,8 @@ aboutTool.addTool(tools,toolbar);
 
 
 /** Default tool to gradient */
-gradientTool.showTool();
+// gradientTool.showTool();
+lockTool.showTool();
 modeSwitchTool.initMode();
 
 

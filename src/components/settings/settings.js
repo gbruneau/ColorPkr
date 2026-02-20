@@ -45,7 +45,7 @@ class SettingsTool extends Tool {
                 this.paletteDIV.appendChild(aColorCard);
             });
              this.paletteDIV.isCommited = false;
-             this.paletteDIV.dispatchEvent(new CustomEvent('colorCardChange' ));
+             this.paletteDIV.dispatchEvent(new CustomEvent('colorPaletteChange' ));
         }
 
 
