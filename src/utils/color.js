@@ -242,9 +242,19 @@ class Color {
         }
         const fromColor = new Color(fromHex);
         const toColor = new Color(toHex);
-        const newH = Math.round(fromColor.h + (toColor.h - fromColor.h) * ratio);
-        const newS = Math.round(fromColor.s + (toColor.s - fromColor.s) * ratio);
-        const newL = Math.round(fromColor.l + (toColor.l - fromColor.l) * ratio);
+        var  deltaH = toColor.h - fromColor.h; /* delta H */
+        if (deltaH>180) deltaH -= 360;
+        if (deltaH< -180) deltaH += 360;
+
+
+        var deltaS = toColor.s - fromColor.s; /* delta S */
+        var deltaL = toColor.l - fromColor.l; /* delta L */ 
+        var newH = Math.round(fromColor.h + deltaH * ratio);
+
+        if (newH>360) newH -= 360;
+        if (newH<0) newH += 360;
+        var newS = Math.round(fromColor.s + deltaS * ratio);
+        var newL = Math.round(fromColor.l + deltaL * ratio);
         toColor.hsl = `hsl(${newH},${newS}%,${newL}%)`;
         return toColor.hex;
     }
