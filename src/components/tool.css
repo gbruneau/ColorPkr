@@ -1,6 +1,20 @@
 /* Generic for tools */
 
 /* =================== ToolBar =================== */
+#toolbar {
+  --button-size:32px;
+  --separator-size:20px;  
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: flex-start;
+  box-sizing: border-box;
+  padding: 5px;
+  gap: 5px;
+  background-color: #222;
+  color: white;
+}
+
 
 @media (orientation: portrait) {
 #toolbar {
@@ -21,21 +35,10 @@
 }
 
 
-#toolbar {
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: center;
-  align-content: flex-start;
-  box-sizing: border-box;
-  padding: 5px;
-  gap: 5px;
-  background-color: #222;
-  color: white;
-}
 
 .toolBarButton {
-  width: 50px;
-  height: 50px;
+  width: var(--button-size);
+  height: var(--button-size);
   cursor: pointer;
   border: none;
   box-sizing: border-box;
@@ -44,7 +47,7 @@
   align-items: center;
   text-align: center;
   font-size: 1.5em;
-  line-height: 50px;
+  line-height: var(--button-size);
 }
 
 .toolBarButton:hover , 
@@ -266,8 +269,8 @@
   }
 
   .toolSeparator {
-    width: 20px;
-    height: 50px;
+    width: var(--separator-size);
+    height: var(--button-size);
     background-color: #44444400;
   }
 }
@@ -279,8 +282,8 @@
   }
 
   .toolSeparator {
-    width: 50px;
-    height: 20px;
+    width: var(--button-size);
+    height: var(--separator-size);
     background-color: #44444400;
   }
 }
