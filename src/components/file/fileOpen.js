@@ -53,7 +53,7 @@ class OpenTool extends Tool {
                     }
                 });
                 this.paletteDIV.isCommited = false;
-                this.paletteDIV.dispatchEvent(new CustomEvent('colorCardChange', { detail: false }));
+                this.paletteDIV.dispatchEvent(new CustomEvent('colorPaletteChange', { detail: false }));
             };
             reader.readAsText(file);
             this.hideDialog();

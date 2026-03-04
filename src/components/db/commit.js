@@ -49,11 +49,11 @@ class CommitTool extends Tool {
                 };
             }
         });
-        this.paletteDIV.dispatchEvent(new CustomEvent('colorCardChange', { detail: this.paletteDIV.isCommited }));
+        this.paletteDIV.dispatchEvent(new CustomEvent('colorPaletteChange', { detail: this.paletteDIV.isCommited }));
     }   
     bindToPalette(paletteDIV) {
         this.paletteDIV = paletteDIV;
-        this.paletteDIV.addEventListener('colorCardChange', () => {
+        this.paletteDIV.addEventListener('colorPaletteChange', () => {
             if (this.paletteDIV.isCommited) {
                 this.invisibleButton();
             } else {

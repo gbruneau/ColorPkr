@@ -4,38 +4,41 @@
 <head>
     <title>Testing Stuff</title>
     <style>
-        div {
-            display: flex;
-            gap: 10px;
+        body {
+            background-color: #1a1a1a;
+            color: #fff;
         }
-        #myMode {
-            font-weight: bold;
+
+        div,
+        section,
+        header,
+        main {
+            background-color: #2a2a2a;
+            border: 1px solid #3a3a3a;
         }
     </style>
+
 </head>
 
 <body>
-    <div>
-        <div>Current Mode:</div>
-        <div id="myMode"></div>
-    </div>
-    <div>
-        <button id="toggleMode">Toggle Mode</button>
+    <div class="toolContainer" style="display: flex;" id="lockTool">
+        <section class="toolInput">
+            <h2>Lock Tool</h2>
+            <main>
+                <div>ref card</div>
+                <div>card array</div>
+                <div>input controls</div>
+            </main>
+        </section>
+        <section class="toolOutput">
+            <div>card array</div>
+        </section>
     </div>
 
 
 
     <script>
-        /* display prefered mode (light / dark) */
-        const mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        document.getElementById('myMode').textContent = mode;
 
-        /* toggle mode */
-        document.getElementById('toggleMode').addEventListener('click', () => {
-            const currentMode = document.getElementById('myMode').textContent;
-            const newMode = currentMode === 'dark' ? 'light' : 'dark';
-            document.getElementById('myMode').textContent = newMode;
-        });
 
     </script>
 </body>

@@ -53,7 +53,7 @@ class UndoTool extends Tool {
                     });
                     this.paletteDIV.isCommited = true;
 
-                    this.paletteDIV.dispatchEvent(new CustomEvent('colorCardChange', { detail: true }));
+                    this.paletteDIV.dispatchEvent(new CustomEvent('colorPaletteChange', { detail: true }));
 
                    // if (fSucccess) {
                         this.postUndo();

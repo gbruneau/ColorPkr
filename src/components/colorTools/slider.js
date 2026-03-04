@@ -4,7 +4,7 @@ import sliderIcon from './slide.png';
 
 import './slider.css';
 
-const DEFAULT_SLIDER_SIZE = 7;
+const DEFAULT_SLIDER_SIZE = 5;
 
 class SliderTool extends Tool {
     constructor() {

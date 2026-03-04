@@ -1,0 +1,85 @@
+
+#lockTool {
+    --inBlocSize: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+#lockTool h2 {
+    margin: 0;
+    width: 100%;
+}
+
+#lockTool main {
+    display: flex;
+}
+
+
+@media (orientation: portrait) {
+    #lockTool {
+        flex-direction: row;
+    }
+    #lockTool .toolInput {
+        width: 100% !important;
+    }
+    #lockTool .toolOutput {
+        width: 50% !important;
+    }
+    #lockTool main {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+    }
+}
+
+@media (orientation: landscape) {
+    #lockTool {
+        flex-direction: column;
+    }
+}
+
+
+
+ #lockTool .colorCardArray {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 200px;
+    height: 200px;
+}
+
+#lockTool .colorCardArray .color-card {
+    width: var(--inBlocSize) !important;
+    height: var(--inBlocSize) !important;
+}
+
+
+#lockTool .colorCardArray .colorBloc {
+    width: var(--inBlocSize) !important;
+    height: var(--inBlocSize) !important;
+}
+
+#lockTool .inputControls  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#lockInputControls {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    width: 150px !important   ;
+}
+
+#lockInputControls label {
+    width: 30px;
+    text-align: right;
+    display: inline-block;
+}

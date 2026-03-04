@@ -1,4 +1,28 @@
 const DEFAULT_COLOR = '#808080';
+/**
+ * Color class for handling color operations
+ * @class Color
+ * @property {string} _hex - The hex code of the color (e.g., '#FFFFFF').
+ * @property {string} _name - The name of the color (e.g., 'White').
+ * @property {string} _colorID - The unique ID of the color.
+ * @property {number} r - The red component of the color (0-255).
+ * @property {number} g - The green component of the color (0-255).
+ * @property {number} b - The blue component of the color (0-255).
+ * @property {string} rgb - The RGB string of the color (e.g., 'rgb(255,255,255)').
+ * @property {string} hsl - The HSL string of the color (e.g., 'hsl(0,0%,100%)').
+ * @property {number} h - The hue component of the color (0-360).
+ * @property {number} s - The saturation component of the color (0-100).
+ * @property {number} l - The lightness component of the color (0-100).
+ * 
+ * @method constructor - Create a Color instance.
+ * @param {string} hex - The hex code of the color (e.g., '#FFFFFF').
+ * @param {string} name - The name of the color (e.g., 'White').
+ * 
+ * @example
+ * ```javascript
+ * const color = new Color('#FF0000', 'Red');
+ * ```
+ */
 
 class Color {
     /**
@@ -242,9 +266,19 @@ class Color {
         }
         const fromColor = new Color(fromHex);
         const toColor = new Color(toHex);
-        const newH = Math.round(fromColor.h + (toColor.h - fromColor.h) * ratio);
-        const newS = Math.round(fromColor.s + (toColor.s - fromColor.s) * ratio);
-        const newL = Math.round(fromColor.l + (toColor.l - fromColor.l) * ratio);
+        var  deltaH = toColor.h - fromColor.h; /* delta H */
+        if (deltaH>180) deltaH -= 360;
+        if (deltaH< -180) deltaH += 360;
+
+
+        var deltaS = toColor.s - fromColor.s; /* delta S */
+        var deltaL = toColor.l - fromColor.l; /* delta L */ 
+        var newH = Math.round(fromColor.h + deltaH * ratio);
+
+        if (newH>360) newH -= 360;
+        if (newH<0) newH += 360;
+        var newS = Math.round(fromColor.s + deltaS * ratio);
+        var newL = Math.round(fromColor.l + deltaL * ratio);
         toColor.hsl = `hsl(${newH},${newS}%,${newL}%)`;
         return toColor.hex;
     }
@@ -288,7 +322,29 @@ class Color {
         hexColors.push([White, hexColor2], [Black, hexColor2], [hexColor1, hexColor2]) // color 2 BG
         return hexColors
     }
-
+    /**
+     * 
+     * @param {string} hexRefColor 
+     * @param {string} hexInputColor 
+     * @param {boolean} lockH 
+     * @param {boolean} lockS 
+     * @param {boolean} lockL 
+     * @param {boolean} lockR 
+     * @param {boolean} lockG 
+     * @param {boolean} lockB 
+     * @returns {string} hex color
+     */
+   static lockColorPropery(hexRefColor,hexInputColor,lockH,lockS,lockL,lockR,lockG,lockB) {
+        const refColor = new Color(hexRefColor);
+        const inputColor = new Color(hexInputColor);
+        if (lockH) inputColor.h = refColor.h;
+        if (lockS) inputColor.s = refColor.s;
+        if (lockL) inputColor.l = refColor.l;
+        if (lockR) inputColor.r = refColor.r;
+        if (lockG) inputColor.g = refColor.g;
+        if (lockB) inputColor.b = refColor.b;
+        return inputColor.hex;
+   }
 }
 
 export default Color;
