@@ -1,4 +1,28 @@
 const DEFAULT_COLOR = '#808080';
+/**
+ * Color class for handling color operations
+ * @class Color
+ * @property {string} _hex - The hex code of the color (e.g., '#FFFFFF').
+ * @property {string} _name - The name of the color (e.g., 'White').
+ * @property {string} _colorID - The unique ID of the color.
+ * @property {number} r - The red component of the color (0-255).
+ * @property {number} g - The green component of the color (0-255).
+ * @property {number} b - The blue component of the color (0-255).
+ * @property {string} rgb - The RGB string of the color (e.g., 'rgb(255,255,255)').
+ * @property {string} hsl - The HSL string of the color (e.g., 'hsl(0,0%,100%)').
+ * @property {number} h - The hue component of the color (0-360).
+ * @property {number} s - The saturation component of the color (0-100).
+ * @property {number} l - The lightness component of the color (0-100).
+ * 
+ * @method constructor - Create a Color instance.
+ * @param {string} hex - The hex code of the color (e.g., '#FFFFFF').
+ * @param {string} name - The name of the color (e.g., 'White').
+ * 
+ * @example
+ * ```javascript
+ * const color = new Color('#FF0000', 'Red');
+ * ```
+ */
 
 class Color {
     /**
