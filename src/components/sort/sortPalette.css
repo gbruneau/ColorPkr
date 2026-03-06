@@ -1,0 +1,49 @@
+#sortPalette {
+    width: 350px;
+}
+
+
+@scope(#sortPalette) {
+
+    select {
+        width: 70px;
+        font-size: 14pt;
+    }
+
+    option {
+        font-size: 14pt!important;
+    }
+
+    label{
+        font-size: 14pt!important;
+        width: 100px;
+        display: inline-block;
+        text-align: right;
+    }
+    input[type="checkbox"] {
+        width: 30px!important;
+        height: 30px!important;
+        vertical-align: middle;
+    }
+
+    input[type="button"] {
+        font-size: 14pt!important;
+    }
+
+    #sortExcludedColor label{
+        width: 150px;
+        height: 30px !important;
+        display: inline-block;
+    }
+    #sortExcludedColor input[type="color"]{
+        width: 30px!important;
+        height: 30px!important;
+        display: inline-block;
+        border: 1px solid white;
+        vertical-align: middle;
+    }
+    #sortButtonsContainer {
+        text-align: center;
+    }
+
+}

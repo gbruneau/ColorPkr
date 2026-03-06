@@ -129,6 +129,35 @@ class Color {
         };
     }
     
+    /* get sort property for sorting colors */
+    getSortProperty(aPropertyNameString) {
+        if (aPropertyNameString === 'h') {
+            return this.h;
+        }
+        if (aPropertyNameString === 's') {
+            return this.s;
+        }
+        if (aPropertyNameString === 'l') {
+            return this.l;
+        }
+        if (aPropertyNameString === 'r') {
+            return this.r;
+        }
+        if (aPropertyNameString === 'g') {
+            return this.g;
+        }
+        if (aPropertyNameString === 'b') {
+            return this.b;
+        }
+        if (aPropertyNameString === 'name') {
+            return this.name;
+        }
+        return this._hex;
+    }
+
+    /* ----------------------------------- */
+    /* Satic methods */
+    /* ----------------------------------- */
 
 
     static fromHEXtoHSL(hexString) {
@@ -344,6 +373,9 @@ class Color {
         if (lockG) inputColor.g = refColor.g;
         if (lockB) inputColor.b = refColor.b;
         return inputColor.hex;
+   }
+   static get DEFAULT_COLOR() {
+    return DEFAULT_COLOR;
    }
 }
 

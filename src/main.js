@@ -17,7 +17,7 @@ import { GradientTool } from './components/colorTools/gradient.js';
 import { SliderTool } from './components/colorTools/slider.js';
 import { LoremTool } from './components/colorTools/lorem.js';
 import { LockTool } from './components/colorTools/lock.js';
-import { SortPalette } from './components/sort/sortPalette.js';
+import {  SortPalette } from './components/sort/sortPalette.js';
 
 const DEFAULT_PALETTE_SIZE = 20;
 
@@ -74,12 +74,14 @@ const loremTool = new LoremTool();
 const lockTool = new LockTool();
 
 const sortPaletteTool = new SortPalette();
+sortPaletteTool.bindToPalette(paletteDIV);
+
 
 
 /* Show palette status */
 
 /** catch custom event colorCardChange for paletteDIV */
-paletteDIV.addEventListener('colorPaletteChange', (event) => {
+paletteDIV.addEventListener('colorPaletteChange', () => {
   /** if is commited false, show commit button */
   if (!paletteDIV.isCommited) {
     commitTool.showButton();
@@ -102,7 +104,7 @@ commitTool.addButton(toolbar);
 Tool.createSeparator(toolbar);
 
 
-sortPaletteTool.addButton(toolbar);
+sortPaletteTool.addTool(tools,toolbar);
 Tool.createSeparator(toolbar);
 
 gradientTool.addTool(tools, toolbar);

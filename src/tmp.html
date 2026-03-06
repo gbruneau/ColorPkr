@@ -21,19 +21,37 @@
 </head>
 
 <body>
-    <div class="toolContainer" style="display: flex;" id="lockTool">
-        <section class="toolInput">
-            <h2>Lock Tool</h2>
-            <main>
-                <div>ref card</div>
-                <div>card array</div>
-                <div>input controls</div>
-            </main>
-        </section>
-        <section class="toolOutput">
-            <div>card array</div>
-        </section>
+    <div id="sortPalette" class="dialogTool">
+        <h2>Sort Palette</h2>
+        <div id="sortInput">
+            <div>
+                <label for="sortAttr1">Sort by</label>
+                <select id="sortAttr1"></select>
+                <select id="sortAttr1Asc"></select>
+            </div>
+            <div>
+                <label for="sortAttr2">then by</label>
+                <select id="sortAttr2"></select>
+                <select id="sortAttr2Asc"></select>
+            </div>
+            <div>
+                <label for="sortAttr3">then by</label>
+                <select id="sortAttr3"></select>
+                <select id="sortAttr3Asc"></select>
+            </div>
+            <div id="sortExcludedColor">
+                <input type="checkbox" id="inSortExcludedColor" name="insortExcludedColor" value="#808080" />
+                <label for="inSortExcludedColor">Excluded Color</label>
+                <input type="color" id="inSortExcludedColor" name="insortExcludedColor" value="#808080" />
+            </div>
+
+        </div>
+        <div id="sortButtonsContainer">
+            <input type="button" id="btCloseSortPalette" value="Cancel" />
+            <input type="button" id="btDoSortPalette" value="Sort" />
+        </div>
     </div>
+
 
 
 
